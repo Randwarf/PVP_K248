@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Benchmarker.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for HomeView.xaml
+    /// Interaction logic for HistoryView.xaml
     /// </summary>
-    public partial class HomeView : UserControl
+    public partial class HistoryView : UserControl
     {
-        public HomeView()
+        public HistoryView()
         {
             InitializeComponent();
         }

@@ -69,7 +69,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MVVM\View\HomeView.xaml">
+    <Page Include="MVVM\View\BenchmarkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\CompareView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\HistoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\BenchmarkButtonTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,9 +91,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\ViewModel\CompareViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\HistoryViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainViewModel.cs" />
-    <Compile Include="MVVM\View\HomeView.xaml.cs">
-      <DependentUpon>HomeView.xaml</DependentUpon>
+    <Compile Include="MVVM\View\BenchmarkView.xaml.cs">
+      <DependentUpon>BenchmarkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\CompareView.xaml.cs">
+      <DependentUpon>CompareView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\HistoryView.xaml.cs">
+      <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

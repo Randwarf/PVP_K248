@@ -16,5 +16,11 @@ C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.csproj.GenerateResource.c
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.csproj.CoreCompileInputs.cache
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.exe
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.pdb
-C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\HomeView.g.cs
-C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\HomeView.baml
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\HistoryView.g.cs
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\HistoryView.baml
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\CompareView.g.cs
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\CompareView.baml
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkView.g.cs
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkView.baml
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Theme\BenchmarkButtonTheme.baml
