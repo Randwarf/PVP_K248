@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Code\PVP_K248\App\Benchmarker\App.xaml
-6-2117096415
+8-1223365648
 
-14472552612
+18195043306
 13-1310406943
-MainWindow.xaml;MVVM\View\BenchmarkView.xaml;MVVM\View\CompareView.xaml;MVVM\View\HistoryView.xaml;Theme\BenchmarkButtonTheme.xaml;Theme\MenuButtonTheme.xaml;
+MainWindow.xaml;MVVM\View\BenchmarkRunView.xaml;MVVM\View\BenchmarkStartView.xaml;MVVM\View\BenchmarkView.xaml;MVVM\View\CompareView.xaml;MVVM\View\HistoryView.xaml;Theme\BenchmarkButtonTheme.xaml;Theme\MenuButtonTheme.xaml;
 
 False
 

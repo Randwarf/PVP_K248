@@ -69,6 +69,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MVVM\View\BenchmarkRunView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\BenchmarkStartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVVM\View\BenchmarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,10 +99,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CompareViewModel.cs" />
     <Compile Include="MVVM\ViewModel\HistoryViewModel.cs" />
-    <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\BenchmarkStartViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainViewModel.cs" />
+    <Compile Include="MVVM\View\BenchmarkRunView.xaml.cs">
+      <DependentUpon>BenchmarkRunView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\BenchmarkStartView.xaml.cs">
+      <DependentUpon>BenchmarkStartView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVVM\View\BenchmarkView.xaml.cs">
       <DependentUpon>BenchmarkView.xaml</DependentUpon>
     </Compile>

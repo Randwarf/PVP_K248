@@ -21,6 +21,10 @@ C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\HistoryView.g.cs
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\HistoryView.baml
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\CompareView.g.cs
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\CompareView.baml
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Theme\BenchmarkButtonTheme.baml
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkStartView.g.cs
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkStartView.baml
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkRunView.g.cs
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkRunView.baml
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkView.g.cs
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\MVVM\View\BenchmarkView.baml
-C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Theme\BenchmarkButtonTheme.baml
