@@ -16,17 +16,18 @@
                 Margin="30">
             Stop
         </Button>
-        <StackPanel Name="Benchmarking"
+        <StackPanel Margin="0,63,0,0">
+            <StackPanel Name="Benchmarking"
                     Orientation="Horizontal" 
                     HorizontalAlignment="Center">
 
-            <TextBlock Text="Benchmarking: "
+                <TextBlock Text="Benchmarking: "
                    Foreground="White"
                    FontSize="28"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
 
-            <TextBlock 
+                <TextBlock 
                    Name="BenchmarkName"
                    Text="{Binding appName}"
                    Foreground="White"
@@ -34,6 +35,12 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
 
+            </StackPanel>
+            <TextBlock Text="{Binding currentCPU}"
+                       Foreground="White"
+                       FontSize="28"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </UserControl>
