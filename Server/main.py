@@ -5,16 +5,15 @@ database = []
 
 @app.route("/save-benchmark", methods=["POST"])
 def save_benchmark():
-    args = request.args
+    args_json = request.json
     required_args = ["cpu", "energy", "ram"]
     benchmark_object = {}
 
-    arg_keys = args.keys()
     for arg in required_args:
-        if arg not in arg_keys:
+        if arg not in args_json:
             return jsonify({"code": "422", "message": "Not enough parameters"})
 
-        benchmark_object[arg] = args[arg]
+        benchmark_object[arg] = args_json[arg]
 
     database.append(benchmark_object)
     return jsonify({"code": "200", "message": "Benchmark uploaded sucessfully"})
