@@ -17,6 +17,7 @@ namespace Benchmarker.MVVM.ViewModel
         private string _currentCPU { get; set; }
         private OpenFileDialog _file { get; set; }
         private DispatcherTimer _timer;
+        private Queue<double> _historyCPU;
         private Process _process;
         private DateTime prevCheck;
         private TimeSpan prevTotalCPUTime;
@@ -54,6 +55,27 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
+        public string historyCPU
+        {
+            get
+            {
+                var builder = new StringBuilder();
+                for (int i = 0; i < _historyCPU.Count; i++)
+                {
+                    double yPos = (100 - _historyCPU.ElementAt(i)) * 1.3;
+                    string yPosWithDot = yPos.ToString().Replace(",", ".");
+                    builder.Append(i + "," + yPosWithDot + " ");
+                }
+                return builder.ToString();
+            }
+            set
+            {
+                _historyCPU.Dequeue();
+                _historyCPU.Enqueue(float.Parse(value));
+                OnPropertyChanged();
+            }
+        }
+
         public BenchmarkRunViewModel(RelayCommand switchView)
         {
             appName = "INSTANTIATING";
@@ -66,6 +88,12 @@ namespace Benchmarker.MVVM.ViewModel
                 }
                 switchView.Execute(this);
             });
+
+            _historyCPU = new Queue<double>();
+            for (int i = 0; i < 280; i++)
+            {
+                _historyCPU.Enqueue(0);
+            }
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -77,6 +105,7 @@ namespace Benchmarker.MVVM.ViewModel
                 TimeSpan timeThisCheck = (newTotalCPUTime - prevTotalCPUTime);
                 double CPUusage = (double)timeThisCheck.Ticks / elapsed.Ticks;
                 currentCPU = String.Format("{0:0.00}%", CPUusage*100);
+                historyCPU = (CPUusage * 100).ToString();
             }
             prevCheck = DateTime.Now;
             prevTotalCPUTime = newTotalCPUTime;
