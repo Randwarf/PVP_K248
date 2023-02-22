@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Benchmarker.MVVM.Model;
+using Benchmarker.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +41,24 @@ namespace Benchmarker.MVVM.View
             ProcessSelection.Visibility= System.Windows.Visibility.Collapsed;
             Benchmarking.Visibility = System.Windows.Visibility.Visible;
             BenchmarkName.Text = dlg.SafeFileName;
+        }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            var benchmarkPost = new Benchmark()
+            {
+                CPU = "Intelas",
+                RAM = "DDR5",
+                Energy = 69
+            };
+
+            BenchmarkRepository repo = new BenchmarkRepository();
+            //repo.GetAllBenchmarks().ForEach(x => { Debug.WriteLine(x.CPU); });
+        
+            //var benchmark = repo.GetBenchmarkByID(0);
+            //Debug.WriteLine(benchmark.CPU);
+        
+            repo.InsertBenchmark(benchmarkPost);
         }
     }
 }
