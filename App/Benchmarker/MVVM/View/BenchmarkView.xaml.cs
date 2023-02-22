@@ -42,23 +42,5 @@ namespace Benchmarker.MVVM.View
             Benchmarking.Visibility = System.Windows.Visibility.Visible;
             BenchmarkName.Text = dlg.SafeFileName;
         }
-
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-            var benchmarkPost = new Benchmark()
-            {
-                CPU = "Intelas",
-                RAM = "DDR5",
-                Energy = 69
-            };
-
-            BenchmarkRepository repo = new BenchmarkRepository();
-            //repo.GetAllBenchmarks().ForEach(x => { Debug.WriteLine(x.CPU); });
-        
-            //var benchmark = repo.GetBenchmarkByID(0);
-            //Debug.WriteLine(benchmark.CPU);
-        
-            repo.InsertBenchmark(benchmarkPost);
-        }
     }
 }

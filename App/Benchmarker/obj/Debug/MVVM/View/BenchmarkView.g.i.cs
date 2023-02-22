@@ -125,4 +125,3 @@ namespace Benchmarker.MVVM.View {
         }
     }
 }
-
