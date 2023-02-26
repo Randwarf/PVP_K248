@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Benchmarker.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for BenchmarkView.xaml
+    /// Interaction logic for BenchmarkRunView.xaml
     /// </summary>
-    public partial class BenchmarkView : UserControl
+    public partial class BenchmarkRunView : UserControl
     {
-        public BenchmarkView()
+        public BenchmarkRunView()
         {
             InitializeComponent();
         }

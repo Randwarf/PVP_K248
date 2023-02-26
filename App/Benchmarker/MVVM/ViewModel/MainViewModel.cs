@@ -1,4 +1,5 @@
 ﻿using Benchmarker.Core;
+using Benchmarker.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;

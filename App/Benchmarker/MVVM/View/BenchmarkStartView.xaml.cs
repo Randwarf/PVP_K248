@@ -18,9 +18,9 @@ namespace Benchmarker.MVVM.View
     /// <summary>
     /// Interaction logic for BenchmarkView.xaml
     /// </summary>
-    public partial class BenchmarkView : UserControl
+    public partial class BenchmarkStartView : UserControl
     {
-        public BenchmarkView()
+        public BenchmarkStartView()
         {
             InitializeComponent();
         }

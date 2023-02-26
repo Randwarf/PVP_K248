@@ -7,44 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel Name="ProcessSelection"
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Center"
-                    Visibility="Visible">
-
-            <TextBlock Text="Start a new benchmark: "
-                   Foreground="White"
-                   FontSize="28"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-            <Button Name="StartBenchmark"
-                    Height="28"
-                    Width="50"
-                    Click="StartBenchmark_Click">
-                Start
-            </Button>
-        </StackPanel>
-
-        <StackPanel Name="Benchmarking"
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Center"
-                    Visibility="Collapsed">
-
-            <TextBlock Text="Benchmarking: "
-                   Foreground="White"
-                   FontSize="28"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-
-            <TextBlock 
-                   Name="BenchmarkName"
-                   Text=""
-                   Foreground="White"
-                   FontSize="28"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-
-        </StackPanel>
-        
+        <ContentControl Content="{Binding CurrentView}"/>
     </Grid>
 </UserControl>

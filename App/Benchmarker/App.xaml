@@ -17,6 +17,14 @@
                 <view:BenchmarkView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:BenchmarkStartViewModel}">
+                <view:BenchmarkStartView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:BenchmarkRunViewModel}">
+                <view:BenchmarkRunView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModel:HistoryViewModel}">
                 <view:HistoryView/>
             </DataTemplate>
