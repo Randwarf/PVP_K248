@@ -55,6 +55,14 @@ namespace Benchmarker.MVVM.ViewModel
                 _timer.Interval = new TimeSpan(0, 0, 1);
                 _timer.Start();
 
+                _historyCPU = new Queue<double>();
+                _historyMemory = new Queue<double>();
+                for (int i = 0; i < 280; i++)
+                {
+                    _historyCPU.Enqueue(0);
+                    _historyMemory.Enqueue(0);
+                }
+
                 OnPropertyChanged();
             }
         }
@@ -174,7 +182,7 @@ namespace Benchmarker.MVVM.ViewModel
 
                 double memoryPercentage = memoryService.GetPercentage();
                 double memoryRawValue = memoryService.GetRawValue();
-                currentMemory = string.Format("RAM: {0}% - {1}Kb", memoryPercentage, memoryRawValue);
+                currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb", memoryPercentage, memoryRawValue/1024);
                 historyMemory = memoryPercentage.ToString();
             }
 

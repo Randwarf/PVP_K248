@@ -44,7 +44,15 @@ namespace Benchmarker.MVVM.Model
             {
                 using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instance, true))
                 {
-                    int val = (int)cnt.RawValue;
+                    int val = -1;
+                    try
+                    {
+                        val = (int)cnt.RawValue;
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        //Process that is being checked no longer exists and nothing else is need to be done
+                    }
                     if (val == id)
                     {
                         return instance;
