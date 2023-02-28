@@ -59,8 +59,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MVVM\Model\Benchmark.cs" />
-    <Compile Include="Repositories\BenchmarkRepository.cs" />
-    <Compile Include="Repositories\IBenchmarkRepository.cs" />
+    <Compile Include="MVVM\Model\CPUService.cs" />
+    <Compile Include="MVVM\Model\Database\BenchmarkRepository.cs" />
+    <Compile Include="MVVM\Model\Database\IBenchmarkRepository.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +106,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Model\MemoryService.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CompareViewModel.cs" />

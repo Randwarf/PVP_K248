@@ -1,5 +1,5 @@
 ﻿using Benchmarker.MVVM.Model;
-using Benchmarker.Repositories;
+using Benchmarker.Database;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

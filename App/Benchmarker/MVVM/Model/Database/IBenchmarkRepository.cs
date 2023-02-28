@@ -1,12 +1,13 @@
 ﻿using Benchmarker.MVVM.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Benchmarker.Repositories
+namespace Benchmarker.Database
 {
     internal interface IBenchmarkRepository
     {
-        List<Benchmark> GetAllBenchmarks();
-        Benchmark GetBenchmarkByID(int id);
+        Task<List<Benchmark>> GetAllBenchmarks();
+        Task<Benchmark> GetBenchmarkByID(int id);
         void InsertBenchmark(Benchmark benchmark);
         void UpdateBenchmark(Benchmark benchmark);
         void DeleteBenchmark(int id);

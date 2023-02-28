@@ -1,4 +1,6 @@
 ﻿using Benchmarker.Core;
+using Benchmarker.Database;
+using Benchmarker.MVVM.Model;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -20,14 +22,17 @@ namespace Benchmarker.MVVM.ViewModel
 
         private Process _process;
         private DispatcherTimer _timer;
-        private Queue<double> _historyCPU;
         private DateTime prevCheck;
-        private TimeSpan prevTotalCPUTime;
+        // TODO: REWORK HOW AVG VALUES ARE CALCULATED!
+        private int ticksChecked = 0;
 
+        private Queue<double> _historyCPU;
         private Queue<double> _historyMemory;
-        private float memoryInDevice;
 
-        private PerformanceCounter performanceCounter;
+        private CPUService cpuService;
+        private MemoryService memoryService;
+
+        private IBenchmarkRepository benchmarkRepository;
 
         public OpenFileDialog File
         {
@@ -41,11 +46,9 @@ namespace Benchmarker.MVVM.ViewModel
                 _process.StartInfo.FileName = _file.FileName;
                 _process.Start();
                 prevCheck = _process.StartTime;
-                prevTotalCPUTime = new TimeSpan(0);
 
-                instanceName = GetProcessInstanceNameById(_process.Id);
-                memoryInDevice = GetMemoryInDevice();
-                InitializeMemoryPerformanceCounter(instanceName);
+                cpuService = new CPUService(_process);
+                memoryService = new MemoryService(_process);
 
                 _timer = new DispatcherTimer();
                 _timer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -125,13 +128,30 @@ namespace Benchmarker.MVVM.ViewModel
             {
                 if (_process != null && !_process.HasExited)
                 {
-                    performanceCounter.Close();
-                    performanceCounter.Dispose();
                     _process.Kill();
                     _timer.Stop();
+                    
+                    double avgCPUPercent = _historyCPU
+                        .Skip(280 - ticksChecked)
+                        .Sum() / ticksChecked;
+
+                    double avgMemoryPercent = _historyMemory
+                        .Skip(280 - ticksChecked)
+                        .Sum() / ticksChecked;
+
+                    var benchmark = new Benchmark()
+                    {
+                        CPU = Math.Round(avgCPUPercent, 2),
+                        RAM = Math.Round(avgMemoryPercent, 2),
+                        Energy = -1
+                    };
+
+                    benchmarkRepository.InsertBenchmark(benchmark);
                 }
                 switchView.Execute(this);
             });
+
+            benchmarkRepository = new BenchmarkRepository();
 
             _historyCPU = new Queue<double>();
             _historyMemory= new Queue<double>();
@@ -144,64 +164,22 @@ namespace Benchmarker.MVVM.ViewModel
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            var newTotalCPUTime = _process.TotalProcessorTime;
             TimeSpan elapsed = DateTime.Now - prevCheck;
+
             if (elapsed.TotalSeconds > 0)
             {
-                TimeSpan timeThisCheck = (newTotalCPUTime - prevTotalCPUTime);
-                double CPUusage = (double)timeThisCheck.Ticks / elapsed.Ticks;
-                currentCPU = string.Format("CPU: {0:0.00}%", CPUusage * 100);
-                historyCPU = (CPUusage * 100).ToString();
+                double cpuPercentage = cpuService.GetPercentage();
+                currentCPU = string.Format("CPU: {0}%", cpuPercentage);
+                historyCPU = cpuPercentage.ToString();
 
-                GetMemoryUsage();
+                double memoryPercentage = memoryService.GetPercentage();
+                double memoryRawValue = memoryService.GetRawValue();
+                currentMemory = string.Format("RAM: {0}% - {1}Kb", memoryPercentage, memoryRawValue);
+                historyMemory = memoryPercentage.ToString();
             }
+
             prevCheck = DateTime.Now;
-            prevTotalCPUTime = newTotalCPUTime;
-        }
-
-        private void GetMemoryUsage()
-        {
-            _process.Refresh();
-            long memoryUsage = performanceCounter.RawValue;
-            double memoryUsageKb = memoryUsage / 1024.0;
-            double memoryPercent = 100 * memoryUsage / memoryInDevice;
-            currentMemory = string.Format("RAM: {0:0.00}% - {1}Kb", memoryPercent, memoryUsageKb);
-            historyMemory = memoryPercent.ToString();
-        }
-
-        private string GetProcessInstanceNameById(int id)
-        {
-            PerformanceCounterCategory cat = new PerformanceCounterCategory("Process");
-
-            string[] instances = cat.GetInstanceNames();
-            foreach (string instance in instances)
-            {
-                using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instance, true))
-                {
-                    int val = (int)cnt.RawValue;
-                    if (val == id)
-                    {
-                        return instance;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        private void InitializeMemoryPerformanceCounter(string instanceName)
-        {
-            performanceCounter = new PerformanceCounter();
-            performanceCounter.CategoryName = "Process";
-            performanceCounter.CounterName = "Working Set - Private";
-            performanceCounter.InstanceName = instanceName;
-        }
-
-        private float GetMemoryInDevice()
-        {
-            PerformanceCounter memoryAvailable;
-            memoryAvailable = new PerformanceCounter("Memory", "Available Bytes"); // "Available MBytes" for MB
-            return memoryAvailable.NextValue();
+            ticksChecked++;
         }
     }
 }

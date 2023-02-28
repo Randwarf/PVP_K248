@@ -5,8 +5,9 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
-namespace Benchmarker.Repositories
+namespace Benchmarker.Database
 {
     internal class BenchmarkRepository : IBenchmarkRepository
     {
@@ -23,12 +24,12 @@ namespace Benchmarker.Repositories
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public List<Benchmark> GetAllBenchmarks()
+        public async Task<List<Benchmark>> GetAllBenchmarks()
         {
-            HttpResponseMessage response = client.GetAsync(GET_ENDPOINT).Result;
+            HttpResponseMessage response = await client.GetAsync(GET_ENDPOINT);
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = response.Content.ReadAsStringAsync().Result;
+                var responseJson = await response.Content.ReadAsStringAsync();
                 List<Benchmark> benchmarks = JsonConvert.DeserializeObject<List<Benchmark>>(responseJson);
                 return benchmarks;
             }
@@ -36,12 +37,12 @@ namespace Benchmarker.Repositories
             throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}");
         }
 
-        public Benchmark GetBenchmarkByID(int id)
+        public async Task<Benchmark> GetBenchmarkByID(int id)
         {
-            HttpResponseMessage response = client.GetAsync($"{GET_ENDPOINT}?id={id}").Result;
+            HttpResponseMessage response = await client.GetAsync($"{GET_ENDPOINT}?id={id}");
             if (response.IsSuccessStatusCode)
             {
-                var responseJson = response.Content.ReadAsStringAsync().Result;
+                var responseJson = await response.Content.ReadAsStringAsync();
                 Benchmark benchmark = JsonConvert.DeserializeObject<Benchmark>(responseJson);
                 return benchmark;
             }
@@ -49,14 +50,14 @@ namespace Benchmarker.Repositories
             throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}");
         }
 
-        public void InsertBenchmark(Benchmark benchmark)
+        public async void InsertBenchmark(Benchmark benchmark)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, SAVE_ENDPOINT);
             request.Headers.Add("Accept", "application/json");
             string benchmarkJson = JsonConvert.SerializeObject(benchmark);
             request.Content = new StringContent(benchmarkJson, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = client.SendAsync(request).Result;
+            HttpResponseMessage response = await client.SendAsync(request);
             if (!response.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}.");
