@@ -138,7 +138,7 @@ namespace Benchmarker.MVVM.ViewModel
                 {
                     _process.Kill();
                     _timer.Stop();
-                    
+
                     double avgCPUPercent = _historyCPU
                         .Skip(280 - ticksChecked)
                         .Sum() / ticksChecked;
@@ -163,7 +163,7 @@ namespace Benchmarker.MVVM.ViewModel
             benchmarkRepository = new BenchmarkRepository();
 
             _historyCPU = new Queue<double>();
-            _historyMemory= new Queue<double>();
+            _historyMemory = new Queue<double>();
             for (int i = 0; i < 280; i++)
             {
                 _historyCPU.Enqueue(0);
@@ -183,7 +183,7 @@ namespace Benchmarker.MVVM.ViewModel
 
                 double memoryPercentage = memoryService.GetPercentage();
                 double memoryRawValue = memoryService.GetRawValue();
-                currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb", memoryPercentage, memoryRawValue/1024);
+                currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb", memoryPercentage, memoryRawValue / 1024);
                 historyMemory = memoryPercentage.ToString();
             }
 
