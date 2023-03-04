@@ -34,17 +34,6 @@ namespace Benchmarker.MVVM.ViewModel
         {
             SwitchRunViewCommand = new RelayCommand(o =>
             {
-                //Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                //dlg.DefaultExt = ".exe";
-                //dlg.Filter = "EXE Files (*.exe)|*.exe";
-                //Nullable<bool> result = dlg.ShowDialog();
-
-                //if (result == true)
-                //{
-                //    CurrentView = RunVM;
-                //    RunVM.File = dlg;
-                //}
-
                 ProcessSelectionWindow processWindow = new ProcessSelectionWindow();
                 bool? success = processWindow.ShowDialog();
                 if (success == true)
