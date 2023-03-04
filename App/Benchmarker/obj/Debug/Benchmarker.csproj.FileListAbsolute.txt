@@ -64,3 +64,5 @@ C:\Programs\GitHub\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.pdb
 C:\Code\PVP_K248\App\Benchmarker\bin\Debug\Newtonsoft.Json.dll
 C:\Code\PVP_K248\App\Benchmarker\bin\Debug\Newtonsoft.Json.xml
 C:\Code\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.csproj.CopyComplete
+C:\Programs\GitHub\PVP_K248\App\Benchmarker\obj\Debug\ProcessSelectionWindow.g.cs
+C:\Programs\GitHub\PVP_K248\App\Benchmarker\obj\Debug\ProcessSelectionWindow.baml

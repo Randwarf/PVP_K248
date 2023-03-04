@@ -32,20 +32,17 @@ namespace Benchmarker.MVVM.ViewModel
         private CPUService cpuService;
         private MemoryService memoryService;
 
-        private IBenchmarkRepository benchmarkRepository;
+        private readonly IBenchmarkRepository benchmarkRepository;
 
-        public OpenFileDialog File
+        public Process Process
         {
-            get { return _file; }
+            get { return _process; }
             set
             {
-                _file = value;
-                appName = _file.SafeFileName;
-
-                _process = new Process();
-                _process.StartInfo.FileName = _file.FileName;
-                _process.Start();
-                prevCheck = _process.StartTime;
+                _process = value;
+                appName = _process.ProcessName;
+                //prevCheck = _process.StartTime;
+                prevCheck = DateTime.Now;
 
                 cpuService = new CPUService(_process);
                 memoryService = new MemoryService(_process);
@@ -136,7 +133,6 @@ namespace Benchmarker.MVVM.ViewModel
             {
                 if (_process != null && !_process.HasExited)
                 {
-                    _process.Kill();
                     _timer.Stop();
                     
                     double avgCPUPercent = _historyCPU
