@@ -10,7 +10,9 @@ namespace Benchmarker.MVVM.Model
         public double RAM { get; set; }
         [JsonProperty("energy")]
         public double Energy { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("process")]
+        public string Process { get; set; }
+        [JsonProperty("disk")]
+        public double Disk { get; set; }
     }
 }

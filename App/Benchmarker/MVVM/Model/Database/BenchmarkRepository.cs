@@ -67,7 +67,7 @@ namespace Benchmarker.Database
             }
             catch
             {
-                Debug.WriteLine("[API] Server is down");
+                Debug.WriteLine("[API] Error with API");
             }
         }
 
