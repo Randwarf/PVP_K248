@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request
 from itertools import groupby
+from database import Database
 app = Flask(__name__)
 
 database = []
-required_args = ["name","cpu", "energy", "ram"]
+real_database = Database("../DB/temp_db.db")
+required_args = ["process", "cpu", "disk", "ram", "energy"]
 
 @app.route("/save-benchmark", methods=["POST"])
 def save_benchmark():
@@ -20,11 +22,49 @@ def save_benchmark():
 
         benchmark_object[arg] = args_json[arg]
 
+    #database.append(benchmark_object)
+    real_database.insert_data("benchmark", benchmark_object)
+
+    return jsonify({"code": "200", "message": "Benchmark uploaded sucessfully"}), 200
+
+@app.route("/save-benchmark1", methods=["POST"])
+def save_benchmark1():
+    content_type = request.headers.get('Content-Type')
+    if "application/json" not in content_type:
+        return jsonify({"code": "415", "message": "Unsupported media type"}), 415
+
+    args_json = request.json
+    benchmark_object = {}
+
+    for arg in required_args:
+        if arg not in args_json:
+            return jsonify({"code": "422", "message": f"Not enough parameters - '{arg}'"}), 422
+
+        benchmark_object[arg] = args_json[arg]
+
     database.append(benchmark_object)
     return jsonify({"code": "200", "message": "Benchmark uploaded sucessfully"}), 200
 
 @app.route("/get-benchmark", methods=["GET"])
 def get_benchmark():
+    args = request.args
+    
+    if "id" in args.keys():
+        id = int(args["id"])
+
+        db_result = real_database.select_data("benchmark", where=f"id = {id}")
+
+        if db_result == None:
+            return jsonify({"code": "404", "message": "Resource with specified index was not found"})
+
+        return jsonify(db_result[0])
+    
+    db_result = real_database.select_data("benchmark")
+
+    return jsonify(db_result)
+
+@app.route("/get-benchmark1", methods=["GET"])
+def get_benchmark1():
     args = request.args
     
     if "id" in args.keys():
@@ -39,6 +79,38 @@ def get_benchmark():
 
 @app.route("/get-app", methods=["GET"])
 def get_app():
+    args = request.args
+
+    if "name" in args.keys():
+        name = args["name"]
+
+        # Calculate average for specific process
+        db_result = real_database.select_data("benchmark",
+                                  "process, COUNT(process) as count, AVG(cpu) as cpu, AVG(disk) as disk, AVG(ram) as ram, AVG(energy) as energy", 
+                                  where=f"process='{name}'", 
+                                  groupby="process")
+        
+        return jsonify(db_result)
+
+    if "limit" not in args.keys():
+        return jsonify({"code": "422", "message": "Not enough parameters - 'limit'"}), 422
+
+    # Calculate top x averages  
+    # SELECT process, AVG(cpu), AVG(disk), AVG(ram), AVG(energy) FROM benchmark GROUP BY process
+    limit = int(args["limit"])
+    db_result = real_database.select_data("benchmark",
+                                          "process, COUNT(process) as count, AVG(cpu) as cpu, AVG(disk) as disk, AVG(ram) as ram, AVG(energy) as energy", 
+                                          groupby="process",
+                                          orderby="count DESC", 
+                                          limit=limit)
+
+    results = jsonify(db_result)
+    results.headers.add('Access-Control-Allow-Origin', '*')
+
+    return results
+
+@app.route("/get-app1", methods=["GET"])
+def get_app1():
     args = request.args
     benchmarks = database
 

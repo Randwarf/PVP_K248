@@ -64,7 +64,7 @@
             var table = $("#popular-table");
             response.forEach(function(row) {
                 var tr = $("<tr>");
-                tr.append($("<td>").text(row.name));
+                tr.append($("<td>").text(row.process));
                 tr.append($("<td>").text(row.count));
                 tr.append($("<td>").text(row.cpu))
                 table.append(tr);
