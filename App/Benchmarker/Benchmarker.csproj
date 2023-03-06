@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MVVM\Extensions\ParentProcessUtilities.cs" />
     <Compile Include="MVVM\Model\Benchmark.cs" />
     <Compile Include="MVVM\Model\CPUService.cs" />
     <Compile Include="MVVM\Model\Database\BenchmarkRepository.cs" />

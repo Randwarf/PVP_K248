@@ -49,9 +49,10 @@ namespace Benchmarker.MVVM.Model
                     {
                         val = (int)cnt.RawValue;
                     }
-                    catch (InvalidOperationException ex)
+                    catch
                     {
                         //Process that is being checked no longer exists and nothing else is need to be done
+                        continue;
                     }
                     if (val == id)
                     {
