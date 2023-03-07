@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from database import Database
 app = Flask(__name__)
 
-database = Database("../DB/temp_db.db")
+database = Database("../Database/temp_db.db")
 required_args = ["process", "cpu", "disk", "ram", "energy"]
 
 @app.route("/save-benchmark", methods=["POST"])
