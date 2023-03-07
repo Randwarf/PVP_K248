@@ -41,17 +41,68 @@
 </nav>
 
 <main>
-    <table id="popular-table" class="table">
-        <thead>
-          <tr>
-            <th>Pavadinimas</th>
-            <th>Testavimai</th>
-            <th>Avg CPU</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+
+    <section class="main_info">
+        <div class="main_header">
+            <h1 class="main_text">Populiariausios programos pagal atliktų ištestavimų skaičių</h1>
+            <br>
+            <h4>Nori patikrinti programą, kurios sąraše nematai? Ieškok jos čia!</h4>
+            <input type="text" id="input-field" list="datalist-items">
+            <datalist id="datalist-items"></datalist>
+            <button id="submit-button" class="btn btn-warning">Ieškoti</button>
+
+            <script>
+                $(document).ready(function() {
+                    // Attach input event to input field
+                    $("#input-field").on("input", function() {
+                        // Get input field value
+                        var inputValue = $(this).val();
+
+                        if (inputValue.length < 3) {  // Clear dropdown list if input is less than 3 characters
+                            $("#datalist-items").empty();
+                            return;
+                        }
+
+                        var queryParams = { name_search: inputValue };
+                        var endpointUrl = "http://127.0.0.1:5000/get-app";
+
+                        // Call API and populate datalist
+                        $.get(endpointUrl, queryParams, function(response) {
+                            var dataList = $("#datalist-items");
+                            dataList.empty();
+                            var results = response;
+                            for (var i = 0; i < results.length; i++) {
+                                var option = $("<option>").attr("value", results[i].name);
+                                dataList.append(option);
+                            }
+                        });
+                    });
+
+                    // Attach click event to submit button
+                    $("#submit-button").on("click", function() {
+                        // Get input field value
+                        var inputValue = $("#input-field").val();
+
+                        if (inputValue.length == "") {  // Clear dropdown list if input is less than 3 characters
+                            alert("Įveskite programos pavadinimą!")
+                        } else {
+                            // Append the input value to URL
+                            var url = "app-stats.html?name=" + encodeURIComponent(inputValue);
+
+                            // Redirect to next page
+                            window.location.href = url;
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </section>
+
+    <section class="info_cards">
+        <div id="popular-container" class="row">
+                <!-- Cards will be dynamically added here -->
+        </div>
+    </section>
       <script>
         $(document).ready(function() {
             // Define the API endpoint URL and query parameters
@@ -61,19 +112,24 @@
             // Make the API request using jQuery's $.get() method
             $.get(endpointUrl, queryParams, function(response) {
             // If the request is successful, append the data to the table
-            var table = $("#popular-table");
-            response.forEach(function(row) {
-                var tr = $("<tr>");
-                tr.append($("<td>").text(row.name));
-                tr.append($("<td>").text(row.count));
-                tr.append($("<td>").text(row.cpu))
-                table.append(tr);
+                var container = $("#popular-container");
+                response.forEach(function(row) {
+                    var cardDiv = $("<div>").addClass("col-sm-12 col-md-6 col-lg-6 mb-4");
+                    var card = $("<div>").addClass("card h-100 popular-card").css("min-width", "0");
+                    var cardBody = $("<div>").addClass("card-body d-flex flex-column justify-content-center").html("<a href='app-stats.html?name=" + row.name + "' class=\"stretched-link\"></a>");
+                    var cardTitle = $("<h5>").addClass("card-title").text(row.name).css("font-size", "24px");
+                    var cardText = $("<p>").addClass("card-text").text("atlikti ištestavimai: " + row.count).css("font-size", "10px").css("text-align", "right");
+
+                    cardBody.append(cardTitle, cardText);
+                    card.append(cardBody);
+                    cardDiv.append(card);
+                    container.append(cardDiv);
     });
   });
 });
+
       </script>
 </main>
-
 <header class="page-header header container-fluid">
 </header>
 

@@ -45,9 +45,13 @@ def get_app():
     if "name" in args.keys():
         name = args["name"]
         benchmarks = [b for b in benchmarks if b['name'] == name]
+
+    if "name_search" in args.keys(): # for search suggestions (popular.html)
+        name = args["name_search"]
+        benchmarks = [b for b in benchmarks if name.lower() in b['name'].lower()]
     
     if len(benchmarks) <= 0:
-        return jsonify({"code": "404", "message": "Resource was not found"})
+        return jsonify({"code": "404", "message": "Resource was not found"}), 404
 
     allNames = {name for name in set(b['name'] for b in benchmarks)}
     param_sums = {name: {arg: 0 for arg in required_args[1:]} for name in allNames}
