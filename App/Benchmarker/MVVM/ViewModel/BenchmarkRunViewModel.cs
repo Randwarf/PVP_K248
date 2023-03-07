@@ -148,7 +148,8 @@ namespace Benchmarker.MVVM.ViewModel
                         CPU = Math.Round(avgCPUPercent, 2),
                         RAM = Math.Round(avgMemoryPercent, 2),
                         Energy = -1,
-                        Name = appName
+                        Disk = -1,
+                        Process = appName
                     };
 
                     benchmarkRepository.InsertBenchmark(benchmark);
