@@ -153,7 +153,7 @@ namespace Benchmarker.MVVM.ViewModel
                     };
 
                     benchmarkRepository.InsertBenchmark(benchmark);
-                    SaveBenchmark(benchmark);
+                    History.SaveBenchmark(benchmark);
                 }
                 switchView.Execute(this);
             });
@@ -167,32 +167,6 @@ namespace Benchmarker.MVVM.ViewModel
                 _historyCPU.Enqueue(0);
                 _historyMemory.Enqueue(0);
             }
-        }
-
-        private void SaveBenchmark(Benchmark benchmark)
-        {
-            string fileRoot = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            DateTime now = DateTime.Now;
-            string fileName = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.json",
-                                                        now.Year,
-                                                        now.Month,
-                                                        now.Day,
-                                                        now.Hour,
-                                                        now.Minute,
-                                                        now.Second);
-
-            string fileBody = JsonConvert.SerializeObject(benchmark);
-
-            DirectoryInfo dir = new DirectoryInfo(fileRoot + "/Benchmarker");
-            dir.Create();
-            dir = new DirectoryInfo(fileRoot + "/Benchmarker/Saves");
-            dir.Create();
-            using (StreamWriter writer = new StreamWriter(fileRoot + "/Benchmarker/Saves/" + fileName))
-            {
-                writer.WriteLine(fileBody);
-            }
-            
         }
 
         private double CalculateAvg(Queue<double> q)

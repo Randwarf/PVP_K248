@@ -106,6 +106,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Model\History.cs" />
     <Compile Include="MVVM\Model\MemoryService.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />

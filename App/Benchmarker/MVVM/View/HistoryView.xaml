@@ -7,10 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Benchmark history is not yet available"
-                   Foreground="White"
-                   FontSize="28"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"/>
+        <DataGrid Name="BenchmarksTable"
+                  Margin="10,10,10,10"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding benchmarks}"></DataGrid>
     </Grid>
 </UserControl>
