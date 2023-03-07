@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-sm">
     <img src="assets/img/logo.jpg" class="logo" alt="Logo">
-    <a class="navbar-brand" href="#" style="font-weight: bold; font-size: 25px">eko-logika</a>
+    <a class="navbar-brand" href="index.html" style="font-weight: bold; font-size: 25px">eko-logika</a>
     <button class="navbar-toggler navbar-light" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -63,7 +63,7 @@
                             return;
                         }
 
-                        var queryParams = { name_search: inputValue };
+                        var queryParams = { process: inputValue };
                         var endpointUrl = "http://127.0.0.1:5000/get-app";
 
                         // Call API and populate datalist
@@ -72,7 +72,7 @@
                             dataList.empty();
                             var results = response;
                             for (var i = 0; i < results.length; i++) {
-                                var option = $("<option>").attr("value", results[i].name);
+                                var option = $("<option>").attr("value", results[i].process);
                                 dataList.append(option);
                             }
                         });
@@ -87,7 +87,7 @@
                             alert("Įveskite programos pavadinimą!")
                         } else {
                             // Append the input value to URL
-                            var url = "app-stats.html?name=" + encodeURIComponent(inputValue);
+                            var url = "app-stats.html?process=" + encodeURIComponent(inputValue);
 
                             // Redirect to next page
                             window.location.href = url;
@@ -116,8 +116,8 @@
                 response.forEach(function(row) {
                     var cardDiv = $("<div>").addClass("col-sm-12 col-md-6 col-lg-6 mb-4");
                     var card = $("<div>").addClass("card h-100 popular-card").css("min-width", "0");
-                    var cardBody = $("<div>").addClass("card-body d-flex flex-column justify-content-center").html("<a href='app-stats.html?name=" + row.name + "' class=\"stretched-link\"></a>");
-                    var cardTitle = $("<h5>").addClass("card-title").text(row.name).css("font-size", "24px");
+                    var cardBody = $("<div>").addClass("card-body d-flex flex-column justify-content-center").html("<a href='app-stats.html?process=" + row.process + "' class=\"stretched-link\"></a>");
+                    var cardTitle = $("<h5>").addClass("card-title").text(row.process).css("font-size", "24px");
                     var cardText = $("<p>").addClass("card-text").text("atlikti ištestavimai: " + row.count).css("font-size", "10px").css("text-align", "right");
 
                     cardBody.append(cardTitle, cardText);

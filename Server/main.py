@@ -46,14 +46,16 @@ def get_benchmark():
 def get_app():
     args = request.args
 
-    if "name" in args.keys():
-        name = args["name"]
+    if "process" in args.keys():
+        process = args["process"]
         db_result = database.select_data("benchmark",
                                   "process, COUNT(process) as count, AVG(cpu) as cpu, AVG(disk) as disk, AVG(ram) as ram, AVG(energy) as energy", 
-                                  where=f"process='{name}'", 
+                                  where=f"process='{process}'", 
                                   groupby="process")
         
-        return jsonify(db_result)
+        db_result = jsonify(db_result)
+        db_result.headers.add('Access-Control-Allow-Origin', '*')
+        return db_result
 
     if "limit" not in args.keys():
         return jsonify({"code": "422", "message": "Not enough parameters - 'limit'"}), 422

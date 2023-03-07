@@ -17,7 +17,7 @@
 
 <nav class="navbar navbar-expand-sm">
     <img src="assets/img/logo.jpg" class="logo" alt="Logo">
-    <a class="navbar-brand" href="#" style="font-weight: bold; font-size: 25px">eko-logika</a>
+    <a class="navbar-brand" href="index.html" style="font-weight: bold; font-size: 25px">eko-logika</a>
     <button class="navbar-toggler navbar-light" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -44,8 +44,8 @@
 
 <main>
     <section class="main_info">
-        <div id="name" class="main_header">
-<!--            Name of the program goes here           -->
+        <div id="process" class="main_header">
+<!--            process name of the program goes here           -->
         </div>
     </section>
     <section class="main_header">
@@ -61,18 +61,19 @@
     </section>
     <script>
         const url_params = new URLSearchParams(window.location.search);
-        const url_param_name = url_params.get('name');
+        const url_param_process = url_params.get('process');
+        
         $(document).ready(function() {
             // Define the API endpoint URL and query parameters
             var endpointUrl = "http://127.0.0.1:5000/get-app";
-            var queryParams = { name: url_param_name };
+            var queryParams = { process: url_param_process };
 
             // Make the API request using jQuery's $.get() method
             $.get(endpointUrl, queryParams, function(response) {
             // If the request is successful, append the data to the table
-                var name_div = $("#name");
-                name_div.append($("<h1 class=\"main_text\">").text(response[0].name));
-                name_div.append($("<h4>").text("programa"));
+                var process_div = $("#process");
+                process_div.append($("<h1 class=\"main_text\">").text(response[0].process));
+                process_div.append($("<h4>").text("programa"));
 
                 var table = $("#stat-table");
 
@@ -98,9 +99,9 @@
                 table.append(tr3);
             }).fail(function() {
                 // If the request fails, print an error message
-                var name_div = $("#name");
-                name_div.append($("<h1 class=\"main_text\">").text("Dar niekas tokios programos neištestavo."));
-                name_div.append($("<h2>").text("Ištestuok ją pats ir būk pirmas!"));
+                var process_div = $("#process");
+                process_div.append($("<h1 class=\"main_text\">").text("Dar niekas tokios programos neištestavo."));
+                process_div.append($("<h2>").text("Ištestuok ją pats ir būk pirmas!"));
             });
         });
     </script>
