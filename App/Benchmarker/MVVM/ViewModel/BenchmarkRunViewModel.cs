@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Benchmarker.MVVM.ViewModel
 {
@@ -138,14 +140,8 @@ namespace Benchmarker.MVVM.ViewModel
                 {
                     _process.Kill();
                     _timer.Stop();
-
-                    double avgCPUPercent = _historyCPU
-                        .Skip(280 - ticksChecked)
-                        .Sum() / ticksChecked;
-
-                    double avgMemoryPercent = _historyMemory
-                        .Skip(280 - ticksChecked)
-                        .Sum() / ticksChecked;
+                    double avgCPUPercent = CalculateAvg(_historyCPU);
+                    double avgMemoryPercent = CalculateAvg(_historyMemory);
 
                     var benchmark = new Benchmark()
                     {
@@ -157,6 +153,7 @@ namespace Benchmarker.MVVM.ViewModel
                     };
 
                     benchmarkRepository.InsertBenchmark(benchmark);
+                    History.SaveBenchmark(benchmark);
                 }
                 switchView.Execute(this);
             });
@@ -170,6 +167,12 @@ namespace Benchmarker.MVVM.ViewModel
                 _historyCPU.Enqueue(0);
                 _historyMemory.Enqueue(0);
             }
+        }
+
+        private double CalculateAvg(Queue<double> q)
+        {
+            return q.Skip(280 - ticksChecked)
+                    .Sum() / ticksChecked;
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
