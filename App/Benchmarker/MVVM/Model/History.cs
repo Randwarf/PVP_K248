@@ -27,6 +27,7 @@ namespace Benchmarker.MVVM.Model
             string dirPath = getAppDataPath() + relativePath;
             var dir = new DirectoryInfo(dirPath);
 
+            CreatePath(getAppDataPath());
             foreach (var fileInfo in dir.EnumerateFiles())
             {
                 using (var reader = new StreamReader(fileInfo.Open(FileMode.Open)))
