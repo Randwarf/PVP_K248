@@ -1,18 +1,10 @@
-﻿using Benchmarker.MVVM.ViewModel;
-using System;
+﻿using Benchmarker.MVVM.Model;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Benchmarker
 {
@@ -28,15 +20,21 @@ namespace Benchmarker
             InitializeComponent();
 
             List<ProcessInfo> processes = new List<ProcessInfo>();
-            Process.GetProcesses().ToList().ForEach(x =>
-            {
-                processes.Add(new ProcessInfo()
+
+            var topLevelProcesses = new ProcessService().GetTopLevelProcesses().Keys;
+
+            topLevelProcesses
+                .ToList()
+                .ForEach(x =>
                 {
-                    Id = x.Id,
-                    Name = x.ProcessName                
+                    processes.Add(new ProcessInfo()
+                    {
+                        Id = x.Id,
+                        Name = x.ProcessName
+                    });
                 });
-            });
             processes = processes.OrderBy(x => x.Name).ToList();
+            Debug.WriteLine(processes.Count);
             ProcessListGrid.ItemsSource = processes;
         }
 
