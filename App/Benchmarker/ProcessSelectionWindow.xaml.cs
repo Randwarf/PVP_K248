@@ -21,7 +21,7 @@ namespace Benchmarker
 
             List<ProcessInfo> processes = new List<ProcessInfo>();
 
-            var topLevelProcesses = new ProcessService().GetTopLevelProcesses().Keys;
+            var topLevelProcesses = ProcessService.GetTopLevelProcesses().Keys;
 
             topLevelProcesses
                 .ToList()

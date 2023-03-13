@@ -10,27 +10,15 @@ namespace Benchmarker.MVVM.Model
     //Process.GetProcesses().Where(x => x.MainWindowTitle != "").ToList().ForEach(x => Debug.WriteLine(x.MainWindowTitle));
     //Process.GetProcesses().Where(x => x.ProcessName == "explorer").ToList().ForEach(x => Debug.WriteLine(x.ProcessName));
 
-    public class ProcessService
+    public static class ProcessService
     {
-        private List<Process> userProcesses;
-        private List<Process> topLevelUserProcesses;
-        private Dictionary<Process, Process> parentProcesses;
-
-        public ProcessService()
-        {
-            userProcesses = new List<Process>();
-            topLevelUserProcesses = new List<Process>();
-            parentProcesses = new Dictionary<Process, Process>();
-        }
-
         // TODO: Parallel?
-        public Dictionary<Process, List<Process>> GetTopLevelProcesses()
+        public static Dictionary<Process, List<Process>> GetTopLevelProcesses()
         {
             int explorerId = Process.GetProcessesByName("explorer")[0].Id;
 
-            parentProcesses = new Dictionary<Process, Process>();
-            topLevelUserProcesses = new List<Process>();
-            userProcesses = new List<Process>();
+            List<Process> topLevelUserProcesses = new List<Process>(); ;
+            Dictionary<Process, Process> userProcesses = new Dictionary<Process, Process>();
 
             foreach (Process process in Process.GetProcesses())
             {
@@ -50,8 +38,7 @@ namespace Benchmarker.MVVM.Model
                         continue;
                     }
 
-                    userProcesses.Add(process);
-                    parentProcesses.Add(process, parentProcess);
+                    userProcesses.Add(process, parentProcess);
 
                     int parentId = parentProcess.Id;
                     if (parentId == explorerId)
@@ -75,7 +62,7 @@ namespace Benchmarker.MVVM.Model
                     continue;
                 }
 
-                List<Process> children = GetChildProcesses(process);
+                List<Process> children = GetChildProcesses(process, userProcesses);
 
                 processes.Add(process, children);
             }
@@ -83,9 +70,10 @@ namespace Benchmarker.MVVM.Model
             return processes;
         }
 
-        public List<Process> GetChildProcesses(Process process)
+        private static List<Process> GetChildProcesses(Process process, Dictionary<Process, Process> userProcesses)
         {
             return userProcesses
+                .Keys
                 .Where(x =>
                 {
                     try
@@ -96,7 +84,7 @@ namespace Benchmarker.MVVM.Model
                             return false;
                         }
 
-                        Process parentProcess = parentProcesses[x];
+                        Process parentProcess = userProcesses[x];
 
                         if (parentProcess == null)
                         {
