@@ -53,80 +53,30 @@ body {
 .stat-info:hover {
     background-color: lightgreen;
 }
-
-/* These are needed to eliminate the dropdown arrow symbol (in Safari) on popular.html */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.dropdown-container {
+    display: flex;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
+/*#process, #process2 {*/
+/*    display: inline-block;*/
+/*    vertical-align: top; !* aligns the divs at the top *!*/
+/*    width: 49%; !* sets the width of each div to 50% *!*/
+/*    box-sizing: border-box; !* includes the padding and border in the width calculation *!*/
+/*    padding: 10px; !* adds some padding to the divs *!*/
+/*}*/
+
+.process-div {
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
 }
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
-    -webkit-appearance: none;
+.calc-diff-percentage {
+    color: green;
 }
 
-input[type="text"]::-webkit-outer-spin-button,
-input[type="text"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="text"] {
-    -moz-appearance: textfield;
-}
-
-input[type="text"]::-webkit-search-decoration,
-input[type="text"]::-webkit-search-cancel-button,
-input[type="text"]::-webkit-search-results-button,
-input[type="text"]::-webkit-search-results-decoration {
-    -webkit-appearance: none;
-}
-
-input[type="text"]::-webkit-clear-button {
-    display: none;
-}
-
-input#input-field {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    font-size: 16px;
-    appearance: none;
-}
-/* ----------------- */
-
-#datalist-items {
-    position: absolute;
-    z-index: 1;
-    top: 100%;
-    left: 0;
-    margin-top: 4px;
-    list-style: none;
-    padding: 0;
-    background-color: #fff;
-    border: 1px solid #d4d4d4;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    max-height: 200px;
-    overflow-y: auto;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-}
-
-/* Style for the dropdown list items */
-#datalist-items option {
-    padding: 5px 10px;
-    cursor: pointer;
-    color: #333;
+td.compare-process-names {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 45px;
 }
