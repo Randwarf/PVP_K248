@@ -20,7 +20,6 @@ namespace Benchmarker
             InitializeComponent();
 
             List<ProcessInfo> processes = new List<ProcessInfo>();
-
             var topLevelProcesses = ProcessService.GetTopLevelProcesses().Keys;
 
             topLevelProcesses
@@ -33,8 +32,8 @@ namespace Benchmarker
                         Name = x.ProcessName
                     });
                 });
+
             processes = processes.OrderBy(x => x.Name).ToList();
-            Debug.WriteLine(processes.Count);
             ProcessListGrid.ItemsSource = processes;
         }
 
