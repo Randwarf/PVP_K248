@@ -7,8 +7,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
-using Newtonsoft.Json;
-using System.IO;
 
 namespace Benchmarker.MVVM.ViewModel
 {
@@ -34,6 +32,8 @@ namespace Benchmarker.MVVM.ViewModel
         private MemoryService memoryService;
 
         private readonly IBenchmarkRepository benchmarkRepository;
+
+        private RelayCommand switchView;
 
         // Process with it's child processes
         public KeyValuePair<Process, List<Process>> Process
@@ -129,6 +129,7 @@ namespace Benchmarker.MVVM.ViewModel
 
         public BenchmarkRunViewModel(RelayCommand switchView)
         {
+            this.switchView = switchView;
             appName = "INSTANTIATING";
             SwitchView = new RelayCommand(o =>
             {
@@ -200,6 +201,7 @@ namespace Benchmarker.MVVM.ViewModel
 
             benchmarkRepository.InsertBenchmark(benchmark);
             History.SaveBenchmark(benchmark);
+            switchView.Execute(this);
         }
     }
 }
