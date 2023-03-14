@@ -45,3 +45,38 @@ body {
     width: 60% !important;
     margin-top: 40px;
 }
+
+.popular-card:hover {
+    background-color: lightgreen;
+}
+
+.stat-info:hover {
+    background-color: lightgreen;
+}
+.dropdown-container {
+    display: flex;
+}
+
+/*#process, #process2 {*/
+/*    display: inline-block;*/
+/*    vertical-align: top; !* aligns the divs at the top *!*/
+/*    width: 49%; !* sets the width of each div to 50% *!*/
+/*    box-sizing: border-box; !* includes the padding and border in the width calculation *!*/
+/*    padding: 10px; !* adds some padding to the divs *!*/
+/*}*/
+
+.process-div {
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+}
+
+.calc-diff-percentage {
+    color: green;
+}
+
+td.compare-process-names {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 45px;
+}

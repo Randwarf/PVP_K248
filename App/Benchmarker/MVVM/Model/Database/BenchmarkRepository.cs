@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Benchmarker.Database
 {
@@ -57,10 +58,16 @@ namespace Benchmarker.Database
             string benchmarkJson = JsonConvert.SerializeObject(benchmark);
             request.Content = new StringContent(benchmarkJson, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
+            try {
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}.");
+                }
+            }
+            catch
             {
-                throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}.");
+                Debug.WriteLine("[API] Error with API");
             }
         }
 
