@@ -76,30 +76,30 @@ def get_app():
 
     return results
 
-# @app.route("/calc-diff", methods=["GET"])
-# def calc_diff():
-#     args = request.args
+@app.route("/calc-diff", methods=["GET"])
+def calc_diff():
+    args = request.args
 
-#     process1 = args["process1"]
-#     db_result = database.select_data("benchmark",
-#                               "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
-#                               where=f"process='{process1}'",
-#                               groupby="process")
+    process1 = args["process1"]
+    db_result = database.select_data("benchmark",
+                              "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
+                              where=f"process='{process1}'",
+                              groupby="process")
 
-#     process2 = args["process2"]
-#     db_result2 = database.select_data("benchmark",
-#                                      "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
-#                                      where=f"process='{process2}'",
-#                                      groupby="process")
+    process2 = args["process2"]
+    db_result2 = database.select_data("benchmark",
+                                     "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
+                                     where=f"process='{process2}'",
+                                     groupby="process")
 
-#     results = calc_diff_percentages(db_result[0], db_result2[0])
+    results = calc_diff_percentages(db_result[0], db_result2[0])
 
-#     if (len(db_result) == 0 or len(db_result2) == 0): # if the array is empty, the process is not in the database
-#         return jsonify({"code": "404", "message": "Process not found"}), 404
+    if (len(db_result) == 0 or len(db_result2) == 0): # if the array is empty, the process is not in the database
+        return jsonify({"code": "404", "message": "Process not found"}), 404
 
-#     db_result = jsonify(results)
-#     db_result.headers.add('Access-Control-Allow-Origin', '*')
-#     return db_result
+    db_result = jsonify(results)
+    db_result.headers.add('Access-Control-Allow-Origin', '*')
+    return db_result
 
 if __name__ == "__main__":
     app.run()

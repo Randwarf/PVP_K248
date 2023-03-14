@@ -29,7 +29,6 @@ class Database:
         return self.cursor.lastrowid
 
     def select_data(self, table_name, columns='*', where=None, groupby=None, orderby=None, limit=None):
-        cursor = self.new_cursor()
         sql = f"SELECT {columns} FROM {table_name}"
         if where:
             sql += f" WHERE {where}"
@@ -39,8 +38,8 @@ class Database:
             sql += f" ORDER BY {orderby}"
         if limit:
             sql += f" LIMIT {limit}"
-        cursor.execute(sql)
-        rows = cursor.fetchall()
+        self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
         return rows
 
     def update_data(self, table_name, data, where):
@@ -60,8 +59,3 @@ class Database:
         self.cursor.close()
         self.connection.close()
         print("Connection closed.")
-
-    def new_cursor(self):
-        cursor = self.connection.cursor()
-        cursor.row_factory = self.dict_factory
-        return cursor
