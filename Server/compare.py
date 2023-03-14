@@ -1,9 +1,11 @@
-def calc_diff_percentages(process1, process2, threshold=10):
+def calc_diff_percentages(process1, process2):
+    process1_perc = []
+    process2_perc = []
     difference = {}
     total_diff = 0
 
     for key, value in process1.items():
-        if key == "cpu" or key == "ram" or key == "disk":
+        if key != "process" and key != "count":
             percentage1 = float(value)
             percentage2 = float(process2[key])
             if percentage1 == percentage2:
@@ -11,28 +13,32 @@ def calc_diff_percentages(process1, process2, threshold=10):
             else:
                 bigger_metric = max(percentage1, percentage2)
                 smaller_metric = min(percentage1, percentage2)
-                diff_percent = ((bigger_metric - smaller_metric) / smaller_metric) * 100
-            difference[key] = round(diff_percent, 2)
-            total_diff += diff_percent
-        elif key == "energy":
-            number1 = float(value)
-            number2 = float(process2[key])
-            percent_decrease = ((min(number1, number2) - max(number1, number2)) / min(number1, number2)) * 100
-            difference[key] = round(percent_decrease, 2)
-            total_diff += percent_decrease
+                diff_percent = ((abs(bigger_metric - smaller_metric)) / smaller_metric) * 100
+            difference[key] = round(abs(diff_percent), 2)
+            total_diff += abs(diff_percent)
 
-    if total_diff > threshold:
+            if percentage1 > percentage2:
+                process2_perc.append(round(abs(diff_percent), 2))
+            elif percentage2 > percentage1:
+                process1_perc.append(round(abs(diff_percent), 2))
+
+    avg_diff = total_diff / 4
+    avg_diff_proc1 = sum(process1_perc) / 4
+    avg_diff_proc2 = sum(process2_perc) / 4
+
+    if avg_diff_proc1 > avg_diff_proc2:
         difference["better_process"] = "Process 1"
-    elif total_diff < -threshold:
+    elif avg_diff_proc1 < avg_diff_proc2:
         difference["better_process"] = "Process 2"
     else:
-        difference["better_process"] = "None"
-
-    difference["total_diff"] = round(abs(total_diff), 2)
-    print(process1)
-    print(process2)
-    print(difference)
+        difference["better_process"] = "Equal"
+    difference["avg_diff"] = round(avg_diff, 2)
     return difference
+
+
+
+
+
 
 
 

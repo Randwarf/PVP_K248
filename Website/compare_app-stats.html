@@ -116,11 +116,11 @@
                 var tr1 = $("<tr>");
                 tr1.append($("<td>").text("Vidutiniškas įvertis"));
                 if (data3['better_process'] == "Process 1") {
-                    tr1.append($("<td>").html("<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['total_diff']) + "%" + "</span>"));
+                    tr1.append($("<td>").html("<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['avg_diff']) + "%" + "</span>"));
                     tr1.append($("<td>"));
                 } else {
                     tr1.append($("<td>"));
-                    tr1.append($("<td>").html("<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['total_diff']) + "%" + "</span>"));
+                    tr1.append($("<td>").html("<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['avg_diff']) + "%" + "</span>"));
                 }
                 table1.append(tr1);
 
