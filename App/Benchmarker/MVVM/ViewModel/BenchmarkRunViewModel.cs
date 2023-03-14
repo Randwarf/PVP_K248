@@ -1,15 +1,12 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.Database;
 using Benchmarker.MVVM.Model;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
-using Newtonsoft.Json;
-using System.IO;
 
 namespace Benchmarker.MVVM.ViewModel
 {
@@ -20,9 +17,9 @@ namespace Benchmarker.MVVM.ViewModel
         public string instanceName { get; set; }
         private string _currentCPU { get; set; }
         private string _currentMemory { get; set; }
-        private OpenFileDialog _file { get; set; }
 
-        private Process _process;
+        private KeyValuePair<Process, List<Process>> _process;
+
         private DispatcherTimer _timer;
         private DateTime prevCheck;
         // TODO: REWORK HOW AVG VALUES ARE CALCULATED!
@@ -34,23 +31,22 @@ namespace Benchmarker.MVVM.ViewModel
         private CPUService cpuService;
         private MemoryService memoryService;
 
-        private IBenchmarkRepository benchmarkRepository;
+        private readonly IBenchmarkRepository benchmarkRepository;
 
-        public OpenFileDialog File
+        private RelayCommand switchView;
+
+        // Process with it's child processes
+        public KeyValuePair<Process, List<Process>> Process
         {
-            get { return _file; }
+            get { return _process; }
             set
             {
-                _file = value;
-                appName = _file.SafeFileName;
+                _process = value;
+                appName = _process.Key.ProcessName;
+                prevCheck = DateTime.Now;
 
-                _process = new Process();
-                _process.StartInfo.FileName = _file.FileName;
-                _process.Start();
-                prevCheck = _process.StartTime;
-
-                cpuService = new CPUService(_process);
-                memoryService = new MemoryService(_process);
+                cpuService = new CPUService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
+                memoryService = new MemoryService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
 
                 _timer = new DispatcherTimer();
                 _timer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -133,29 +129,15 @@ namespace Benchmarker.MVVM.ViewModel
 
         public BenchmarkRunViewModel(RelayCommand switchView)
         {
+            this.switchView = switchView;
             appName = "INSTANTIATING";
             SwitchView = new RelayCommand(o =>
             {
-                if (_process != null && !_process.HasExited)
+                if (_process.Key != null && !_process.Key.HasExited)
                 {
-                    _process.Kill();
-                    _timer.Stop();
-                    double avgCPUPercent = CalculateAvg(_historyCPU);
-                    double avgMemoryPercent = CalculateAvg(_historyMemory);
-
-                    var benchmark = new Benchmark()
-                    {
-                        CPU = Math.Round(avgCPUPercent, 2),
-                        RAM = Math.Round(avgMemoryPercent, 2),
-                        Energy = -1,
-                        Disk = -1,
-                        Process = appName
-                    };
-
-                    if (new UserInfo().Settings.agreedToDataSharing)
-                        benchmarkRepository.InsertBenchmark(benchmark);
-                    History.SaveBenchmark(benchmark);
+                    StopBenchmark();
                 }
+
                 switchView.Execute(this);
             });
 
@@ -178,11 +160,16 @@ namespace Benchmarker.MVVM.ViewModel
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+            if (_process.Key.HasExited || _process.Key == null)
+            {
+                StopBenchmark();
+            }
+
             TimeSpan elapsed = DateTime.Now - prevCheck;
 
             if (elapsed.TotalSeconds > 0)
             {
-                double cpuPercentage = cpuService.GetPercentage();
+                var cpuPercentage = cpuService.GetPercentage();
                 currentCPU = string.Format("CPU: {0}%", cpuPercentage);
                 historyCPU = cpuPercentage.ToString();
 
@@ -194,6 +181,30 @@ namespace Benchmarker.MVVM.ViewModel
 
             prevCheck = DateTime.Now;
             ticksChecked++;
+        }
+
+        private void StopBenchmark()
+        {
+            _timer.Stop();
+            double avgCPUPercent = CalculateAvg(_historyCPU);
+            double avgMemoryPercent = CalculateAvg(_historyMemory);
+
+            var benchmark = new Benchmark()
+            {
+                CPU = Math.Round(avgCPUPercent, 2),
+                RAM = Math.Round(avgMemoryPercent, 2),
+                Energy = -1,
+                Disk = -1,
+                Process = appName
+            };
+
+            if (new UserInfo().Settings.agreedToDataSharing) 
+            {
+                benchmarkRepository.InsertBenchmark(benchmark);
+            }
+            
+            History.SaveBenchmark(benchmark);
+            switchView.Execute(this);
         }
     }
 }

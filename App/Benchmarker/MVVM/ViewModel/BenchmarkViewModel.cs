@@ -1,9 +1,11 @@
 ﻿using Benchmarker.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Benchmarker.MVVM.ViewModel
 {
@@ -32,15 +34,14 @@ namespace Benchmarker.MVVM.ViewModel
         {
             SwitchRunViewCommand = new RelayCommand(o =>
             {
-                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                dlg.DefaultExt = ".exe";
-                dlg.Filter = "EXE Files (*.exe)|*.exe";
-                Nullable<bool> result = dlg.ShowDialog();
-
-                if (result == true)
+                ProcessSelectionWindow processWindow = new ProcessSelectionWindow();
+                bool? success = processWindow.ShowDialog();
+                if (success == true)
                 {
+                    KeyValuePair<Process, List<Process>> process = processWindow.ChosenProcess;
+                    processWindow.Close();
                     CurrentView = RunVM;
-                    RunVM.File = dlg;
+                    RunVM.Process = process;
                 }
             });
 

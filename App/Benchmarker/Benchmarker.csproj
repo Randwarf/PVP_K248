@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,7 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -58,11 +61,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MVVM\Extensions\ParentProcessUtilities.cs" />
     <Compile Include="DataSharingPopUp.xaml.cs">
       <DependentUpon>DataSharingPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Model\Benchmark.cs" />
-    <Compile Include="MVVM\Model\CPUService.cs" />
+    <Compile Include="MVVM\Model\Deprecated\CPUServiceOld.cs" />
     <Compile Include="MVVM\Model\Database\BenchmarkRepository.cs" />
     <Compile Include="MVVM\Model\Database\IBenchmarkRepository.cs" />
     <Page Include="DataSharingPopUp.xaml">
@@ -103,6 +107,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProcessSelectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Theme\BenchmarkButtonTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +123,9 @@
   <ItemGroup>
     <Compile Include="MVVM\Model\History.cs" />
     <Compile Include="MVVM\Model\MemoryService.cs" />
+    <Compile Include="MVVM\Model\Deprecated\MemoryServiceOld.cs" />
+    <Compile Include="MVVM\Model\ProcessService.cs" />
+    <Compile Include="MVVM\Model\CPUService.cs" />
     <Compile Include="MVVM\Model\Settings.cs" />
     <Compile Include="MVVM\Model\UserInfo.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
@@ -137,6 +148,10 @@
     </Compile>
     <Compile Include="MVVM\View\HistoryView.xaml.cs">
       <DependentUpon>HistoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\Model\DTOs\ProcessInfo.cs" />
+    <Compile Include="ProcessSelectionWindow.xaml.cs">
+      <DependentUpon>ProcessSelectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
