@@ -63,7 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="MVVM\Extensions\ParentProcessUtilities.cs" />
     <Compile Include="MVVM\Model\Benchmark.cs" />
-    <Compile Include="MVVM\Model\CPUService.cs" />
+    <Compile Include="MVVM\Model\Deprecated\CPUServiceOld.cs" />
     <Compile Include="MVVM\Model\Database\BenchmarkRepository.cs" />
     <Compile Include="MVVM\Model\Database\IBenchmarkRepository.cs" />
     <Page Include="MainWindow.xaml">
@@ -115,9 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MVVM\Model\MemoryService.cs" />
-    <Compile Include="MVVM\Model\MemoryServiceOld.cs" />
+    <Compile Include="MVVM\Model\Deprecated\MemoryServiceOld.cs" />
     <Compile Include="MVVM\Model\ProcessService.cs" />
-    <Compile Include="MVVM\Model\ProcessMonitor.cs" />
+    <Compile Include="MVVM\Model\CPUService.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CompareViewModel.cs" />

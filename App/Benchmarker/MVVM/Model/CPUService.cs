@@ -1,35 +1,54 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System;
+using System.Linq;
 
-namespace Benchmarker.MVVM.Model
+internal class CPUService
 {
-    internal class CPUService
+    private List<Process> processes;
+
+    private List<TimeSpan> previousCPUTimes;
+    private DateTime previousCheckTime;
+
+    public CPUService(List<Process> processes)
     {
-        private readonly Process process;
+        this.processes = processes;
+        
+        Initialize();
+    }
 
-        private TimeSpan prevTotalCPUTime;
-        private DateTime prevCheck;
+    private void Initialize()
+    {
+        previousCheckTime = DateTime.Now;
 
-        public CPUService(Process process) {
-            this.process = process;
-
-            prevTotalCPUTime = process.TotalProcessorTime;
-            prevCheck = process.StartTime;
-        }
-
-        public double GetPercentage()
+        previousCPUTimes= new List<TimeSpan>();
+        foreach (Process process in processes)
         {
-            var newTotalCPUTime = process.TotalProcessorTime;
-            TimeSpan elapsed = DateTime.Now - prevCheck;
-            
-            TimeSpan timeThisCheck = newTotalCPUTime - prevTotalCPUTime;
-            double cpuUsage = (double)timeThisCheck.Ticks / elapsed.Ticks;
+            previousCPUTimes.Add(process.TotalProcessorTime);
+        }
+    }
+
+    public double GetPercentage()
+    {
+        processes = processes.Where(x => x.HasExited == false).ToList();
+
+        double percentageSum = 0;
+        TimeSpan deltaTime = DateTime.Now - previousCheckTime;
+
+        for (int i = 0; i < processes.Count; i++)
+        {
+            var newCPUTime = processes[i].TotalProcessorTime;
+            TimeSpan deltaCPUTime = newCPUTime - previousCPUTimes[i];
+
+            double cpuUsage = (double)deltaCPUTime.Ticks / deltaTime.Ticks;
             double cpuPercentage = cpuUsage * 100;
 
-            prevCheck = DateTime.Now;
-            prevTotalCPUTime = newTotalCPUTime;
+            percentageSum += cpuPercentage;
 
-            return Math.Round(cpuPercentage, 2);
+            previousCPUTimes[i] = newCPUTime;
         }
+
+        percentageSum = Math.Min(percentageSum, 100);
+        return Math.Round(percentageSum, 2);
     }
 }

@@ -1,13 +1,10 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.Database;
 using Benchmarker.MVVM.Model;
-using Extensions;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Windows.Threading;
 
@@ -36,8 +33,6 @@ namespace Benchmarker.MVVM.ViewModel
 
         private readonly IBenchmarkRepository benchmarkRepository;
 
-        private ProcessUsage tracker;
-
         // Process with it's child processes
         public KeyValuePair<Process, List<Process>> Process
         {
@@ -46,12 +41,10 @@ namespace Benchmarker.MVVM.ViewModel
             {
                 _process = value;
                 appName = _process.Key.ProcessName;
-                //prevCheck = _process.StartTime;
                 prevCheck = DateTime.Now;
 
-                cpuService = new CPUService(_process.Key);
+                cpuService = new CPUService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
                 memoryService = new MemoryService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
-                tracker = new ProcessUsage(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
 
                 _timer = new DispatcherTimer();
                 _timer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -167,14 +160,9 @@ namespace Benchmarker.MVVM.ViewModel
 
             if (elapsed.TotalSeconds > 0)
             {
-                //double cpuPercentage = cpuService.GetPercentage();
-                //currentCPU = string.Format("CPU: {0}%", cpuPercentage);
-                //historyCPU = cpuPercentage.ToString();
-
-                //var sum = tracker.GetPercentages().Values.Sum();
-
-                //currentCPU = string.Format("CPU: {0}%", sum);
-                //historyCPU = sum.ToString();
+                var cpuPercentage = cpuService.GetPercentage();
+                currentCPU = string.Format("CPU: {0}%", cpuPercentage);
+                historyCPU = cpuPercentage.ToString();
 
                 double memoryPercentage = memoryService.GetPercentage();
                 double memoryRawValue = memoryService.GetRawValue();
