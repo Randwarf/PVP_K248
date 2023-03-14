@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from database import Database
+from compare import calc_diff_percentages
 app = Flask(__name__)
 
 database = Database("../Database/temp_db.db")
@@ -49,10 +50,13 @@ def get_app():
     if "process" in args.keys():
         process = args["process"]
         db_result = database.select_data("benchmark",
-                                  "process, COUNT(process) as count, AVG(cpu) as cpu, AVG(disk) as disk, AVG(ram) as ram, AVG(energy) as energy", 
+                                  "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
                                   where=f"process='{process}'", 
                                   groupby="process")
-        
+
+        if (len(db_result) == 0): # if the array is empty, the process is not in the database
+            return jsonify({"code": "404", "message": "Process not found"}), 404
+
         db_result = jsonify(db_result)
         db_result.headers.add('Access-Control-Allow-Origin', '*')
         return db_result
@@ -62,7 +66,7 @@ def get_app():
 
     limit = int(args["limit"])
     db_result = database.select_data("benchmark",
-                                          "process, COUNT(process) as count, AVG(cpu) as cpu, AVG(disk) as disk, AVG(ram) as ram, AVG(energy) as energy", 
+                                     "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
                                           groupby="process",
                                           orderby="count DESC", 
                                           limit=limit)
@@ -71,6 +75,24 @@ def get_app():
     results.headers.add('Access-Control-Allow-Origin', '*')
 
     return results
+
+@app.route("/calc-diff", methods=["GET"])
+def calc_diff():
+    process1 = {}
+    process2 = {}
+
+    # Use request.args to get the query string parameters
+    for key, value in request.args.items():
+        # Check if the key belongs to process1 or process2
+        if 'process1' in key:
+            process1[key.split('[')[1][:-1]] = value
+        elif 'process2' in key:
+            process2[key.split('[')[1][:-1]] = value
+    results = calc_diff_percentages(process1, process2)
+
+    db_result = jsonify(results)
+    db_result.headers.add('Access-Control-Allow-Origin', '*')
+    return db_result
 
 if __name__ == "__main__":
     app.run()
