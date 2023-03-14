@@ -22,9 +22,9 @@ def calc_diff_percentages(process1, process2):
             elif percentage2 > percentage1:
                 process1_perc.append(round(abs(diff_percent), 2))
 
-    avg_diff = total_diff / 4
-    avg_diff_proc1 = sum(process1_perc) / 4
-    avg_diff_proc2 = sum(process2_perc) / 4
+    avg_diff = total_diff / (len(process1.items())-2)
+    avg_diff_proc1 = sum(process1_perc) / (len(process1.items())-2)
+    avg_diff_proc2 = sum(process2_perc) / (len(process1.items())-2)
 
     if avg_diff_proc1 > avg_diff_proc2:
         difference["better_process"] = "Process 1"
