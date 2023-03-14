@@ -186,7 +186,6 @@ namespace Benchmarker.MVVM.ViewModel
         private void StopBenchmark()
         {
             _timer.Stop();
-
             double avgCPUPercent = CalculateAvg(_historyCPU);
             double avgMemoryPercent = CalculateAvg(_historyMemory);
 
@@ -199,7 +198,11 @@ namespace Benchmarker.MVVM.ViewModel
                 Process = appName
             };
 
-            benchmarkRepository.InsertBenchmark(benchmark);
+            if (new UserInfo().Settings.agreedToDataSharing) 
+            {
+                benchmarkRepository.InsertBenchmark(benchmark);
+            }
+            
             History.SaveBenchmark(benchmark);
             switchView.Execute(this);
         }

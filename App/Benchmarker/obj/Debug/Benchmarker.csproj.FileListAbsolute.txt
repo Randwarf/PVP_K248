@@ -98,3 +98,7 @@ C:\Users\User\OneDrive\Dokumentai\GitHub\PVP_K248\App\Benchmarker\obj\Debug\Benc
 C:\Users\User\OneDrive\Dokumentai\GitHub\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.csproj.CopyComplete
 C:\Users\User\OneDrive\Dokumentai\GitHub\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.exe
 C:\Users\User\OneDrive\Dokumentai\GitHub\PVP_K248\App\Benchmarker\obj\Debug\Benchmarker.pdb
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\DataSharingPopUp.g.cs
+C:\Code\PVP_K248\App\Benchmarker\obj\Debug\DataSharingPopUp.baml
+C:\Programs\GitHub\PVP_K248\App\Benchmarker\obj\Debug\DataSharingPopUp.g.cs
+C:\Programs\GitHub\PVP_K248\App\Benchmarker\obj\Debug\DataSharingPopUp.baml

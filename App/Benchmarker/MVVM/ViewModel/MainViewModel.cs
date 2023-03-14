@@ -1,4 +1,5 @@
 ﻿using Benchmarker.Core;
+using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.View;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,17 @@ namespace Benchmarker.MVVM.ViewModel
             CreateModels();
             CurrentView = BenchmarkVM;
             CreateCommands();
+            ValidateDataSharing();
+        }
+
+        private void ValidateDataSharing()
+        {
+            UserInfo userInfo = new UserInfo();
+            if (!userInfo.Settings.agreedToDataSharing)
+            {
+                var popUp = new DataSharingPopUp();
+                popUp.ShowDialog();
+            }
         }
 
         private void CreateModels()
