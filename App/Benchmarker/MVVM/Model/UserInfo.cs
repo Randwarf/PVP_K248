@@ -6,36 +6,49 @@ namespace Benchmarker.MVVM.Model
 {
     internal class UserInfo
     {
-        public Settings settings;
+        public Settings Settings;
+
         private string path;
 
         public UserInfo()
         {
-            //TODO: Gal visą šitą path ištraukimą ir sukurimą iškelti į atskirą static klasę? 
-            //Dubliuojasi ir History.cs'e
+            // TODO: Gal visą šitą path ištraukimą ir sukurimą iškelti į atskirą static klasę? 
+            // Dubliuojasi ir History.cs'e
             path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/Benchmarker";
-            DirectoryInfo directory = new DirectoryInfo(path);
-            directory.Create();
-            path += "/Settings.json";
-            try //reading actual settings
+
+            if (Directory.Exists(path) == false)
             {
-                using(StreamReader reader = new StreamReader(path))
+                DirectoryInfo directory = new DirectoryInfo(path);
+                directory.Create();
+            }
+
+            path += "/Settings.json";
+            
+            try // Reading actual settings
+            {
+                if (File.Exists(path) == false)
+                {
+                    Settings = new Settings();
+                    return;
+                }
+
+                using (StreamReader reader = new StreamReader(path))
                 {
                     string content = reader.ReadToEnd();
-                    settings = JsonConvert.DeserializeObject<Settings>(content);
+                    Settings = JsonConvert.DeserializeObject<Settings>(content);
                 }
             }
             catch
             {
-                //Something went wrong - use default settings
-                settings = new Settings();
+                // Something went wrong - use default settings
+                Settings = new Settings();
             }
         }
 
-        public void saveSettings()
+        public void SaveSettings()
         {
-            string content = JsonConvert.SerializeObject(settings);
-            using(StreamWriter writer = new StreamWriter(path, false))
+            string content = JsonConvert.SerializeObject(Settings);
+            using (StreamWriter writer = new StreamWriter(path, false))
             {
                 writer.Write(content);
             }

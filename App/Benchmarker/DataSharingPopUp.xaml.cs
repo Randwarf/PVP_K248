@@ -28,16 +28,16 @@ namespace Benchmarker
         private void DeclineClick(Object sender, RoutedEventArgs e)
         {
             UserInfo userInfo = new UserInfo();
-            userInfo.settings.agreedToDataSharing = false;
-            userInfo.saveSettings();
+            userInfo.Settings.agreedToDataSharing = false;
+            userInfo.SaveSettings();
             this.Close();
         }
 
         private void AcceptClick(Object sender, RoutedEventArgs e)
         {
             UserInfo userInfo = new UserInfo();
-            userInfo.settings.agreedToDataSharing = true;
-            userInfo.saveSettings();
+            userInfo.Settings.agreedToDataSharing = true;
+            userInfo.SaveSettings();
             this.Close();
         }
     }

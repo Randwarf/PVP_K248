@@ -152,7 +152,7 @@ namespace Benchmarker.MVVM.ViewModel
                         Process = appName
                     };
 
-                    if (new UserInfo().settings.agreedToDataSharing)
+                    if (new UserInfo().Settings.agreedToDataSharing)
                         benchmarkRepository.InsertBenchmark(benchmark);
                     History.SaveBenchmark(benchmark);
                 }
