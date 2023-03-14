@@ -48,7 +48,9 @@ internal class CPUService
             previousCPUTimes[i] = newCPUTime;
         }
 
+        // Clamp percentage to 100
         percentageSum = Math.Min(percentageSum, 100);
+
         return Math.Round(percentageSum, 2);
     }
 }
