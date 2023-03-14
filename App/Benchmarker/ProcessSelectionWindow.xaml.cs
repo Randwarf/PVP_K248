@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Benchmarker.DTOs;
 
 namespace Benchmarker
 {
@@ -13,16 +14,19 @@ namespace Benchmarker
     /// </summary>
     public partial class ProcessSelectionWindow : Window
     {
-        public Process Process { get; private set; }
+        public KeyValuePair<Process, List<Process>> ChosenProcess { get; private set; }
+        
+        private Dictionary<Process, List<Process>> topLevelProcesses;
 
         public ProcessSelectionWindow()
         {
             InitializeComponent();
 
             List<ProcessInfo> processes = new List<ProcessInfo>();
-            var topLevelProcesses = ProcessService.GetTopLevelProcesses().Keys;
+            topLevelProcesses = ProcessService.GetTopLevelProcesses();
 
             topLevelProcesses
+                .Keys
                 .ToList()
                 .ForEach(x =>
                 {
@@ -37,19 +41,14 @@ namespace Benchmarker
             ProcessListGrid.ItemsSource = processes;
         }
 
-        private class ProcessInfo
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-        }
-
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
                 var row = e.Source as DataGridRow;
                 ProcessInfo info = row.Item as ProcessInfo;
-                Process = Process.GetProcessById(info.Id);
+                var process = topLevelProcesses.Where(x => x.Key.Id == info.Id).First();
+                ChosenProcess = process;
                 DialogResult = true;
                 Hide();
             }

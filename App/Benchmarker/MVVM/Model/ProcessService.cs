@@ -17,7 +17,7 @@ namespace Benchmarker.MVVM.Model
         {
             int explorerId = Process.GetProcessesByName("explorer")[0].Id;
 
-            List<Process> topLevelUserProcesses = new List<Process>(); ;
+            List<Process> topLevelUserProcesses = new List<Process>();
             Dictionary<Process, Process> userProcesses = new Dictionary<Process, Process>();
 
             foreach (Process process in Process.GetProcesses())

@@ -37,6 +37,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -114,7 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MVVM\Model\MemoryService.cs" />
+    <Compile Include="MVVM\Model\MemoryServiceOld.cs" />
     <Compile Include="MVVM\Model\ProcessService.cs" />
+    <Compile Include="MVVM\Model\ProcessMonitor.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CompareViewModel.cs" />
@@ -136,6 +139,7 @@
     <Compile Include="MVVM\View\HistoryView.xaml.cs">
       <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVVM\Model\DTOs\ProcessInfo.cs" />
     <Compile Include="ProcessSelectionWindow.xaml.cs">
       <DependentUpon>ProcessSelectionWindow.xaml</DependentUpon>
     </Compile>

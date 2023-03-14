@@ -38,7 +38,7 @@ namespace Benchmarker.MVVM.ViewModel
                 bool? success = processWindow.ShowDialog();
                 if (success == true)
                 {
-                    Process process = processWindow.Process;
+                    KeyValuePair<Process, List<Process>> process = processWindow.ChosenProcess;
                     processWindow.Close();
                     CurrentView = RunVM;
                     RunVM.Process = process;

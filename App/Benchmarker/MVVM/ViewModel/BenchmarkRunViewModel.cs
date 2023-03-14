@@ -21,7 +21,8 @@ namespace Benchmarker.MVVM.ViewModel
         private string _currentCPU { get; set; }
         private string _currentMemory { get; set; }
 
-        private Process _process;
+        private KeyValuePair<Process, List<Process>> _process;
+
         private DispatcherTimer _timer;
         private DateTime prevCheck;
         // TODO: REWORK HOW AVG VALUES ARE CALCULATED!
@@ -35,18 +36,22 @@ namespace Benchmarker.MVVM.ViewModel
 
         private readonly IBenchmarkRepository benchmarkRepository;
 
-        public Process Process
+        private ProcessUsage tracker;
+
+        // Process with it's child processes
+        public KeyValuePair<Process, List<Process>> Process
         {
             get { return _process; }
             set
             {
                 _process = value;
-                appName = _process.ProcessName;
+                appName = _process.Key.ProcessName;
                 //prevCheck = _process.StartTime;
                 prevCheck = DateTime.Now;
 
-                cpuService = new CPUService(_process);
-                memoryService = new MemoryService(_process);
+                cpuService = new CPUService(_process.Key);
+                memoryService = new MemoryService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
+                tracker = new ProcessUsage(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
 
                 _timer = new DispatcherTimer();
                 _timer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -132,27 +137,11 @@ namespace Benchmarker.MVVM.ViewModel
             appName = "INSTANTIATING";
             SwitchView = new RelayCommand(o =>
             {
-                if (_process != null && !_process.HasExited)
+                if (_process.Key != null && !_process.Key.HasExited)
                 {
-                    _timer.Stop();
-
-                    double avgCPUPercent = _historyCPU
-                        .Skip(280 - ticksChecked)
-                        .Sum() / ticksChecked;
-
-                    double avgMemoryPercent = _historyMemory
-                        .Skip(280 - ticksChecked)
-                        .Sum() / ticksChecked;
-
-                    var benchmark = new Benchmark()
-                    {
-                        CPU = Math.Round(avgCPUPercent, 2),
-                        RAM = Math.Round(avgMemoryPercent, 2),
-                        Energy = -1
-                    };
-
-                    benchmarkRepository.InsertBenchmark(benchmark);
+                    StopBenchmark();
                 }
+
                 switchView.Execute(this);
             });
 
@@ -169,25 +158,54 @@ namespace Benchmarker.MVVM.ViewModel
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+            if (_process.Key.HasExited || _process.Key == null)
+            {
+                StopBenchmark();
+            }
+
             TimeSpan elapsed = DateTime.Now - prevCheck;
 
             if (elapsed.TotalSeconds > 0)
             {
-                double cpuPercentage = cpuService.GetPercentage();
-                currentCPU = string.Format("CPU: {0}%", cpuPercentage);
-                historyCPU = cpuPercentage.ToString();
+                //double cpuPercentage = cpuService.GetPercentage();
+                //currentCPU = string.Format("CPU: {0}%", cpuPercentage);
+                //historyCPU = cpuPercentage.ToString();
 
-                Process.Refresh();
-                //double memoryPercentage = Process.memo;
-                //double memoryRawValue = Process.PrivateMemorySize64;
+                //var sum = tracker.GetPercentages().Values.Sum();
+
+                //currentCPU = string.Format("CPU: {0}%", sum);
+                //historyCPU = sum.ToString();
+
                 double memoryPercentage = memoryService.GetPercentage();
                 double memoryRawValue = memoryService.GetRawValue();
-                currentMemory = string.Format("RAM: {0}% - {1:0.00}Kb", memoryPercentage, memoryRawValue / 1024);
+                currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb", memoryPercentage, memoryRawValue / 1024);
                 historyMemory = memoryPercentage.ToString();
             }
 
             prevCheck = DateTime.Now;
             ticksChecked++;
+        }
+
+        private void StopBenchmark()
+        {
+            _timer.Stop();
+
+            double avgCPUPercent = _historyCPU
+                .Skip(280 - ticksChecked)
+                .Sum() / ticksChecked;
+
+            double avgMemoryPercent = _historyMemory
+                .Skip(280 - ticksChecked)
+                .Sum() / ticksChecked;
+
+            var benchmark = new Benchmark()
+            {
+                CPU = Math.Round(avgCPUPercent, 2),
+                RAM = Math.Round(avgMemoryPercent, 2),
+                Energy = -1
+            };
+
+            benchmarkRepository.InsertBenchmark(benchmark);
         }
     }
 }

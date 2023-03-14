@@ -5,15 +5,15 @@ namespace Benchmarker.MVVM.Model
 {
     internal class CPUService
     {
+        private readonly Process process;
+
         private TimeSpan prevTotalCPUTime;
         private DateTime prevCheck;
-
-        private Process process;
 
         public CPUService(Process process) {
             this.process = process;
 
-            prevTotalCPUTime = new TimeSpan(0);
+            prevTotalCPUTime = process.TotalProcessorTime;
             prevCheck = process.StartTime;
         }
 
