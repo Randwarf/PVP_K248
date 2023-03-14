@@ -97,6 +97,16 @@
                 tr3.append($("<td>").text("Atminties (RAM) užimtumas"));
                 tr3.append($("<td>").text(response[0].ram + "%"));
                 table.append(tr3);
+
+                var tr4 = $("<tr class=\"stat-info\">");
+                tr4.append($("<td>").text("Disko užimtumas"));
+                tr4.append($("<td>").text(response[0].disk + "%"));
+                table.append(tr4);
+
+                var tr5 = $("<tr class=\"stat-info\">");
+                tr5.append($("<td>").text("Energijos išnaudojimas"));
+                tr5.append($("<td>").text(response[0].energy));
+                table.append(tr5);
             }).fail(function() {
                 // If the request fails, print an error message
                 var process_div = $("#process");
