@@ -75,44 +75,25 @@
         $(document).ready(function() {
             // Define the API endpoint URL and query parameters
             var endpointUrl = "http://127.0.0.1:5000/get-app";
-            var endpointUrl2 = "http://127.0.0.1:5000/calc-diff";
+            //var endpointUrl2 = "http://127.0.0.1:5000/calc-diff";
             var queryParams = { process: url_param_process };
             var queryParams2 = { process: url_param_process2 };
-            var queryParams3 = { process1: url_param_process, process2: url_param_process2};
+            //var queryParams3 = { process1: url_param_process, process2: url_param_process2};
 
             const request1 = $.get(endpointUrl, queryParams);
             const request2 = $.get(endpointUrl, queryParams2);
-            const request3 = $.get(endpointUrl2, queryParams3);
+            //const request3 = $.get(endpointUrl2, queryParams3);
 
-            // Wait until all requests have been made to the API
-            $.when(request1, request2, request3).done(function(response1, response2, response3) {
-                // Response data for the first process
+            $.when(request1, request2).done(function(response1, response2){
                 const data1 = response1[0];
-
-                // Response data for the second process
                 const data2 = response2[0];
-
-                // Response data for difference calculations
-                const data3 = response3[0];
-
-                // If the request is successful, append the data to the table
-                // var process1_div = $("#process");
-                // process1_div.append($("<h1 class=\"main_text\">").text(data1[0].process));
-                // process1_div.append($("<h4>").text("programa"));
-                //
-                // var process2_div = $("#process2");
-                // process2_div.append($("<h1 class=\"main_text\">").text(data2[0].process));
-                // process2_div.append($("<h4>").text("programa"));
-
-
                 var table1 = $("#stat-table1");
 
                 var tr0 = $("<tr>");
-                tr0.append($("<br>"));
+                tr0.append($("<td></td>"));
                 tr0.append($("<td class=\"compare-process-names\">").text(data1[0].process));
                 tr0.append($("<td class=\"compare-process-names\">").text(data2[0].process));
                 table1.append(tr0);
-
 
                 var tr1 = $("<tr>");
                 tr1.append($("<td>").text("Atliktų ištestavimų skaičius"));
@@ -122,47 +103,14 @@
 
                 var tr2 = $("<tr>");
                 tr2.append($("<td>").text("Procesoriaus (CPU) užimtumas"));
-                if (data3['cpu'] < 0) {
+                if (data1[0].cpu - data2[0].cpu < 0) {
                     tr2.append($("<td>").text(data1[0].cpu + "%"));
-                    tr2.append($("<td>").html(data2[0].cpu + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['cpu']) + "%" + "</span>"));
+                    tr2.append($("<td>").html(data2[0].cpu + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.round(Math.abs(data1[0].cpu/data2[0].cpu)*10000)/100 + "%" + "</span>"));
                 } else {
-                    tr2.append($("<td>").html(data1[0].cpu + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['cpu']) + "%" + "</span>"));
+                    tr2.append($("<td>").html(data1[0].cpu + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.round(Math.abs(data1[0].cpu/data2[0].cpu)*10000)/100 + "%" + "</span>"));
                     tr2.append($("<td>").text(data2[0].cpu + "%"));
                 }
                 table1.append(tr2);
-
-                var tr3 = $("<tr>");
-                tr3.append($("<td>").text("Atminties (RAM) užimtumas"));
-                if (data3['ram'] < 0) {
-                    tr3.append($("<td>").text(data1[0].ram + "%"));
-                    tr3.append($("<td>").html(data2[0].ram + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['ram']) + "%" + "</span>"));
-                } else {
-                    tr3.append($("<td>").html(data1[0].ram + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['ram']) + "%" + "</span>"));
-                    tr3.append($("<td>").text(data2[0].ram + "%"));
-                }
-                table1.append(tr3);
-
-                var tr4 = $("<tr>");
-                tr4.append($("<td>").text("Disko užimtumas"));
-                if (data3['disk'] < 0) {
-                    tr4.append($("<td>").text(data1[0].disk + "%"));
-                    tr4.append($("<td>").html(data2[0].disk + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['disk']) + "%" + "</span>"));
-                } else {
-                    tr4.append($("<td>").html(data1[0].disk + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['disk']) + "%" + "</span>"));
-                    tr4.append($("<td>").text(data2[0].disk + "%"));
-                }
-                table1.append(tr4);
-
-                var tr4 = $("<tr>");
-                tr4.append($("<td>").text("Energijos išnaudojimas"));
-                if (data1[0].energy > data2[0].energy) {
-                    tr4.append($("<td>").text(data1[0].energy));
-                    tr4.append($("<td>").html(data2[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
-                } else {
-                    tr4.append($("<td>").html(data1[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
-                    tr4.append($("<td>").text(data2[0].energy));
-                }
-                table1.append(tr4);
 
             }).fail(function() {
                 // If the request fails, print an error message
@@ -170,6 +118,51 @@
                 process_div.append($("<h1 class=\"main_text\">").text("Bent viena programa dar nebuvo ištestuota"));
                 process_div.append($("<h2>").text("Ištestuok ją pats ir būk pirmas!"));
             });
+        
+
+                
+
+                
+
+                // var tr3 = $("<tr>");
+                // tr3.append($("<td>").text("Atminties (RAM) užimtumas"));
+                // if (data3['ram'] < 0) {
+                //     tr3.append($("<td>").text(data1[0].ram + "%"));
+                //     tr3.append($("<td>").html(data2[0].ram + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['ram']) + "%" + "</span>"));
+                // } else {
+                //     tr3.append($("<td>").html(data1[0].ram + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['ram']) + "%" + "</span>"));
+                //     tr3.append($("<td>").text(data2[0].ram + "%"));
+                // }
+                // table1.append(tr3);
+
+                // var tr4 = $("<tr>");
+                // tr4.append($("<td>").text("Disko užimtumas"));
+                // if (data3['disk'] < 0) {
+                //     tr4.append($("<td>").text(data1[0].disk + "%"));
+                //     tr4.append($("<td>").html(data2[0].disk + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['disk']) + "%" + "</span>"));
+                // } else {
+                //     tr4.append($("<td>").html(data1[0].disk + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['disk']) + "%" + "</span>"));
+                //     tr4.append($("<td>").text(data2[0].disk + "%"));
+                // }
+                // table1.append(tr4);
+
+                // var tr4 = $("<tr>");
+                // tr4.append($("<td>").text("Energijos išnaudojimas"));
+                // if (data1[0].energy > data2[0].energy) {
+                //     tr4.append($("<td>").text(data1[0].energy));
+                //     tr4.append($("<td>").html(data2[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
+                // } else {
+                //     tr4.append($("<td>").html(data1[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
+                //     tr4.append($("<td>").text(data2[0].energy));
+                // }
+                // table1.append(tr4);
+
+            // }).fail(function() {
+            //     // If the request fails, print an error message
+            //     var process_div = $("#process");
+            //     process_div.append($("<h1 class=\"main_text\">").text("Bent viena programa dar nebuvo ištestuota"));
+            //     process_div.append($("<h2>").text("Ištestuok ją pats ir būk pirmas!"));
+            // });
         });
     </script>
 </main>
