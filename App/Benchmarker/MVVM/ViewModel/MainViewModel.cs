@@ -42,8 +42,7 @@ namespace Benchmarker.MVVM.ViewModel
 
         private void ValidateDataSharing()
         {
-            UserInfo userInfo = new UserInfo();
-            if (!userInfo.Settings.agreedToDataSharing)
+            if (!UserInfo.Settings.agreedToDataSharing)
             {
                 var popUp = new DataSharingPopUp();
                 popUp.ShowDialog();
