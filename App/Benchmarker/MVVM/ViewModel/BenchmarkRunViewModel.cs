@@ -17,6 +17,7 @@ namespace Benchmarker.MVVM.ViewModel
         public string instanceName { get; set; }
         private string _currentCPU { get; set; }
         private string _currentMemory { get; set; }
+        private string _currentDisk { get; set; }
 
         private KeyValuePair<Process, List<Process>> _process;
 
@@ -27,9 +28,11 @@ namespace Benchmarker.MVVM.ViewModel
 
         private Queue<double> _historyCPU;
         private Queue<double> _historyMemory;
+        private Queue<double> _historyDisk;
 
         private CPUService cpuService;
         private MemoryService memoryService;
+        private DiskService diskService;
 
         private readonly IBenchmarkRepository benchmarkRepository;
 
@@ -47,6 +50,7 @@ namespace Benchmarker.MVVM.ViewModel
 
                 cpuService = new CPUService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
                 memoryService = new MemoryService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
+                diskService = new DiskService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
 
                 _timer = new DispatcherTimer();
                 _timer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -55,10 +59,12 @@ namespace Benchmarker.MVVM.ViewModel
 
                 _historyCPU = new Queue<double>();
                 _historyMemory = new Queue<double>();
+                _historyDisk = new Queue<double>();
                 for (int i = 0; i < 280; i++)
                 {
                     _historyCPU.Enqueue(0);
                     _historyMemory.Enqueue(0);
+                    _historyDisk.Enqueue(0);
                 }
 
                 OnPropertyChanged();
@@ -81,6 +87,16 @@ namespace Benchmarker.MVVM.ViewModel
             set
             {
                 _currentMemory = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string currentDisk
+        {
+            get { return _currentDisk; }
+            set
+            {
+                _currentDisk = value;
                 OnPropertyChanged();
             }
         }
@@ -127,6 +143,27 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
+        public string historyDisk
+        {
+            get
+            {
+                var builder = new StringBuilder();
+                for (int i = 0; i < _historyDisk.Count; i++)
+                {
+                    double yPos = (100 - _historyDisk.ElementAt(i)) * 1.3;
+                    string yPosWithDot = yPos.ToString().Replace(",", ".");
+                    builder.Append(i + "," + yPosWithDot + " ");
+                }
+                return builder.ToString();
+            }
+            set
+            {
+                _historyDisk.Dequeue();
+                _historyDisk.Enqueue(float.Parse(value));
+                OnPropertyChanged();
+            }
+        }
+
         public BenchmarkRunViewModel(RelayCommand switchView)
         {
             this.switchView = switchView;
@@ -145,10 +182,12 @@ namespace Benchmarker.MVVM.ViewModel
 
             _historyCPU = new Queue<double>();
             _historyMemory = new Queue<double>();
+            _historyDisk = new Queue<double>();
             for (int i = 0; i < 280; i++)
             {
                 _historyCPU.Enqueue(0);
                 _historyMemory.Enqueue(0);
+                _historyDisk.Enqueue(0);
             }
         }
 
@@ -177,6 +216,10 @@ namespace Benchmarker.MVVM.ViewModel
                 double memoryRawValue = memoryService.GetRawValue();
                 currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb", memoryPercentage, memoryRawValue / 1024);
                 historyMemory = memoryPercentage.ToString();
+
+                double diskRawValue = diskService.GetRawValue();
+                currentDisk = string.Format("DISK: {0}Mb", diskRawValue);
+                historyDisk = diskRawValue.ToString();
             }
 
             prevCheck = DateTime.Now;
@@ -188,13 +231,14 @@ namespace Benchmarker.MVVM.ViewModel
             _timer.Stop();
             double avgCPUPercent = CalculateAvg(_historyCPU);
             double avgMemoryPercent = CalculateAvg(_historyMemory);
+            double avgDiskPercent = CalculateAvg(_historyDisk);
 
             var benchmark = new Benchmark()
             {
                 CPU = Math.Round(avgCPUPercent, 2),
                 RAM = Math.Round(avgMemoryPercent, 2),
                 Energy = -1,
-                Disk = -1,
+                Disk = Math.Round(avgDiskPercent, 2),
                 Process = appName
             };
 

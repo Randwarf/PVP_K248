@@ -121,6 +121,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Model\DiskService.cs" />
     <Compile Include="MVVM\Model\History.cs" />
     <Compile Include="MVVM\Model\MemoryService.cs" />
     <Compile Include="MVVM\Model\Deprecated\MemoryServiceOld.cs" />
