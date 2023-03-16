@@ -1,54 +1,59 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Windows.Shapes;
 
 namespace Benchmarker.MVVM.Model
 {
-    internal class UserInfo
+    internal static class UserInfo
     {
-        public Settings Settings;
-
-        private string path;
-
-        public UserInfo()
-        {
-            // TODO: Gal visą šitą path ištraukimą ir sukurimą iškelti į atskirą static klasę? 
-            // Dubliuojasi ir History.cs'e
-            path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/Benchmarker";
-
-            if (Directory.Exists(path) == false)
+        private static Settings _Settings;
+        public static Settings Settings { 
+            get 
             {
-                DirectoryInfo directory = new DirectoryInfo(path);
-                directory.Create();
+                if (_Settings == null)
+                    _Settings = ReadSettings();
+                return _Settings;
             }
-
-            path += "/Settings.json";
-            
-            try // Reading actual settings
+            set
             {
-                if (File.Exists(path) == false)
-                {
-                    Settings = new Settings();
-                    return;
-                }
-
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    string content = reader.ReadToEnd();
-                    Settings = JsonConvert.DeserializeObject<Settings>(content);
-                }
-            }
-            catch
-            {
-                // Something went wrong - use default settings
-                Settings = new Settings();
+                _Settings = value;
+                SaveSettings();                
             }
         }
 
-        public void SaveSettings()
+        private static string Path()
+        {
+            var tempPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/Benchmarker";
+
+            if (Directory.Exists(tempPath) == false)
+            {
+                DirectoryInfo directory = new DirectoryInfo(tempPath);
+                directory.Create();
+            }
+
+            return tempPath + "/Settings.json";
+        }
+
+        private static Settings ReadSettings()
+        {
+            Settings settings = new Settings();
+            if (File.Exists(Path()) == true)
+            {
+                using (StreamReader reader = new StreamReader(Path()))
+                {
+                    string content = reader.ReadToEnd();
+                    settings = JsonConvert.DeserializeObject<Settings>(content);
+                }
+            }
+            return settings;
+        }
+
+        private static void SaveSettings()
         {
             string content = JsonConvert.SerializeObject(Settings);
-            using (StreamWriter writer = new StreamWriter(path, false))
+            using (StreamWriter writer = new StreamWriter(Path(), false))
             {
                 writer.Write(content);
             }
