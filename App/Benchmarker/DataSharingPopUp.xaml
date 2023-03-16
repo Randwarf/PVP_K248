@@ -26,7 +26,7 @@
                        Margin="20,0,0,0"/>
 
             <StackPanel Grid.Row="1">
-                <TextBlock Text="Do you agree to share your benchmarking result for further analysis?"
+                <TextBlock Text="Do you agree to share your benchmarking results for further analysis?"
                            FontSize="26"
                            Foreground="White"
                            Margin="20,100,0,0"
