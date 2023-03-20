@@ -4,7 +4,7 @@ from compare import calc_diff_percentages
 app = Flask(__name__)
 
 database = Database("../Database/temp_db.db")
-required_args = ["process", "cpu", "disk", "ram", "energy"]
+required_args = ["date", "process", "cpu", "disk", "ram", "energy"]
 
 @app.route("/save-benchmark", methods=["POST"])
 def save_benchmark():

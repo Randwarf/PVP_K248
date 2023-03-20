@@ -10,6 +10,17 @@
         <DataGrid Name="BenchmarksTable"
                   Margin="10,10,10,10"
                   IsReadOnly="True"
-                  ItemsSource="{Binding benchmarks}"></DataGrid>
+                  ItemsSource="{Binding Benchmarks}"
+                  AutoGenerateColumns="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="DeleteButton_Click">Delete</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

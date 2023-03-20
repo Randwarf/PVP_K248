@@ -191,11 +191,12 @@ namespace Benchmarker.MVVM.ViewModel
 
             var benchmark = new Benchmark()
             {
+                Date = DateTime.Now,
+                Process = appName,
                 CPU = Math.Round(avgCPUPercent, 2),
                 RAM = Math.Round(avgMemoryPercent, 2),
                 Energy = -1,
-                Disk = -1,
-                Process = appName
+                Disk = -1
             };
 
             if (UserInfo.Settings.agreedToDataSharing) 
@@ -203,8 +204,7 @@ namespace Benchmarker.MVVM.ViewModel
                 benchmarkRepository.InsertBenchmark(benchmark);
             }
             
-            History.SaveBenchmark(benchmark);
-            switchView.Execute(this);
+            HistoryService.AddBenchmark(benchmark);
         }
     }
 }

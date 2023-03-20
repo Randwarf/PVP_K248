@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Benchmarker.MVVM.Model;
+using Benchmarker.MVVM.Model.DTOs;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Benchmarker.MVVM.View
 {
@@ -23,6 +14,12 @@ namespace Benchmarker.MVVM.View
         public HistoryView()
         {
             InitializeComponent();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            HistoryBenchmark benchmark = ((FrameworkElement)sender).DataContext as HistoryBenchmark;
+            HistoryService.DeleteBenchmark(benchmark);
         }
     }
 }
