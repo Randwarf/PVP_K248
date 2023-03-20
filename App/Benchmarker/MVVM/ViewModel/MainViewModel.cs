@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Benchmarker.MVVM.ViewModel
 {
@@ -14,10 +15,13 @@ namespace Benchmarker.MVVM.ViewModel
         public RelayCommand BenchmarkViewCommand { get; set; }
         public RelayCommand HistoryViewCommand { get; set; }
         public RelayCommand CompareViewCommand { get; set; }
+        public RelayCommand ExitCommand { get; set; }
 
         public BenchmarkViewModel BenchmarkVM { get; set; }
         public HistoryViewModel HistoryVM { get; set; }
         public CompareViewModel CompareVM { get; set; }
+
+        public Action Close { get; set; }
 
 
         private object _currentView;
@@ -71,6 +75,12 @@ namespace Benchmarker.MVVM.ViewModel
             CompareViewCommand = new RelayCommand(o =>
             {
                 CurrentView = CompareVM;
+            });
+
+            ExitCommand = new RelayCommand(o =>
+            {
+                BenchmarkVM.RunVM.StopBenchmark();
+                Close?.Invoke();
             });
         }
     }

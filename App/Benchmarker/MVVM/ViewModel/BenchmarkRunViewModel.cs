@@ -183,8 +183,10 @@ namespace Benchmarker.MVVM.ViewModel
             ticksChecked++;
         }
 
-        private void StopBenchmark()
+        public void StopBenchmark()
         {
+            if (_timer == null || !_timer.IsEnabled)
+                return;
             _timer.Stop();
             double avgCPUPercent = CalculateAvg(_historyCPU);
             double avgMemoryPercent = CalculateAvg(_historyMemory);
