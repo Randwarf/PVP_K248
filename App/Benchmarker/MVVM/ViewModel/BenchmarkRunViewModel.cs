@@ -25,15 +25,16 @@ namespace Benchmarker.MVVM.ViewModel
         // TODO: REWORK HOW AVG VALUES ARE CALCULATED!
         private int ticksChecked = 0;
 
-        private Queue<double> _historyCPU;
-        private Queue<double> _historyMemory;
+        private List<double> _historyCPU;
+        private List<double> _historyMemory;
+
+        private List<double> _historyCPUScaled;
+        private List<double> _historyMemoryScaled;
 
         private CPUService cpuService;
         private MemoryService memoryService;
 
         private readonly IBenchmarkRepository benchmarkRepository;
-
-        private RelayCommand switchView;
 
         // Process with it's child processes
         public KeyValuePair<Process, List<Process>> Process
@@ -53,12 +54,16 @@ namespace Benchmarker.MVVM.ViewModel
                 _timer.Interval = new TimeSpan(0, 0, 1);
                 _timer.Start();
 
-                _historyCPU = new Queue<double>();
-                _historyMemory = new Queue<double>();
+                _historyCPU = new List<double>();
+                _historyMemory = new List<double>();
+                _historyCPUScaled = new List<double>();
+                _historyMemoryScaled = new List<double>();
                 for (int i = 0; i < 280; i++)
                 {
-                    _historyCPU.Enqueue(0);
-                    _historyMemory.Enqueue(0);
+                    _historyCPU.Add(0);
+                    _historyMemory.Add(0);
+                    _historyCPUScaled.Add(0);
+                    _historyMemoryScaled.Add(0);
                 }
 
                 OnPropertyChanged();
@@ -89,19 +94,20 @@ namespace Benchmarker.MVVM.ViewModel
         {
             get
             {
-                var builder = new StringBuilder();
-                for (int i = 0; i < _historyCPU.Count; i++)
-                {
-                    double yPos = (100 - _historyCPU.ElementAt(i)) * 1.3;
-                    string yPosWithDot = yPos.ToString().Replace(",", ".");
-                    builder.Append(i + "," + yPosWithDot + " ");
-                }
-                return builder.ToString();
+                return GetGraphString(_historyCPUScaled);
             }
             set
             {
-                _historyCPU.Dequeue();
-                _historyCPU.Enqueue(float.Parse(value));
+                _historyCPU.RemoveAt(0);
+                _historyCPU.Add(float.Parse(value));
+
+                var maxValue = _historyCPU.Max();
+                _historyCPUScaled.Clear();
+                _historyCPU
+                    .Select(x => x / maxValue * 100)
+                    .ToList()
+                    .ForEach(x => _historyCPUScaled.Add(x));
+
                 OnPropertyChanged();
             }
         }
@@ -110,26 +116,26 @@ namespace Benchmarker.MVVM.ViewModel
         {
             get
             {
-                var builder = new StringBuilder();
-                for (int i = 0; i < _historyMemory.Count; i++)
-                {
-                    double yPos = (100 - _historyMemory.ElementAt(i)) * 1.3;
-                    string yPosWithDot = yPos.ToString().Replace(",", ".");
-                    builder.Append(i + "," + yPosWithDot + " ");
-                }
-                return builder.ToString();
+                return GetGraphString(_historyMemoryScaled);
             }
             set
             {
-                _historyMemory.Dequeue();
-                _historyMemory.Enqueue(float.Parse(value));
+                _historyMemory.RemoveAt(0);
+                _historyMemory.Add(float.Parse(value));
+
+                var maxValue = _historyMemory.Max();
+                _historyMemoryScaled.Clear();
+                _historyMemory
+                    .Select(x => x / maxValue * 100)
+                    .ToList()
+                    .ForEach(x => _historyMemoryScaled.Add(x));
+
                 OnPropertyChanged();
             }
         }
 
         public BenchmarkRunViewModel(RelayCommand switchView)
         {
-            this.switchView = switchView;
             appName = "INSTANTIATING";
             SwitchView = new RelayCommand(o =>
             {
@@ -142,19 +148,11 @@ namespace Benchmarker.MVVM.ViewModel
             });
 
             benchmarkRepository = new BenchmarkRepository();
-
-            _historyCPU = new Queue<double>();
-            _historyMemory = new Queue<double>();
-            for (int i = 0; i < 280; i++)
-            {
-                _historyCPU.Enqueue(0);
-                _historyMemory.Enqueue(0);
-            }
         }
 
-        private double CalculateAvg(Queue<double> q)
+        private double CalculateAvg(IEnumerable<double> numbers)
         {
-            return q.Skip(280 - ticksChecked)
+            return numbers.Skip(280 - ticksChecked)
                     .Sum() / ticksChecked;
         }
 
@@ -170,12 +168,12 @@ namespace Benchmarker.MVVM.ViewModel
             if (elapsed.TotalSeconds > 0)
             {
                 var cpuPercentage = cpuService.GetPercentage();
-                currentCPU = string.Format("CPU: {0}%", cpuPercentage);
+                currentCPU = string.Format("CPU: {0}%. Max: {1:0.00}%", cpuPercentage, _historyCPU.Max());
                 historyCPU = cpuPercentage.ToString();
 
                 double memoryPercentage = memoryService.GetPercentage();
                 double memoryRawValue = memoryService.GetRawValue();
-                currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb", memoryPercentage, memoryRawValue / 1024);
+                currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb. Max: {2:0.00}%", memoryPercentage, memoryRawValue / 1024, _historyMemory.Max());
                 historyMemory = memoryPercentage.ToString();
             }
 
@@ -201,12 +199,24 @@ namespace Benchmarker.MVVM.ViewModel
                 Disk = -1
             };
 
-            if (UserInfo.Settings.agreedToDataSharing) 
+            if (UserInfo.Settings.agreedToDataSharing)
             {
                 benchmarkRepository.InsertBenchmark(benchmark);
             }
-            
+
             HistoryService.AddBenchmark(benchmark);
+        }
+
+        private string GetGraphString(IEnumerable<double> y)
+        {
+            var builder = new StringBuilder();
+            for (int i = 0; i < y.Count(); i++)
+            {
+                double yPos = (100 - y.ElementAt(i)) * 1.3;
+                string yPosWithDot = yPos.ToString().Replace(",", ".");
+                builder.Append(i + "," + yPosWithDot + " ");
+            }
+            return builder.ToString();
         }
     }
 }
