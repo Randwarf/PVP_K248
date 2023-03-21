@@ -37,7 +37,7 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
-        public MainViewModel() 
+        public MainViewModel()
         {
             CreateModels();
             CurrentView = BenchmarkVM;
@@ -80,27 +80,21 @@ namespace Benchmarker.MVVM.ViewModel
 
                 HistoryBenchmarkSelection historyWindow1 = new HistoryBenchmarkSelection();
                 bool? success1 = historyWindow1.ShowDialog();
-                if (success1 == true)
+                historyWindow1.Close();
+                if (success1 == false)
                 {
-                    benchmark1 = historyWindow1.ChosenBenchmark;
-                    historyWindow1.Close();
-                } else
-                {
-                    historyWindow1.Close();
                     return;
                 }
+                benchmark1 = historyWindow1.ChosenBenchmark;
 
                 HistoryBenchmarkSelection historyWindow2 = new HistoryBenchmarkSelection();
                 bool? success2 = historyWindow2.ShowDialog();
-                if (success2 == true)
+                historyWindow2.Close();
+                if (success2 == false)
                 {
-                    benchmark2 = historyWindow2.ChosenBenchmark;
-                    historyWindow2.Close();
-                } else
-                {
-                    historyWindow2.Close();
                     return;
                 }
+                benchmark2 = historyWindow2.ChosenBenchmark;
 
                 if (success1 == true && success2 == true)
                 {
