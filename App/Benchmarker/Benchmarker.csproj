@@ -61,6 +61,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HistoryBenchmarkSelection.xaml.cs">
+      <DependentUpon>HistoryBenchmarkSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MVVM\Extensions\ParentProcessUtilities.cs" />
     <Compile Include="DataSharingPopUp.xaml.cs">
       <DependentUpon>DataSharingPopUp.xaml</DependentUpon>
@@ -71,6 +74,10 @@
     <Compile Include="MVVM\Model\Database\BenchmarkRepository.cs" />
     <Compile Include="MVVM\Model\Database\IBenchmarkRepository.cs" />
     <Page Include="DataSharingPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HistoryBenchmarkSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

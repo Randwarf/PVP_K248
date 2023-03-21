@@ -1,5 +1,6 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
+using Benchmarker.MVVM.Model.DTOs;
 using Benchmarker.MVVM.View;
 using System;
 using System.Collections.Generic;
@@ -74,7 +75,39 @@ namespace Benchmarker.MVVM.ViewModel
 
             CompareViewCommand = new RelayCommand(o =>
             {
-                CurrentView = CompareVM;
+                HistoryBenchmark benchmark1 = null;
+                HistoryBenchmark benchmark2 = null;
+
+                HistoryBenchmarkSelection historyWindow1 = new HistoryBenchmarkSelection();
+                bool? success1 = historyWindow1.ShowDialog();
+                if (success1 == true)
+                {
+                    benchmark1 = historyWindow1.ChosenBenchmark;
+                    historyWindow1.Close();
+                } else
+                {
+                    historyWindow1.Close();
+                    return;
+                }
+
+                HistoryBenchmarkSelection historyWindow2 = new HistoryBenchmarkSelection();
+                bool? success2 = historyWindow2.ShowDialog();
+                if (success2 == true)
+                {
+                    benchmark2 = historyWindow2.ChosenBenchmark;
+                    historyWindow2.Close();
+                } else
+                {
+                    historyWindow2.Close();
+                    return;
+                }
+
+                if (success1 == true && success2 == true)
+                {
+                    var comparisonRows = BenchmarkCompareService.CompareBenchmarks(benchmark1, benchmark2);
+                    CompareVM.BenchmarkComparisonRows = comparisonRows;
+                    CurrentView = CompareVM;
+                }
             });
 
             ExitCommand = new RelayCommand(o =>

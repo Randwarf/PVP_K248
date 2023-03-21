@@ -1,7 +1,7 @@
 ﻿using Benchmarker.MVVM.Model.DTOs;
 using Benchmarker.MVVM.ViewModel;
-using System;
 using System.Collections.Generic;
+using System;
 
 namespace Benchmarker.MVVM.Model
 {
@@ -47,8 +47,8 @@ namespace Benchmarker.MVVM.Model
             double maxMetric = Math.Max(value1, value2);
             double percentage = (minMetric != 0) ? Math.Abs(maxMetric - minMetric) / minMetric * 100 : 100;
 
-            int modifyIndex = percentage > 0 ? 0 : 1;
-            comparison[modifyIndex] += $" (+{Math.Round((percentage > 0 ? 1 : -1) * percentage, 2)})";
+            int modifyIndex = value1 > value2 ? 0 : 1;
+            comparison[modifyIndex] += $" (+{Math.Round((percentage > 0 ? 1 : -1) * percentage, 2)}%)";
 
             var row = new ComparisonRow()
             {

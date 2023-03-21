@@ -17,10 +17,29 @@ namespace Benchmarker.MVVM.ViewModel
 
         public CompareViewModel()
         {
-            HistoryBenchmark benchmark1 = HistoryService.GetBenchmarks()[5];
-            HistoryBenchmark benchmark2 = HistoryService.GetBenchmarks()[6];
-            benchmarkComparisonRows = BenchmarkCompareService.CompareBenchmarks(benchmark1, benchmark2);
-            
+            //HistoryBenchmark benchmark1 = null;
+            //HistoryBenchmark benchmark2 = null;
+
+            //HistoryBenchmarkSelection historyWindow1 = new HistoryBenchmarkSelection();
+            //bool? success1 = historyWindow1.ShowDialog();
+            //if (success1 == true)
+            //{
+            //    benchmark1 = historyWindow1.ChosenBenchmark;
+            //    historyWindow1.Close();
+            //}
+
+            //HistoryBenchmarkSelection historyWindow2 = new HistoryBenchmarkSelection();
+            //bool? success2 = historyWindow2.ShowDialog();
+            //if (success2 == true)
+            //{
+            //    benchmark2 = historyWindow2.ChosenBenchmark;
+            //    historyWindow2.Close();
+            //}
+
+            //if (success1 == true && success2 == true)
+            //{
+            //    benchmarkComparisonRows = BenchmarkCompareService.CompareBenchmarks(benchmark1, benchmark2);
+            //}
         }
     }
 
