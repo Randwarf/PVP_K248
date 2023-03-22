@@ -12,6 +12,8 @@ namespace Benchmarker.MVVM.ViewModel
 {
     internal class BenchmarkRunViewModel : ObservableObject
     {
+        private const double graphHeight = 130;
+
         public RelayCommand SwitchView { get; set; }
         public string appName { get; set; }
         public string instanceName { get; set; }
@@ -56,14 +58,10 @@ namespace Benchmarker.MVVM.ViewModel
 
                 _historyCPU = new List<double>();
                 _historyMemory = new List<double>();
-                _historyCPUScaled = new List<double>();
-                _historyMemoryScaled = new List<double>();
                 for (int i = 0; i < 280; i++)
                 {
                     _historyCPU.Add(0);
                     _historyMemory.Add(0);
-                    _historyCPUScaled.Add(0);
-                    _historyMemoryScaled.Add(0);
                 }
 
                 OnPropertyChanged();
@@ -94,20 +92,12 @@ namespace Benchmarker.MVVM.ViewModel
         {
             get
             {
-                return GetGraphString(_historyCPUScaled);
+                return GetGraphString(_historyCPU, graphHeight);
             }
             set
             {
                 _historyCPU.RemoveAt(0);
                 _historyCPU.Add(float.Parse(value));
-
-                var maxValue = _historyCPU.Max();
-                _historyCPUScaled.Clear();
-                _historyCPU
-                    .Select(x => x / maxValue * 100)
-                    .ToList()
-                    .ForEach(x => _historyCPUScaled.Add(x));
-
                 OnPropertyChanged();
             }
         }
@@ -116,20 +106,12 @@ namespace Benchmarker.MVVM.ViewModel
         {
             get
             {
-                return GetGraphString(_historyMemoryScaled);
+                return GetGraphString(_historyMemory, graphHeight);
             }
             set
             {
                 _historyMemory.RemoveAt(0);
                 _historyMemory.Add(float.Parse(value));
-
-                var maxValue = _historyMemory.Max();
-                _historyMemoryScaled.Clear();
-                _historyMemory
-                    .Select(x => x / maxValue * 100)
-                    .ToList()
-                    .ForEach(x => _historyMemoryScaled.Add(x));
-
                 OnPropertyChanged();
             }
         }
@@ -207,12 +189,15 @@ namespace Benchmarker.MVVM.ViewModel
             HistoryService.AddBenchmark(benchmark);
         }
 
-        private string GetGraphString(IEnumerable<double> y)
+        private string GetGraphString(IEnumerable<double> y, double graphHeight)
         {
+            double maxValue = y.Max();
+            if (maxValue <= 0) maxValue = 0.0001;
+            double heightRatio = graphHeight / maxValue;
             var builder = new StringBuilder();
             for (int i = 0; i < y.Count(); i++)
             {
-                double yPos = (100 - y.ElementAt(i)) * 1.3;
+                double yPos = (maxValue - y.ElementAt(i)) * heightRatio;
                 string yPosWithDot = yPos.ToString().Replace(",", ".");
                 builder.Append(i + "," + yPosWithDot + " ");
             }
