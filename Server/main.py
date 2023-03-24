@@ -94,5 +94,8 @@ def calc_diff():
     db_result.headers.add('Access-Control-Allow-Origin', '*')
     return db_result
 
+@app.route("/get-overall-stats", methods=["GET"])
+def get_overall_stats
+
 if __name__ == "__main__":
     app.run()
