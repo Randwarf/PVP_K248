@@ -8,6 +8,9 @@ namespace Benchmarker.MVVM.Model
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        [JsonProperty("ip")]
+        public string IP { get; set; }
+
         [JsonProperty("date")]
         public DateTime Date { get; set; }
 

@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Windows.Shapes;
 
 namespace Benchmarker.MVVM.Model
@@ -57,6 +58,19 @@ namespace Benchmarker.MVVM.Model
             {
                 writer.Write(content);
             }
+        }
+
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach(var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            return "0.0.0.0";
         }
     }
 }
