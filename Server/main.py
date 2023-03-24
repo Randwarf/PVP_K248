@@ -95,7 +95,23 @@ def calc_diff():
     return db_result
 
 @app.route("/get-overall-stats", methods=["GET"])
-def get_overall_stats
+def get_overall_stats():
+    db_result = [{}]
+
+    #unique apps
+    selectedData = database.select_data("benchmark", "COUNT(DISTINCT process) as apps_count, COUNT(process) as tests_count")
+    db_result[0]['apps_count'] = selectedData[0]['apps_count']
+    db_result[0]['tests_count'] = selectedData[0]['tests_count']
+    
+    
+
+
+
+    db_result = jsonify(db_result)
+    db_result.headers.add('Access-Control-Allow-Origin', '*')
+    return db_result
+
+
 
 if __name__ == "__main__":
     app.run()

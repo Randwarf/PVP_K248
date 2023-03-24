@@ -97,9 +97,10 @@
         var testCountCard = $("#tests-count");
         var usersCard = $("#unique-users-count");
 
-        var endpointUrl = "127.0.0.1:500/get-overall-stats"
+        var endpointUrl = "http://127.0.0.1:5000/get-overall-stats"
         $.get(endpointUrl, function(response)
         {
+            response = response[0];
             appCountCard.append(response.apps_count);
             testCountCard.append(response.tests_count);
             usersCard.append(response.users_count)
