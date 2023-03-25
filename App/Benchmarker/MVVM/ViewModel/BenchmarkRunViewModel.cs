@@ -226,7 +226,7 @@ namespace Benchmarker.MVVM.ViewModel
             ticksChecked++;
         }
 
-        private void StopBenchmark()
+        public void StopBenchmark()
         {
             _timer.Stop();
             double avgCPUPercent = CalculateAvg(_historyCPU);
@@ -235,6 +235,7 @@ namespace Benchmarker.MVVM.ViewModel
 
             var benchmark = new Benchmark()
             {
+                Date = DateTime.Now,
                 CPU = Math.Round(avgCPUPercent, 2),
                 RAM = Math.Round(avgMemoryPercent, 2),
                 Energy = -1,
@@ -247,7 +248,7 @@ namespace Benchmarker.MVVM.ViewModel
                 benchmarkRepository.InsertBenchmark(benchmark);
             }
             
-            History.SaveBenchmark(benchmark);
+            HistoryService.AddBenchmark(benchmark);
             switchView.Execute(this);
         }
     }
