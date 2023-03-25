@@ -25,8 +25,7 @@ namespace Benchmarker
             List<ProcessInfo> processes = new List<ProcessInfo>();
             topLevelProcesses = ProcessService.GetTopLevelProcesses();
 
-            topLevelProcesses
-                .Keys
+            topLevelProcesses.Keys
                 .ToList()
                 .ForEach(x =>
                 {
