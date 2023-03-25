@@ -36,34 +36,63 @@
                    VerticalAlignment="Center"/>
 
             </StackPanel>
-            <TextBlock Text="{Binding currentCPU}"
+            
+            <WrapPanel Orientation="Horizontal"
+                       HorizontalAlignment="Center">
+                
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="{Binding currentCPU}"
                        Foreground="White"
                        FontSize="28"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
-            <Border Width="300"
+                    <Border Width="300"
                     Height="150"
                     Background="White"
                     CornerRadius="10">
-                <Polyline Points="{Binding historyCPU}"
+                        <Polyline Points="{Binding historyCPU}"
                           Stroke="Black"
                           StrokeThickness="2" 
                           Margin="10,10,10,10"/>
-            </Border>
-            <TextBlock Text="{Binding currentMemory}"
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="{Binding currentMemory}"
                        Foreground="White"
                        FontSize="28"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
-            <Border Width="300"
+                    <Border Width="300"
                     Height="150"
                     Background="White"
                     CornerRadius="10">
-                <Polyline Points="{Binding historyMemory}"
+                        <Polyline Points="{Binding historyMemory}"
                           Stroke="Black"
                           StrokeThickness="2" 
                           Margin="10,10,10,10"/>
-            </Border>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Margin="10,0">
+                    <TextBlock Text="{Binding currentDisk}"
+                       Foreground="White"
+                       FontSize="28"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+                    <Border Width="300"
+                    Height="150"
+                    Background="White"
+                    CornerRadius="10">
+                        <Polyline Points="{Binding historyDisk}"
+                          Stroke="Black"
+                          StrokeThickness="2" 
+                          Margin="10,10,10,10"/>
+                    </Border>
+                </StackPanel>
+
+            </WrapPanel>
+            
         </StackPanel>
     </Grid>
 </UserControl>

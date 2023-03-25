@@ -11,7 +11,7 @@ namespace Benchmarker.MVVM.Model
 {
     internal class DiskService
     {
-        private PerformanceCounter performanceCounter;
+        private List<PerformanceCounter> performanceCounters;
         private readonly Type monitorType;
 
         private readonly Process process;
@@ -24,12 +24,21 @@ namespace Benchmarker.MVVM.Model
         }
         public DiskService(Process process)
         {
+            performanceCounters= new List<PerformanceCounter>();
+            var performanceCounter = new PerformanceCounter("Process", "IO Data Bytes/sec", process.ProcessName);
+            performanceCounters.Add(performanceCounter);
             this.process = process;
             monitorType = Type.Single;
         }
 
         public DiskService(List<Process> processes)
         {
+            performanceCounters= new List<PerformanceCounter>();
+            foreach (var process in processes)
+            {
+                var performanceCounter = new PerformanceCounter("Process", "IO Data Bytes/sec", process.ProcessName);
+                performanceCounters.Add(performanceCounter);
+            }
             this.processes = processes;
             monitorType = Type.List;
         }
@@ -48,34 +57,29 @@ namespace Benchmarker.MVVM.Model
 
         private double GetRawValueSingle()
         {
-            performanceCounter = new PerformanceCounter("Process", "IO Data Bytes/sec", process.ProcessName);
             process.Refresh();
-            performanceCounter.NextValue();
-            Thread.Sleep(1000);
-            double diskUsage = performanceCounter.NextValue() / 1024.0 / 1024.0;
+            performanceCounters[0].NextValue();
+            double diskUsage = performanceCounters[0].NextValue() / 1024.0 / 1024.0;
             return Math.Round(diskUsage, 2);
         }
 
         private double GetRawValueList()
         {
-            CheckProcesses();
+            CheckForFinishedProcesses();
 
             double sum = 0;
 
-            foreach (Process process in processes)
+            for (int i = 0; i < processes.Count; i++)
             {
-                performanceCounter = new PerformanceCounter("Process", "IO Data Bytes/sec", process.ProcessName );
-                process.Refresh();
-                performanceCounter.NextValue();
-                Thread.Sleep(1000);
-                double diskUsage = performanceCounter.NextValue() / 1024.0 / 1024.0;
+                processes[i].Refresh();
+                double diskUsage = performanceCounters[i].NextValue() / 1024.0 / 1024.0;
                 sum += Math.Round(diskUsage, 2);
             }
 
             return sum;
         }
 
-        private void CheckProcesses()
+        private void CheckForFinishedProcesses()
         {
             processes = processes.Where(x => x.HasExited == false).ToList();
         }
