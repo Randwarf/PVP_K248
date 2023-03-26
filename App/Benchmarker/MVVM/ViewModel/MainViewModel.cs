@@ -16,11 +16,13 @@ namespace Benchmarker.MVVM.ViewModel
         public RelayCommand BenchmarkViewCommand { get; set; }
         public RelayCommand HistoryViewCommand { get; set; }
         public RelayCommand CompareViewCommand { get; set; }
+        public RelayCommand SettingsViewCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
 
         public BenchmarkViewModel BenchmarkVM { get; set; }
         public HistoryViewModel HistoryVM { get; set; }
         public CompareViewModel CompareVM { get; set; }
+        public SettingsViewModel SettingsVM { get; set; }
 
         public Action Close { get; set; }
 
@@ -59,6 +61,7 @@ namespace Benchmarker.MVVM.ViewModel
             BenchmarkVM = new BenchmarkViewModel();
             HistoryVM = new HistoryViewModel();
             CompareVM = new CompareViewModel();
+            SettingsVM = new SettingsViewModel();
         }
 
         private void CreateCommands()
@@ -102,6 +105,11 @@ namespace Benchmarker.MVVM.ViewModel
                     CompareVM.BenchmarkComparisonRows = comparisonRows;
                     CurrentView = CompareVM;
                 }
+            });
+
+            SettingsViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = SettingsVM;
             });
 
             ExitCommand = new RelayCommand(o =>
