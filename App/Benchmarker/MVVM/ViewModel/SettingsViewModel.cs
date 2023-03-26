@@ -26,7 +26,5 @@ namespace Benchmarker.MVVM.ViewModel
         }
 
         public SettingsViewModel() { }
-
-
     }
 }
