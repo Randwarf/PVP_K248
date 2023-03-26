@@ -30,9 +30,6 @@ namespace Benchmarker.MVVM.ViewModel
         private List<double> _historyCPU;
         private List<double> _historyMemory;
 
-        private List<double> _historyCPUScaled;
-        private List<double> _historyMemoryScaled;
-
         private CPUService cpuService;
         private MemoryService memoryService;
 
