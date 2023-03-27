@@ -75,7 +75,6 @@ namespace Benchmarker.MVVM.Model
             string a2 = a[1].Substring(1);
             string[] a3 = a2.Split('<');
             string a4 = a3[0];
-            Debug.WriteLine(a4);
             IPAdress = a4;            
         }
     }
