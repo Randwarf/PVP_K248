@@ -4,7 +4,7 @@ from compare import calc_diff_percentages
 app = Flask(__name__)
 
 database = Database("../Database/temp_db.db")
-required_args = ["date", "process", "cpu", "disk", "ram", "energy"]
+required_args = ["date", "process", "cpu", "disk", "ram", "energy", "ip"]
 
 @app.route("/save-benchmark", methods=["POST"])
 def save_benchmark():
@@ -93,6 +93,16 @@ def calc_diff():
     db_result = jsonify(results)
     db_result.headers.add('Access-Control-Allow-Origin', '*')
     return db_result
+
+@app.route("/get-overall-stats", methods=["GET"])
+def get_overall_stats():
+    db_result = [{}]
+    db_result = database.select_data("benchmark", "COUNT(DISTINCT process) as apps_count, COUNT(process) as tests_count, COUNT(DISTINCT ip) as users_count")
+    db_result = jsonify(db_result)
+    db_result.headers.add('Access-Control-Allow-Origin', '*')
+    return db_result
+
+
 
 if __name__ == "__main__":
     app.run()
