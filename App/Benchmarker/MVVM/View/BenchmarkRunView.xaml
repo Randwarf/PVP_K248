@@ -9,12 +9,12 @@
     <Grid>
         <Button Name="StopBenchmark"
                     Height="28"
-                    Width="50"
+                    Width="157"
                     Command="{Binding SwitchView}"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left"
-                Margin="30">
-            Stop
+                Margin="491,0,0,0">
+            Stop the benchmark
         </Button>
         <StackPanel Margin="0,63,0,0">
             <StackPanel Name="Benchmarking"
@@ -22,7 +22,6 @@
                     HorizontalAlignment="Center">
 
                 <TextBlock Text="Benchmarking: "
-                   Foreground="White"
                    FontSize="28"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
@@ -30,14 +29,12 @@
                 <TextBlock 
                    Name="BenchmarkName"
                    Text="{Binding appName}"
-                   Foreground="White"
                    FontSize="28"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
 
             </StackPanel>
             <TextBlock Text="{Binding currentCPU}"
-                       Foreground="White"
                        FontSize="28"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
@@ -51,7 +48,6 @@
                           Margin="10,10,10,10"/>
             </Border>
             <TextBlock Text="{Binding currentMemory}"
-                       Foreground="White"
                        FontSize="28"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>

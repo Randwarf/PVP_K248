@@ -10,7 +10,7 @@
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True">
-    <Border Background="#272537"
+    <Border Background="White"
             CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -18,24 +18,26 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="App Benchmark"
+            <Border Grid.Row="0" BorderThickness="0 0 0 0.5" BorderBrush="#a9a9a9" Grid.ColumnSpan="2">
+                <StackPanel Background="#f2f2f2">
+                    <TextBlock Text="Benchmarker"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
-                       Foreground="White"
                        FontSize="22"
-                       Margin="20,0,0,0"/>
+                       FontWeight="Bold"
+                       Margin="20,20,0,0"/>
+                </StackPanel>
+            </Border>
 
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Do you agree to share your benchmarking results for further analysis?"
                            FontSize="26"
-                           Foreground="White"
                            Margin="20,100,0,0"
                            TextWrapping="Wrap"
                            TextAlignment="Center">
                 </TextBlock>
                 <TextBlock Text="Your data will be completely anonymous and will only be used for the purpose of finding the most environmentally friendly apps."
                            FontSize="14"
-                           Foreground="White"
                            Margin="20,0"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
@@ -55,6 +57,7 @@
                     </Button>
                     <Button x:Name="Accept"
                             Click="AcceptClick"
+                            Background="LightGreen"
                             Height="28"
                             Width="60">
                         Accept

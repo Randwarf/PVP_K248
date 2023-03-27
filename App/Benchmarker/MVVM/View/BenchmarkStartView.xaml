@@ -12,16 +12,16 @@
                     HorizontalAlignment="Center"
                     Visibility="Visible">
 
-            <TextBlock Text="Start a new benchmark: "
-                   Foreground="White"
+            <!--<TextBlock Text="Start a new benchmark: "
                    FontSize="28"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+                   VerticalAlignment="Center"/>-->
             <Button Name="StartBenchmark"
-                    Height="28"
-                    Width="50"
+                    Height="80"
+                    Width="250"
+                    Background="LightGreen"
                     Command="{Binding SwitchView}">
-                Start
+                Start a new benchmark
             </Button>
         </StackPanel>
     </Grid>

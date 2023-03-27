@@ -10,12 +10,13 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
+
         AllowsTransparency="True">
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
-    
-    <Border Background="#272537"
+
+    <Border Background="White"
             CornerRadius="10">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -27,47 +28,51 @@
                 <RowDefinition Height="75"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            
-            <TextBlock Text="App Benchmark"
+
+
+            <Border Grid.Row="0" BorderThickness="0 0 0 0.5" BorderBrush="#a9a9a9" Grid.ColumnSpan="2">
+                <StackPanel Grid.Row="0" Background="#f2f2f2">
+
+                    <TextBlock Text="Benchmarker"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
-                       Foreground="White"
-                       FontSize="22"
-                       Margin="20,0,0,0"/>
 
-            <StackPanel Grid.Row="1">
-                <RadioButton Content="Benchmark"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Margin="30,22,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" BorderThickness="0 0 0.5 0" BorderBrush="#a9a9a9">
+                <StackPanel Background="#f2f2f2" Grid.ColumnSpan="1">
+                    <RadioButton Content="Benchmark"
                              Height="50"
-                             Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
                              Command="{Binding BenchmarkViewCommand}"/>
-                <RadioButton Content="History"
+                    <RadioButton Content="History"
                              Height="50"
-                             Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding HistoryViewCommand}"/>
-                <RadioButton Content="Compare"
+                    <RadioButton Content="Compare"
                              Height="50"
-                             Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CompareViewCommand}"/>
-                <RadioButton Content="Settings"
+                    <RadioButton Content="Settings"
                              Height="50"
-                             Foreground="White"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding SettingsViewCommand}"/>
-            </StackPanel>
-
+                </StackPanel>
+            </Border>
             <Button Width="50"
                     Height="28"
                     Grid.Column="1"
                     HorizontalAlignment="Right"
-                    Margin="0,0,30,0"
+                    Margin="0,0,0,47"
                     Command="{Binding ExitCommand}">
                 Exit</Button>
 
@@ -76,6 +81,5 @@
                             Margin="10"
                             Content="{Binding CurrentView}"/>
         </Grid>
-
     </Border>
 </Window>
