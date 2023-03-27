@@ -116,8 +116,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MVVM\View\SettingsView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ProcessSelectionWindow.xaml">
       <SubType>Designer</SubType>
@@ -133,6 +133,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Model\DiskService.cs" />
     <Compile Include="MVVM\Model\DTOs\BenchmarkCompareInfo.cs" />
     <Compile Include="MVVM\Model\DTOs\HistoryBenchmark.cs" />
     <Compile Include="MVVM\Model\HistoryService.cs" />
