@@ -115,6 +115,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MVVM\View\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ProcessSelectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,6 +149,7 @@
     <Compile Include="MVVM\ViewModel\HistoryViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkStartViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\SettingsViewModel.cs" />
     <Compile Include="MVVM\View\BenchmarkRunView.xaml.cs">
       <DependentUpon>BenchmarkRunView.xaml</DependentUpon>
     </Compile>
@@ -161,6 +166,9 @@
       <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\Model\DTOs\ProcessInfo.cs" />
+    <Compile Include="MVVM\View\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProcessSelectionWindow.xaml.cs">
       <DependentUpon>ProcessSelectionWindow.xaml</DependentUpon>
     </Compile>

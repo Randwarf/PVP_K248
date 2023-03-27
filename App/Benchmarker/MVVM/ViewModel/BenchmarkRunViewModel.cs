@@ -19,6 +19,7 @@ namespace Benchmarker.MVVM.ViewModel
         public string instanceName { get; set; }
         private string _currentCPU { get; set; }
         private string _currentMemory { get; set; }
+        private string _currentDisk { get; set; }
 
         private KeyValuePair<Process, List<Process>> _process;
 
@@ -29,9 +30,11 @@ namespace Benchmarker.MVVM.ViewModel
 
         private List<double> _historyCPU;
         private List<double> _historyMemory;
+        private List<double> _historyDisk;
 
         private CPUService cpuService;
         private MemoryService memoryService;
+        private DiskService diskService;
 
         private readonly IBenchmarkRepository benchmarkRepository;
 
@@ -47,6 +50,7 @@ namespace Benchmarker.MVVM.ViewModel
 
                 cpuService = new CPUService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
                 memoryService = new MemoryService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
+                diskService = new DiskService(_process.Value.Concat(new List<Process>() { _process.Key }).ToList());
 
                 _timer = new DispatcherTimer();
                 _timer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -55,10 +59,12 @@ namespace Benchmarker.MVVM.ViewModel
 
                 _historyCPU = new List<double>();
                 _historyMemory = new List<double>();
+                _historyDisk = new List<double>();
                 for (int i = 0; i < 280; i++)
                 {
                     _historyCPU.Add(0);
                     _historyMemory.Add(0);
+                    _historyDisk.Add(0);
                 }
 
                 OnPropertyChanged();
@@ -81,6 +87,16 @@ namespace Benchmarker.MVVM.ViewModel
             set
             {
                 _currentMemory = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string currentDisk
+        {
+            get { return _currentDisk; }
+            set
+            {
+                _currentDisk = value;
                 OnPropertyChanged();
             }
         }
@@ -109,6 +125,20 @@ namespace Benchmarker.MVVM.ViewModel
             {
                 _historyMemory.RemoveAt(0);
                 _historyMemory.Add(float.Parse(value));
+                OnPropertyChanged();
+            }
+        }
+
+        public string historyDisk
+        {
+            get
+            {
+                return GetGraphString(_historyDisk, graphHeight);
+            }
+            set
+            {
+                _historyDisk.RemoveAt(0);
+                _historyDisk.Add(float.Parse(value));
                 OnPropertyChanged();
             }
         }
@@ -154,6 +184,10 @@ namespace Benchmarker.MVVM.ViewModel
                 double memoryRawValue = memoryService.GetRawValue();
                 currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb. Max: {2:0.00}%", memoryPercentage, memoryRawValue / 1024, _historyMemory.Max());
                 historyMemory = memoryPercentage.ToString();
+
+                double diskRawValue = diskService.GetRawValue();
+                currentDisk = string.Format("DISK: {0}Mb/s. Max:{1:0}Mb/s", diskRawValue, _historyDisk.Max());
+                historyDisk = diskRawValue.ToString();
             }
 
             prevCheck = DateTime.Now;
