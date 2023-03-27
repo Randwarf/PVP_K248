@@ -67,15 +67,12 @@ namespace Benchmarker.MVVM.Model
 
         public static async void UpdateAsyncPublicIPAddress()
         {
-            string url = "http://checkip.dyndns.org";
+            string url = "https://www.manoip.lt/";
             var httpClient = new HttpClient();
             var response = await httpClient.GetStringAsync(url);
-            response = response.Trim();
-            string[] a = response.Split(':');
-            string a2 = a[1].Substring(1);
-            string[] a3 = a2.Split('<');
-            string a4 = a3[0];
-            IPAdress = a4;            
+            string a1 = response.Split(new string[] { "<b>" }, StringSplitOptions.None)[1];
+            string a2 = a1.Split(new string[] { "</b>" }, StringSplitOptions.None)[0];
+            IPAdress = a2;            
         }
     }
 }
