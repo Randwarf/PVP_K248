@@ -186,7 +186,7 @@ namespace Benchmarker.MVVM.ViewModel
                 historyMemory = memoryPercentage.ToString();
 
                 double diskRawValue = diskService.GetRawValue();
-                currentDisk = string.Format("DISK: {0}Mb/s. Max:{1:0}Mb/s", diskRawValue, _historyDisk.Max());
+                currentDisk = string.Format("Disk: {0}Mb/s. Max:{1:0}Mb/s", diskRawValue, _historyDisk.Max());
                 historyDisk = diskRawValue.ToString();
             }
 
@@ -201,6 +201,7 @@ namespace Benchmarker.MVVM.ViewModel
             _timer.Stop();
             double avgCPUPercent = CalculateAvg(_historyCPU);
             double avgMemoryPercent = CalculateAvg(_historyMemory);
+            double avgDiskPercent = CalculateAvg(_historyDisk);
 
             var benchmark = new Benchmark()
             {
@@ -209,7 +210,7 @@ namespace Benchmarker.MVVM.ViewModel
                 CPU = Math.Round(avgCPUPercent, 2),
                 RAM = Math.Round(avgMemoryPercent, 2),
                 Energy = -1,
-                Disk = -1
+                Disk = Math.Round(avgDiskPercent, 2)
             };
 
             if (UserInfo.Settings.agreedToDataSharing)
