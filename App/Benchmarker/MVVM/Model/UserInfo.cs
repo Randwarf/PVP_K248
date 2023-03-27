@@ -4,13 +4,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Windows.Shapes;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace Benchmarker.MVVM.Model
 {
     internal static class UserInfo
     {
         private static Settings _Settings;
-        public static Settings Settings { 
+        public static Settings Settings 
+        { 
             get 
             {
                 if (_Settings == null)
@@ -23,6 +26,8 @@ namespace Benchmarker.MVVM.Model
                 SaveSettings();                
             }
         }
+
+        public static string IPAdress = "0.0.0.0"; 
 
         private static string Path()
         {
@@ -60,17 +65,18 @@ namespace Benchmarker.MVVM.Model
             }
         }
 
-        public static string GetLocalIPAddress()
+        public static async void UpdateAsyncPublicIPAddress()
         {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach(var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            return "0.0.0.0";
+            string url = "http://checkip.dyndns.org";
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetStringAsync(url);
+            response = response.Trim();
+            string[] a = response.Split(':');
+            string a2 = a[1].Substring(1);
+            string[] a3 = a2.Split('<');
+            string a4 = a3[0];
+            Debug.WriteLine(a4);
+            IPAdress = a4;            
         }
     }
 }

@@ -199,8 +199,9 @@ namespace Benchmarker.MVVM.ViewModel
                 RAM = Math.Round(avgMemoryPercent, 2),
                 Energy = -1,
                 Disk = -1,
-                IP = UserInfo.GetLocalIPAddress()
+                IP = UserInfo.IPAdress
             };
+
 
             if (UserInfo.Settings.agreedToDataSharing) 
             {

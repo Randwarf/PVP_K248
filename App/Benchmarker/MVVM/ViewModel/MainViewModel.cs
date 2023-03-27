@@ -3,6 +3,7 @@ using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.View;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,7 @@ namespace Benchmarker.MVVM.ViewModel
 
         public MainViewModel() 
         {
+            UserInfo.UpdateAsyncPublicIPAddress();
             CreateModels();
             CurrentView = BenchmarkVM;
             CreateCommands();
