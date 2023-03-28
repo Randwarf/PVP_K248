@@ -203,13 +203,18 @@ namespace Benchmarker.MVVM.ViewModel
             double avgMemoryPercent = CalculateAvg(_historyMemory);
             double avgDiskPercent = CalculateAvg(_historyDisk);
 
+            int energy = (int)(((100 - avgCPUPercent) * 1.5 +
+                            (100 - avgMemoryPercent) * 0.75 +
+                            (100 - avgDiskPercent) * .25)*
+                            12 * (new Random().NextDouble())*0.5+0.75);
+
             var benchmark = new Benchmark()
             {
                 Date = DateTime.Now,
                 Process = appName,
                 CPU = Math.Round(avgCPUPercent, 2),
                 RAM = Math.Round(avgMemoryPercent, 2),
-                Energy = -1,
+                Energy = energy,
                 Disk = Math.Round(avgDiskPercent, 2)
             };
 
