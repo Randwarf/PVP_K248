@@ -12,9 +12,10 @@
                         VerticalAlignment="Center">
                 <CheckBox VerticalAlignment="Center"
                           IsChecked="{Binding isSharing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Foreground="White"
-                           FontSize="16">
-                    Share benchmarking results
+                <TextBlock
+                           FontSize="16"
+                           Margin="10">
+                    I agree to share my benchmarking results and IP address
                 </TextBlock>
             </StackPanel>
         </StackPanel>

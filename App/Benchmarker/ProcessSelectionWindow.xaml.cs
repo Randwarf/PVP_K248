@@ -44,8 +44,8 @@ namespace Benchmarker
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                var row = e.Source as DataGridRow;
-                ProcessInfo info = row.Item as ProcessInfo;
+                var row = e.Source as ListBoxItem;
+                ProcessInfo info = row.Content as ProcessInfo;
                 var process = topLevelProcesses.Where(x => x.Key.Id == info.Id).First();
                 ChosenProcess = process;
                 DialogResult = true;
