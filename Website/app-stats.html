@@ -68,6 +68,9 @@
             var endpointUrl = "http://127.0.0.1:5000/get-app";
             var queryParams = { process: url_param_process };
 
+            var imgSrc = "assets/img/average.png"; // replace with the actual image source
+            var img = $("<img width='25' height='25'>").attr("src", imgSrc);
+
             // Make the API request using jQuery's $.get() method
             $.get(endpointUrl, queryParams, function(response) {
             // If the request is successful, append the data to the table
@@ -79,14 +82,10 @@
 
                 var tr = $("<tr>");
                 tr.append($("<br>"))
-                tr.append($("<h4>").text("Pateikiama visų ištestavimų bendra informacija:"));
+                tr.append($("<h4 style='margin-bottom: 0px;'>").text(" Vidutinė ištestavimų informacija").prepend(img));
+                tr.append($("<h4 style='font-weight: normal; font-size: 13px; margin-top: 0px'>").text("(iš viso atliktų testavimų skaičius šiai programai -  " + response[0].count + ")"));
                 tr.append($("<br>"))
                 table.append(tr);
-
-                var tr1 = $("<tr class=\"stat-info\">");
-                tr1.append($("<td>").text("Atliktų ištestavimų skaičius"));
-                tr1.append($("<td>").text(response[0].count));
-                table.append(tr1);
 
                 var tr2 = $("<tr class=\"stat-info\">");
                 tr2.append($("<td>").text("Procesoriaus (CPU) užimtumas"));

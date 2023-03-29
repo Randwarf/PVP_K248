@@ -43,16 +43,10 @@
 </nav>
 
 <main>
-<!--    <section class="main_info">-->
-<!--        <div class="main_header">-->
-<!--            <div id="process" class="process-div">-->
-<!--                &lt;!&ndash; process name of the program goes here &ndash;&gt;-->
-<!--            </div>-->
-<!--            <div id="process2" class="process-div">-->
-<!--                &lt;!&ndash; process name of the program goes here &ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
+    <section class="main_info">
+        <div id="process" class="main_header">
+        </div>
+    </section>
     <br>
     <section>
         <div class="main_header">
@@ -94,6 +88,11 @@
                     const data3 = response3;
 
                     // If the request is successful, append the data to the table
+                    var process1_div = $("#process");
+                    process1_div.append($("<h1 class=\"main_text\">").text("Programų palyginimo ataskaita"));
+                    process1_div.append($("<h4>").text("Surask žalesnę ir tvaresnę programą!"));
+
+                    // If the request is successful, append the data to the table
                     // var process1_div = $("#process");
                     // process1_div.append($("<h1 class=\"main_text\">").text(data1[0].process));
                     // process1_div.append($("<h4>").text("programa"));
@@ -112,6 +111,12 @@
                     table1.append(tr0);
 
                     var tr1 = $("<tr>");
+                    tr1.append($("<br>"));
+                    tr1.append($("<td class='stat-info-count'>").text("(atliktų testavimų skaičius -  " + data1[0].count + ")"));
+                    tr1.append($("<td class='stat-info-count'>").text("(atliktų testavimų skaičius -  " + data2[0].count + ")"));
+                    table1.append(tr1);
+
+                    var tr1 = $("<tr class=\"stat-info-average\">");
                     tr1.append($("<td>").text("Vidutiniškas įvertis"));
                     if (data3['better_process'] == "Process 1") {
                         tr1.append($("<td>").html("<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['avg_diff']) + "%" + "</span>"));
@@ -122,52 +127,62 @@
                     }
                     table1.append(tr1);
 
-                    var tr1 = $("<tr>");
-                    tr1.append($("<td>").text("Atliktų ištestavimų skaičius"));
-                    tr1.append($("<td>").text(data1[0].count));
-                    tr1.append($("<td>").text(data2[0].count));
-                    table1.append(tr1);
-
-                    var tr2 = $("<tr>");
+                    var tr2 = $("<tr class=\"stat-info\">");
                     tr2.append($("<td>").text("Procesoriaus (CPU) užimtumas"));
                     if (data1[0].cpu > data2[0].cpu) {
                         tr2.append($("<td>").text(data1[0].cpu + "%"));
-                        tr2.append($("<td>").html(data2[0].cpu + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['cpu']) + "%" + "</span>"));
+                        tr2.append($("<td>").html(data2[0].cpu + "%" + " " + "<span class='calc-diff-percentage'>" + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + Math.abs(data3['cpu']) + "%" + "</span>"));
+                    }
+                    else if (data1[0].cpu < data2[0].cpu) {
+                        tr2.append($("<td>").html(data1[0].cpu + "%" + " " + "<span class='calc-diff-percentage'>" + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + Math.abs(data3['cpu']) + "%" + "</span>"));
+                        tr2.append($("<td>").text(data2[0].cpu + "%"));
                     } else {
-                        tr2.append($("<td>").html(data1[0].cpu + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['cpu']) + "%" + "</span>"));
+                        tr2.append($("<td>").text(data1[0].cpu + "%"));
                         tr2.append($("<td>").text(data2[0].cpu + "%"));
                     }
                     table1.append(tr2);
 
-                    var tr3 = $("<tr>");
+                    var tr3 = $("<tr class=\"stat-info\">");
                     tr3.append($("<td>").text("Atminties (RAM) užimtumas"));
                     if (data1[0].ram > data2[0].ram) {
                         tr3.append($("<td>").text(data1[0].ram + "%"));
                         tr3.append($("<td>").html(data2[0].ram + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['ram']) + "%" + "</span>"));
-                    } else {
+                    }
+                    else if (data1[0].ram < data2[0].ram) {
                         tr3.append($("<td>").html(data1[0].ram + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['ram']) + "%" + "</span>"));
+                        tr3.append($("<td>").text(data2[0].ram + "%"));
+                    } else {
+                        tr3.append($("<td>").text(data1[0].ram + "%"));
                         tr3.append($("<td>").text(data2[0].ram + "%"));
                     }
                     table1.append(tr3);
 
-                    var tr4 = $("<tr>");
+                    var tr4 = $("<tr class=\"stat-info\">");
                     tr4.append($("<td>").text("Disko užimtumas"));
                     if (data1[0].disk > data2[0].disk) {
                         tr4.append($("<td>").text(data1[0].disk + "%"));
                         tr4.append($("<td>").html(data2[0].disk + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['disk']) + "%" + "</span>"));
-                    } else {
+                    }
+                    else if (data1[0].disk < data2[0].disk) {
                         tr4.append($("<td>").html(data1[0].disk + "%" + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['disk']) + "%" + "</span>"));
+                        tr4.append($("<td>").text(data2[0].disk + "%"));
+                    } else {
+                        tr4.append($("<td>").text(data1[0].disk + "%"));
                         tr4.append($("<td>").text(data2[0].disk + "%"));
                     }
                     table1.append(tr4);
 
-                    var tr4 = $("<tr>");
+                    var tr4 = $("<tr class=\"stat-info\">");
                     tr4.append($("<td>").text("Energijos išnaudojimas"));
                     if (data1[0].energy > data2[0].energy) {
                         tr4.append($("<td>").text(data1[0].energy));
                         tr4.append($("<td>").html(data2[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
-                    } else {
+                    }
+                    else if (data1[0].energy < data2[0].energy) {
                         tr4.append($("<td>").html(data1[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
+                        tr4.append($("<td>").text(data2[0].energy));
+                    } else {
+                        tr4.append($("<td>").text(data1[0].energy));
                         tr4.append($("<td>").text(data2[0].energy));
                     }
                     table1.append(tr4);
