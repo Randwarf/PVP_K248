@@ -138,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MVVM\Model\DiskService.cs" />
-    <Compile Include="MVVM\Model\DTOs\BenchmarkCompareInfo.cs" />
     <Compile Include="MVVM\Model\DTOs\HistoryBenchmark.cs" />
     <Compile Include="MVVM\Model\HistoryService.cs" />
     <Compile Include="MVVM\Model\MemoryService.cs" />

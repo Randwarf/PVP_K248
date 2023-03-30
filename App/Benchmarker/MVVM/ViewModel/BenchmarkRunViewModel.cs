@@ -198,10 +198,17 @@ namespace Benchmarker.MVVM.ViewModel
         {
             if (_timer == null || !_timer.IsEnabled)
                 return;
+
             _timer.Stop();
+
             double avgCPUPercent = CalculateAvg(_historyCPU);
             double avgMemoryPercent = CalculateAvg(_historyMemory);
             double avgDiskPercent = CalculateAvg(_historyDisk);
+
+            int energy = (int)(((100 - avgCPUPercent) * 1.5 +
+                            (100 - avgMemoryPercent) * 0.75 +
+                            (100 - avgDiskPercent) * 0.25) *
+                            12 * new Random().NextDouble() * 0.5 + 0.75);
 
             var benchmark = new Benchmark()
             {
@@ -209,7 +216,7 @@ namespace Benchmarker.MVVM.ViewModel
                 Process = appName,
                 CPU = Math.Round(avgCPUPercent, 2),
                 RAM = Math.Round(avgMemoryPercent, 2),
-                Energy = -1,
+                Energy = energy,
                 Disk = Math.Round(avgDiskPercent, 2)
             };
 
