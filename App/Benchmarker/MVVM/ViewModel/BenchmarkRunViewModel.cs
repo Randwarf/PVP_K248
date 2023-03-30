@@ -205,8 +205,8 @@ namespace Benchmarker.MVVM.ViewModel
 
             int energy = (int)(((100 - avgCPUPercent) * 1.5 +
                             (100 - avgMemoryPercent) * 0.75 +
-                            (100 - avgDiskPercent) * .25)*
-                            12 * (new Random().NextDouble())*0.5+0.75);
+                            (100 - avgDiskPercent) * 0.25) *
+                            12 * new Random().NextDouble() * 0.5 + 0.75);
 
             var benchmark = new Benchmark()
             {
