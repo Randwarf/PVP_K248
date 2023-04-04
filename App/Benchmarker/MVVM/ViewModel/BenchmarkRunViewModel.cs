@@ -196,7 +196,7 @@ namespace Benchmarker.MVVM.ViewModel
 
         public void StopBenchmark()
         {
-            if (_timer == null || !_timer.IsEnabled)
+            if (_timer == null || !_timer.IsEnabled || ticksChecked == 0)
                 return;
 
             _timer.Stop();
