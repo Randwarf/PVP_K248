@@ -21,7 +21,7 @@ def save_benchmark():
 
         benchmark_object[arg] = args_json[arg]
 
-    database.insert_data("benchmark", benchmark_object)
+    database.insert_data("benchmarks", benchmark_object)
 
     return jsonify({"code": "200", "message": "Benchmark uploaded sucessfully"}), 200
 
@@ -32,14 +32,14 @@ def get_benchmark():
     if "id" in args.keys():
         id = int(args["id"])
 
-        db_result = database.select_data("benchmark", where=f"id = {id}")
+        db_result = database.select_data("benchmarks", where=f"id = {id}")
 
         if db_result == None:
             return jsonify({"code": "404", "message": "Resource with specified index was not found"})
 
         return jsonify(db_result[0])
     
-    db_result = database.select_data("benchmark")
+    db_result = database.select_data("benchmarks")
 
     return jsonify(db_result)
 
@@ -49,7 +49,7 @@ def get_app():
 
     if "process" in args.keys():
         process = args["process"]
-        db_result = database.select_data("benchmark",
+        db_result = database.select_data("benchmarks",
                                   "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
                                   where=f"process='{process}'", 
                                   groupby="process")
@@ -65,7 +65,7 @@ def get_app():
         return jsonify({"code": "422", "message": "Not enough parameters - 'limit'"}), 422
 
     limit = int(args["limit"])
-    db_result = database.select_data("benchmark",
+    db_result = database.select_data("benchmarks",
                                      "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
                                           groupby="process",
                                           orderby="count DESC", 
@@ -97,12 +97,10 @@ def calc_diff():
 @app.route("/get-overall-stats", methods=["GET"])
 def get_overall_stats():
     db_result = [{}]
-    db_result = database.select_data("benchmark", "COUNT(DISTINCT process) as apps_count, COUNT(process) as tests_count, COUNT(DISTINCT ip) as users_count")
+    db_result = database.select_data("benchmarks", "COUNT(DISTINCT process) as apps_count, COUNT(process) as tests_count, COUNT(DISTINCT ip) as users_count")
     db_result = jsonify(db_result)
     db_result.headers.add('Access-Control-Allow-Origin', '*')
     return db_result
-
-
 
 if __name__ == "__main__":
     app.run()

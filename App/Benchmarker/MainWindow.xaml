@@ -65,6 +65,11 @@
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding SettingsViewCommand}"/>
+                    <RadioButton Content="Account"
+                             Height="50"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding AccountViewCommand}"/>
                 </StackPanel>
             </Border>
             <Button Width="50"
