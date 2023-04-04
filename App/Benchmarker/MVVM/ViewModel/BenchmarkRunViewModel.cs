@@ -12,25 +12,18 @@ namespace Benchmarker.MVVM.ViewModel
 {
     internal class BenchmarkRunViewModel : ObservableObject
     {
-        private const double graphHeight = 130;
+        private const int graphHeight = 130;
+        private const int graphWidth = 280;
 
         public RelayCommand SwitchView { get; set; }
         public string appName { get; set; }
         public string instanceName { get; set; }
-        private string _currentCPU { get; set; }
-        private string _currentMemory { get; set; }
-        private string _currentDisk { get; set; }
 
         private KeyValuePair<Process, List<Process>> _process;
 
         private DispatcherTimer _timer;
         private DateTime prevCheck;
-        // TODO: REWORK HOW AVG VALUES ARE CALCULATED!
         private int ticksChecked = 0;
-
-        private List<double> _historyCPU;
-        private List<double> _historyMemory;
-        private List<double> _historyDisk;
 
         private CPUService cpuService;
         private MemoryService memoryService;
@@ -57,88 +50,75 @@ namespace Benchmarker.MVVM.ViewModel
                 _timer.Interval = new TimeSpan(0, 0, 1);
                 _timer.Start();
 
-                _historyCPU = new List<double>();
-                _historyMemory = new List<double>();
-                _historyDisk = new List<double>();
-                for (int i = 0; i < 280; i++)
-                {
-                    _historyCPU.Add(0);
-                    _historyMemory.Add(0);
-                    _historyDisk.Add(0);
-                }
-
                 OnPropertyChanged();
             }
         }
 
-        public string currentCPU
+        private string _cpuLabel;
+        public string cpuLabel
         {
-            get { return _currentCPU; }
+            get { return _cpuLabel; }
+            private set
+            {
+                _cpuLabel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _memoryLabel;
+        public string memoryLabel
+        {
+            get { return _memoryLabel; }
             set
             {
-                _currentCPU = value;
+                _memoryLabel = value;
                 OnPropertyChanged();
             }
         }
 
-        public string currentMemory
+        private string _diskLabel;
+        public string diskLabel
         {
-            get { return _currentMemory; }
+            get { return _diskLabel; }
             set
             {
-                _currentMemory = value;
+                _diskLabel = value;
                 OnPropertyChanged();
             }
         }
 
-        public string currentDisk
-        {
-            get { return _currentDisk; }
-            set
-            {
-                _currentDisk = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string historyCPU
+        public string cpuGraph
         {
             get
             {
-                return GetGraphString(_historyCPU, graphHeight);
+                return cpuService.getGraphString(graphHeight, graphWidth);
             }
-            set
+            set 
             {
-                _historyCPU.RemoveAt(0);
-                _historyCPU.Add(float.Parse(value));
                 OnPropertyChanged();
             }
         }
 
-        public string historyMemory
+        public string memoryGraph
         {
             get
             {
-                return GetGraphString(_historyMemory, graphHeight);
+                return memoryService.getGraphString(graphHeight, graphWidth);
             }
             set
             {
-                _historyMemory.RemoveAt(0);
-                _historyMemory.Add(float.Parse(value));
                 OnPropertyChanged();
             }
         }
 
-        public string historyDisk
+        public string diskGraph
         {
             get
             {
-                return GetGraphString(_historyDisk, graphHeight);
+                return diskService.getGraphString(graphHeight, graphWidth);
             }
             set
             {
-                _historyDisk.RemoveAt(0);
-                _historyDisk.Add(float.Parse(value));
                 OnPropertyChanged();
             }
         }
@@ -159,12 +139,6 @@ namespace Benchmarker.MVVM.ViewModel
             benchmarkRepository = new BenchmarkRepository();
         }
 
-        private double CalculateAvg(IEnumerable<double> numbers)
-        {
-            return numbers.Skip(280 - ticksChecked)
-                    .Sum() / ticksChecked;
-        }
-
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (_process.Key.HasExited || _process.Key == null)
@@ -176,18 +150,23 @@ namespace Benchmarker.MVVM.ViewModel
 
             if (elapsed.TotalSeconds > 0)
             {
-                var cpuPercentage = cpuService.GetPercentage();
-                currentCPU = string.Format("CPU: {0}%. Max: {1:0.00}%", cpuPercentage, _historyCPU.Max());
-                historyCPU = cpuPercentage.ToString();
-
-                double memoryPercentage = memoryService.GetPercentage();
-                double memoryRawValue = memoryService.GetRawValue();
-                currentMemory = string.Format("RAM: {0}% - {1:0.00}Mb. Max: {2:0.00}%", memoryPercentage, memoryRawValue / 1024, _historyMemory.Max());
-                historyMemory = memoryPercentage.ToString();
-
-                double diskRawValue = diskService.GetRawValue();
-                currentDisk = string.Format("Disk: {0}Mb/s. Max:{1:0}Mb/s", diskRawValue, _historyDisk.Max());
-                historyDisk = diskRawValue.ToString();
+                cpuService.calculateNext();
+                memoryService.calculateNext();
+                diskService.calculateNext();
+                cpuGraph = "update"; //I hate this part but i am not sure how to do the whole property changed thing otherwise
+                memoryGraph = "update";
+                diskGraph = "update";
+                
+                cpuLabel = string.Format("CPU: {0}%. Max: {1:0.00}%", 
+                    cpuService.getCurrentValue(), 
+                    cpuService.getMaxValue());
+                memoryLabel = string.Format("RAM: {0}% - {1:0.00}Mb. Max: {2:0.00}%", 
+                    memoryService.getCurrentValue(), 
+                    memoryService.GetRawValue() / 1024, 
+                    memoryService.getMaxValue());
+                diskLabel = string.Format("Disk: {0}Mb/s. Max:{1:0.00}Mb/s", 
+                    diskService.getCurrentValue(), 
+                    diskService.getMaxValue());
             }
 
             prevCheck = DateTime.Now;
@@ -196,28 +175,24 @@ namespace Benchmarker.MVVM.ViewModel
 
         public void StopBenchmark()
         {
-            if (_timer == null || !_timer.IsEnabled || ticksChecked == 0)
+            if (_timer == null || !_timer.IsEnabled || ticksChecked <= 0)
                 return;
 
             _timer.Stop();
 
-            double avgCPUPercent = CalculateAvg(_historyCPU);
-            double avgMemoryPercent = CalculateAvg(_historyMemory);
-            double avgDiskPercent = CalculateAvg(_historyDisk);
-
-            int energy = (int)(((100 - avgCPUPercent) * 1.5 +
-                            (100 - avgMemoryPercent) * 0.75 +
-                            (100 - avgDiskPercent) * 0.25) *
+            int energy = (int)(((100 - cpuService.average) * 1.5 +
+                            (100 - memoryService.average) * 0.75 +
+                            (100 - diskService.average) * 0.25) *
                             12 * new Random().NextDouble() * 0.5 + 0.75);
 
             var benchmark = new Benchmark()
             {
                 Date = DateTime.Now,
                 Process = appName,
-                CPU = Math.Round(avgCPUPercent, 2),
-                RAM = Math.Round(avgMemoryPercent, 2),
+                CPU = Math.Round(cpuService.average, 2),
+                RAM = Math.Round(memoryService.average, 2),
                 Energy = energy,
-                Disk = Math.Round(avgDiskPercent, 2)
+                Disk = Math.Round(diskService.average, 2)
             };
 
             if (UserInfo.Settings.agreedToDataSharing)
@@ -226,21 +201,6 @@ namespace Benchmarker.MVVM.ViewModel
             }
 
             HistoryService.AddBenchmark(benchmark);
-        }
-
-        private string GetGraphString(IEnumerable<double> y, double graphHeight)
-        {
-            double maxValue = y.Max();
-            if (maxValue <= 0) maxValue = 0.0001;
-            double heightRatio = graphHeight / maxValue;
-            var builder = new StringBuilder();
-            for (int i = 0; i < y.Count(); i++)
-            {
-                double yPos = (maxValue - y.ElementAt(i)) * heightRatio;
-                string yPosWithDot = yPos.ToString().Replace(",", ".");
-                builder.Append(i + "," + yPosWithDot + " ");
-            }
-            return builder.ToString();
         }
     }
 }

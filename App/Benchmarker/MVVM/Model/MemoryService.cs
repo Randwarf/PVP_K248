@@ -6,7 +6,7 @@ using Microsoft.VisualBasic.Devices;
 
 namespace Benchmarker.MVVM.Model
 {
-    internal class MemoryService
+    internal class MemoryService : GraphableService
     {
         private readonly Process process;
         private List<Process> processes;
@@ -14,14 +14,14 @@ namespace Benchmarker.MVVM.Model
 
         private double memoryInDevice;
 
-        public MemoryService(Process process)
+        public MemoryService(Process process) : base(280)
         {
             this.process = process;
             monitorType = Type.Single;
             Initialize();
         }
 
-        public MemoryService(List<Process> processes)
+        public MemoryService(List<Process> processes) : base(280)
         {
             this.processes = processes;
             monitorType = Type.List;
@@ -31,6 +31,11 @@ namespace Benchmarker.MVVM.Model
         private void Initialize()
         {
             memoryInDevice = new ComputerInfo().TotalPhysicalMemory;// / Math.Pow(1024, 3);
+        }
+
+        protected override double getRawNext()
+        {
+            return GetPercentage();
         }
 
         public double GetPercentage()
