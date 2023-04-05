@@ -30,15 +30,20 @@ class Database:
     def select_data(self, table_name, columns='*', where=None, groupby=None, orderby=None, limit=None):
         cursor = self.new_cursor()
         sql = f"SELECT {columns} FROM {table_name}"
+        params = []
         if where:
-            sql += f" WHERE {where}"
+            sql += f" WHERE ?"
+            params.append(where)
         if groupby:
-            sql += f" GROUP BY {groupby}"
+            sql += f" GROUP BY ?"
+            params.append(groupby)
         if orderby:
-            sql += f" ORDER BY {orderby}"
+            sql += f" ORDER BY ?"
+            params.append(orderby)
         if limit:
-            sql += f" LIMIT {limit}"
-        cursor.execute(sql)
+            sql += f" LIMIT ?"
+            params.append(limit)
+        cursor.execute(sql, params)
         rows = cursor.fetchall()
         cursor.close()
         return rows

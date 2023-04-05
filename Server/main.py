@@ -1,10 +1,12 @@
+import bcrypt
 from flask import Flask, jsonify, request
 from database import Database
 from compare import calc_diff_percentages
 app = Flask(__name__)
 
 database = Database("../Database/temp_db.db")
-required_args = ["date", "process", "cpu", "disk", "ram", "energy", "ip"]
+required_benchmark_args = ["date", "process", "cpu", "disk", "ram", "energy", "ip"]
+required_user_args = ["email", "password", "isPremium"]
 
 @app.route("/save-benchmark", methods=["POST"])
 def save_benchmark():
@@ -15,7 +17,7 @@ def save_benchmark():
     args_json = request.json
     benchmark_object = {}
 
-    for arg in required_args:
+    for arg in required_benchmark_args:
         if arg not in args_json:
             return jsonify({"code": "422", "message": "Not enough parameters"}), 422
 
@@ -101,6 +103,57 @@ def get_overall_stats():
     db_result = jsonify(db_result)
     db_result.headers.add('Access-Control-Allow-Origin', '*')
     return db_result
+
+@app.route("/create-user", methods=["POST"])
+def create_user():
+    content_type = request.headers.get('Content-Type')
+    if "application/json" not in content_type:
+        return jsonify({"code": "415", "message": "Unsupported media type"}), 415
+
+    args_json = request.json
+    user_object = {}
+
+    for arg in required_user_args:
+        if arg not in args_json:
+            return jsonify({"code": "422", "message": "Not enough parameters"}), 422
+        
+        user_object[arg] = args_json[arg]
+    
+    registered_user = database.select_data("users", where=f"email = {user_object['email']}")
+    if len(registered_user) != 0:
+        return jsonify({"code": "200", "message": "User with this email is already registered"}), 200
+
+    password = user_object['password']
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password_bytes, salt)
+    user_object['password'] = hashed_password
+    
+    database.insert_data("users", user_object)
+
+    return jsonify({"code": "200", "message": "User created sucessfully"}), 200
+
+@app.route("/get-user", methods=["GET"])
+def get_user():
+    args = request.args
+    
+    if "id" not in args.keys():
+        return jsonify({"code": "422", "message": "Not enough parameters - 'id'"}), 422
+
+    id = int(args["id"])
+
+    db_result = database.select_data("users", where=f"id = {id}")
+
+    if db_result == None:
+        return jsonify({"code": "404", "message": "Resource with specified index was not found"})
+
+    return jsonify(db_result[0])
+
+@app.route("/get-users", methods=["GET"])
+def get_users():
+    db_result = database.select_data("users")
+
+    return jsonify(db_result)
 
 if __name__ == "__main__":
     app.run()

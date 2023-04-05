@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Benchmarker.MVVM.Model;
+using Benchmarker.MVVM.Model.Database;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,14 +23,57 @@ namespace Benchmarker.MVVM.View
     /// </summary>
     public partial class AccountView : UserControl
     {
+        private IUserRepository userRepository;
+
         public AccountView()
         {
             InitializeComponent();
+
+            userRepository = new UserRepository();
         }
 
-        public void Register_OnClick(object sender, RoutedEventArgs e)
+        public async void Register_OnClick(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Register: " + EmailText.Text + " " + PasswordText.Password);
+
+            if (string.IsNullOrWhiteSpace(EmailText.Text))
+            {
+                Console.WriteLine("Email can't be empty");
+                return;
+            }
+
+            if (!EmailText.Text.Contains("@"))
+            {
+                Console.WriteLine("Incorrect email");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(PasswordText.Password))
+            {
+                Console.WriteLine("Password can't be empty");
+                return;
+            }
+
+            var user = new User
+            {
+                Email = EmailText.Text,
+                Password = PasswordText.Password,
+                IsPremium = false
+            };
+
+            var users = await userRepository.GetAllUsers();
+            var registeredUser = users.Where(x => x.Email == user.Email).FirstOrDefault();
+
+            if (registeredUser != null)
+            {
+                Console.WriteLine("User with this email already exists");
+                return;
+            }
+
+            userRepository.InsertUser(user);
+
+            EmailText.Text = "";
+            PasswordText.Password = "";
         }
 
         public void Login_OnClick(object sender, RoutedEventArgs e)

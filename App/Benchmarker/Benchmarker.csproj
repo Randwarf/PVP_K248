@@ -70,6 +70,8 @@
     </Compile>
     <Compile Include="MVVM\Model\Benchmark.cs" />
     <Compile Include="MVVM\Model\BenchmarkCompareService.cs" />
+    <Compile Include="MVVM\Model\Database\IUserRepository.cs" />
+    <Compile Include="MVVM\Model\Database\UserRepository.cs" />
     <Compile Include="MVVM\Model\Deprecated\CPUServiceOld.cs" />
     <Compile Include="MVVM\Model\Database\BenchmarkRepository.cs" />
     <Compile Include="MVVM\Model\Database\IBenchmarkRepository.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="MVVM\Model\ProcessService.cs" />
     <Compile Include="MVVM\Model\CPUService.cs" />
     <Compile Include="MVVM\Model\Settings.cs" />
+    <Compile Include="MVVM\Model\User.cs" />
     <Compile Include="MVVM\Model\UserInfo.cs" />
     <Compile Include="MVVM\ViewModel\AccountViewModel.cs" />
     <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
