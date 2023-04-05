@@ -32,8 +32,11 @@ class Database:
         sql = f"SELECT {columns} FROM {table_name}"
         params = []
         if where:
-            sql += f" WHERE ?"
-            params.append(where)
+            parts = where.split('=')
+            column = parts[0].strip()
+            param = parts[1].strip()
+            sql += f" WHERE {column} = ?"
+            params.append(param)
         if groupby:
             sql += f" GROUP BY ?"
             params.append(groupby)

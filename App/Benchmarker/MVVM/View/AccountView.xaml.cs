@@ -1,20 +1,9 @@
 ﻿using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Benchmarker.MVVM.View
 {
@@ -34,8 +23,6 @@ namespace Benchmarker.MVVM.View
 
         public async void Register_OnClick(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Register: " + EmailText.Text + " " + PasswordText.Password);
-
             if (string.IsNullOrWhiteSpace(EmailText.Text))
             {
                 Console.WriteLine("Email can't be empty");
@@ -61,9 +48,8 @@ namespace Benchmarker.MVVM.View
                 IsPremium = false
             };
 
-            var users = await userRepository.GetAllUsers();
-            var registeredUser = users.Where(x => x.Email == user.Email).FirstOrDefault();
-
+            string email = EmailText.Text;
+            var registeredUser = await userRepository.GetUserByEmail(email);
             if (registeredUser != null)
             {
                 Console.WriteLine("User with this email already exists");
@@ -76,9 +62,43 @@ namespace Benchmarker.MVVM.View
             PasswordText.Password = "";
         }
 
-        public void Login_OnClick(object sender, RoutedEventArgs e)
+        public async void Login_OnClick(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Login");
+            if (string.IsNullOrWhiteSpace(EmailText.Text))
+            {
+                Console.WriteLine("Email can't be empty");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(PasswordText.Password))
+            {
+                Console.WriteLine("Password can't be empty");
+                return;
+            }
+
+            var user = new User
+            {
+                Email = EmailText.Text,
+                Password = PasswordText.Password,
+                IsPremium = false
+            };
+
+            string email = EmailText.Text;
+            var registeredUser = await userRepository.GetUserByEmail(email);
+            if (registeredUser == null)
+            {
+                Console.WriteLine("Account with this email was not found");
+                return;
+            }
+
+            var loggedInUser = await userRepository.Login(user);
+            if (loggedInUser == null)
+            {
+                Console.WriteLine("Wrong password");
+                return;
+            }
+
+            Console.WriteLine("Logged in");
         }
     }
 }

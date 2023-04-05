@@ -1,12 +1,13 @@
+import json
 import bcrypt
 from flask import Flask, jsonify, request
+from urllib.parse import unquote
 from database import Database
 from compare import calc_diff_percentages
 app = Flask(__name__)
 
 database = Database("../Database/temp_db.db")
 required_benchmark_args = ["date", "process", "cpu", "disk", "ram", "energy", "ip"]
-required_user_args = ["email", "password", "isPremium"]
 
 @app.route("/save-benchmark", methods=["POST"])
 def save_benchmark():
@@ -106,6 +107,8 @@ def get_overall_stats():
 
 @app.route("/create-user", methods=["POST"])
 def create_user():
+    required_user_args = ["email", "password", "isPremium"]
+
     content_type = request.headers.get('Content-Type')
     if "application/json" not in content_type:
         return jsonify({"code": "415", "message": "Unsupported media type"}), 415
@@ -118,7 +121,7 @@ def create_user():
             return jsonify({"code": "422", "message": "Not enough parameters"}), 422
         
         user_object[arg] = args_json[arg]
-    
+
     registered_user = database.select_data("users", where=f"email = {user_object['email']}")
     if len(registered_user) != 0:
         return jsonify({"code": "200", "message": "User with this email is already registered"}), 200
@@ -133,8 +136,8 @@ def create_user():
 
     return jsonify({"code": "200", "message": "User created sucessfully"}), 200
 
-@app.route("/get-user", methods=["GET"])
-def get_user():
+@app.route("/get-user-byid", methods=["GET"])
+def get_user_byid():
     args = request.args
     
     if "id" not in args.keys():
@@ -144,16 +147,70 @@ def get_user():
 
     db_result = database.select_data("users", where=f"id = {id}")
 
-    if db_result == None:
-        return jsonify({"code": "404", "message": "Resource with specified index was not found"})
+    if len(db_result) == 0:
+        return jsonify({"code": "404", "message": "Resource with specified id was not found"})
 
-    return jsonify(db_result[0])
+    user = db_result[0]
+    user['password'] = user['password'].decode('utf-8')
+    return jsonify(user)
+
+@app.route("/get-user-byemail", methods=["GET"])
+def get_user_byemail():
+    args = request.args
+    
+    if "email" not in args.keys():
+        return jsonify({"code": "422", "message": "Not enough parameters - 'email'"}), 422
+
+    email = unquote(args["email"])
+
+    db_result = database.select_data("users", where=f"email = {email}")
+
+    if len(db_result) == 0:
+        return jsonify({"code": "404", "message": "Resource with specified email was not found"})
+
+    user = db_result[0]
+    user['password'] = user['password'].decode('utf-8')
+    return jsonify(user)
 
 @app.route("/get-users", methods=["GET"])
 def get_users():
     db_result = database.select_data("users")
 
     return jsonify(db_result)
+
+@app.route("/login", methods=["POST"])
+def login():
+    required_user_args = ["email", "password"]
+
+    content_type = request.headers.get('Content-Type')
+    if "application/json" not in content_type:
+        return jsonify({"code": "415", "message": "Unsupported media type"}), 415
+
+    args_json = request.json
+    user_object = {}
+
+    for arg in required_user_args:
+        if arg not in args_json:
+            return jsonify({"code": "422", "message": "Not enough parameters"}), 422
+        
+        user_object[arg] = args_json[arg]
+
+    registered_users = database.select_data("users", where=f"email = {user_object['email']}")
+    if len(registered_users) == 0:
+        return jsonify({"code": "200", "message": "User with this email is not registered"}), 200
+    
+    registered_user = registered_users[0]
+    registered_password = registered_user['password']
+
+    password = user_object['password']
+    password_bytes = password.encode('utf-8')
+    login_successful = bcrypt.checkpw(password_bytes, registered_password)
+
+    if login_successful:
+        registered_user['password'] = registered_password.decode('utf-8')
+        return jsonify(registered_user), 200
+
+    return jsonify({"code": "200", "message": "Wrong password"}), 200
 
 if __name__ == "__main__":
     app.run()
