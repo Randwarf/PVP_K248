@@ -1,23 +1,22 @@
 ﻿using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
+using Benchmarker.MVVM.ViewModel.Account;
 using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Benchmarker.MVVM.View
+namespace Benchmarker.MVVM.View.Account
 {
     /// <summary>
-    /// Interaction logic for AccountView.xaml
+    /// Interaction logic for LoggedOutView.xaml
     /// </summary>
-    public partial class AccountView : UserControl
+    public partial class LoggedOutView : UserControl
     {
-        private IUserRepository userRepository;
+        private readonly IUserRepository userRepository;
 
-        public AccountView()
+        public LoggedOutView()
         {
             InitializeComponent();
-
             userRepository = new UserRepository();
         }
 
@@ -28,21 +27,18 @@ namespace Benchmarker.MVVM.View
 
             if (string.IsNullOrWhiteSpace(EmailText.Text))
             {
-                Console.WriteLine("Email can't be empty");
                 EmailError.Text = "Email can't be empty";
                 return;
             }
 
             if (!EmailText.Text.Contains("@"))
             {
-                Console.WriteLine("Incorrect email");
                 EmailError.Text = "Incorrect email";
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(PasswordText.Password))
             {
-                Console.WriteLine("Password can't be empty");
                 PasswordError.Text = "Password can't be empty";
                 return;
             }
@@ -58,7 +54,6 @@ namespace Benchmarker.MVVM.View
             var registeredUser = await userRepository.GetUserByEmail(email);
             if (registeredUser != null)
             {
-                Console.WriteLine("User with this email already exists");
                 EmailError.Text = "User with this email already exists";
                 return;
             }
@@ -69,6 +64,10 @@ namespace Benchmarker.MVVM.View
             PasswordText.Password = "";
             EmailError.Text = "";
             PasswordError.Text = "";
+
+            Console.WriteLine("Registered");
+
+            ((LoggedOutViewModel)DataContext).SwitchView.Execute(this);
         }
 
         public async void Login_OnClick(object sender, RoutedEventArgs e)
@@ -78,14 +77,12 @@ namespace Benchmarker.MVVM.View
 
             if (string.IsNullOrWhiteSpace(EmailText.Text))
             {
-                Console.WriteLine("Email can't be empty");
                 EmailError.Text = "Email can't be empty";
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(PasswordText.Password))
             {
-                Console.WriteLine("Password can't be empty");
                 PasswordError.Text = "Password can't be empty";
                 return;
             }
@@ -101,7 +98,6 @@ namespace Benchmarker.MVVM.View
             var registeredUser = await userRepository.GetUserByEmail(email);
             if (registeredUser == null)
             {
-                Console.WriteLine("Account with this email was not found");
                 EmailError.Text = "Account with this email was not found";
                 return;
             }
@@ -109,12 +105,12 @@ namespace Benchmarker.MVVM.View
             var loggedInUser = await userRepository.Login(user);
             if (loggedInUser == null)
             {
-                Console.WriteLine("Wrong password");
                 PasswordError.Text = "Wrong password";
                 return;
             }
 
             Console.WriteLine("Logged in");
+            ((LoggedOutViewModel)DataContext).SwitchView.Execute(this);
         }
     }
 }
