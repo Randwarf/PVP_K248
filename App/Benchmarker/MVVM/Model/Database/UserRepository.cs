@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Windows.Media.Animation;
 
 namespace Benchmarker.MVVM.Model.Database
 {
@@ -21,7 +19,7 @@ namespace Benchmarker.MVVM.Model.Database
         private const string GET_BY_EMAIL_ENDPOINT = "get-user-byemail";
         private const string LOGIN_ENDPOINT = "login";
 
-        private HttpClient client;
+        private readonly HttpClient client;
 
         public UserRepository()
         {
@@ -93,6 +91,12 @@ namespace Benchmarker.MVVM.Model.Database
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
+                dynamic dynamicResponse = JsonConvert.DeserializeObject<dynamic>(responseJson);
+                if (dynamicResponse["message"] == "Resource with specified id was not found")
+                {
+                    return null;
+                }
+
                 User user = JsonConvert.DeserializeObject<User>(responseJson);
                 return user;
             }
@@ -107,6 +111,12 @@ namespace Benchmarker.MVVM.Model.Database
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();
+                dynamic dynamicResponse = JsonConvert.DeserializeObject<dynamic>(responseJson);
+                if (dynamicResponse["message"] == "Resource with specified email was not found")
+                {
+                    return null;
+                }
+
                 User user = JsonConvert.DeserializeObject<User>(responseJson);
                 return user;
             }

@@ -11,8 +11,32 @@
         <StackPanel  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180">
             <TextBlock Margin="5,0" Text="Email"/>
             <TextBox Name="EmailText" Margin="5"/>
+            <TextBlock Name="EmailError" Foreground="Red" Margin="5,0,5,10" TextWrapping="Wrap">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=EmailError}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
             <TextBlock Margin="5,0" Text="Password"/>
             <PasswordBox Name="PasswordText" Margin="5"/>
+            <TextBlock Name="PasswordError" Foreground="Red" Margin="5,0,5,10" TextWrapping="Wrap">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=PasswordError}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Register" Margin="10" Padding="15, 5" FontSize="12" Click="Register_OnClick"/>
                 <Button Content="Log In" Margin="10" Padding="15, 5" FontSize="12" Click="Login_OnClick"/>

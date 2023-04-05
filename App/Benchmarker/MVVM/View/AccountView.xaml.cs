@@ -23,21 +23,27 @@ namespace Benchmarker.MVVM.View
 
         public async void Register_OnClick(object sender, RoutedEventArgs e)
         {
+            EmailError.Text = "";
+            PasswordError.Text = "";
+
             if (string.IsNullOrWhiteSpace(EmailText.Text))
             {
                 Console.WriteLine("Email can't be empty");
+                EmailError.Text = "Email can't be empty";
                 return;
             }
 
             if (!EmailText.Text.Contains("@"))
             {
                 Console.WriteLine("Incorrect email");
+                EmailError.Text = "Incorrect email";
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(PasswordText.Password))
             {
                 Console.WriteLine("Password can't be empty");
+                PasswordError.Text = "Password can't be empty";
                 return;
             }
 
@@ -53,6 +59,7 @@ namespace Benchmarker.MVVM.View
             if (registeredUser != null)
             {
                 Console.WriteLine("User with this email already exists");
+                EmailError.Text = "User with this email already exists";
                 return;
             }
 
@@ -60,19 +67,26 @@ namespace Benchmarker.MVVM.View
 
             EmailText.Text = "";
             PasswordText.Password = "";
+            EmailError.Text = "";
+            PasswordError.Text = "";
         }
 
         public async void Login_OnClick(object sender, RoutedEventArgs e)
         {
+            EmailError.Text = "";
+            PasswordError.Text = "";
+
             if (string.IsNullOrWhiteSpace(EmailText.Text))
             {
                 Console.WriteLine("Email can't be empty");
+                EmailError.Text = "Email can't be empty";
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(PasswordText.Password))
             {
                 Console.WriteLine("Password can't be empty");
+                PasswordError.Text = "Password can't be empty";
                 return;
             }
 
@@ -88,6 +102,7 @@ namespace Benchmarker.MVVM.View
             if (registeredUser == null)
             {
                 Console.WriteLine("Account with this email was not found");
+                EmailError.Text = "Account with this email was not found";
                 return;
             }
 
@@ -95,6 +110,7 @@ namespace Benchmarker.MVVM.View
             if (loggedInUser == null)
             {
                 Console.WriteLine("Wrong password");
+                PasswordError.Text = "Wrong password";
                 return;
             }
 
