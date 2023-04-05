@@ -20,6 +20,14 @@ namespace Benchmarker.MVVM.View.Account
             userRepository = new UserRepository();
         }
 
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                ((LoggedOutViewModel)DataContext).PasswordText = ((PasswordBox)sender).Password;
+            }
+        }
+
         public async void Register_OnClick(object sender, RoutedEventArgs e)
         {
             EmailError.Text = "";
@@ -67,7 +75,7 @@ namespace Benchmarker.MVVM.View.Account
 
             Console.WriteLine("Registered");
 
-            ((LoggedOutViewModel)DataContext).SwitchView.Execute(this);
+            ((LoggedOutViewModel)DataContext).SwitchViewCommand.Execute(this);
         }
 
         public async void Login_OnClick(object sender, RoutedEventArgs e)
@@ -110,7 +118,7 @@ namespace Benchmarker.MVVM.View.Account
             }
 
             Console.WriteLine("Logged in");
-            ((LoggedOutViewModel)DataContext).SwitchView.Execute(this);
+            ((LoggedOutViewModel)DataContext).SwitchViewCommand.Execute(this);
         }
     }
 }

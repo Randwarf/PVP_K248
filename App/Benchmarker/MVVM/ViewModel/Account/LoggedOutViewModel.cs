@@ -1,13 +1,16 @@
-﻿using Benchmarker.Core;
+﻿using System;
+using System.Web.UI.WebControls;
+using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
-using System;
 
 namespace Benchmarker.MVVM.ViewModel.Account
 {
     internal class LoggedOutViewModel : ObservableObject
     {
-        public RelayCommand SwitchView { get; set; }
+        public RelayCommand SwitchViewCommand { get; set; }
+        public RelayCommand RegisterCommand { get; set; }
+        public RelayCommand LoginCommand { get; set; }
 
         private readonly IUserRepository userRepository;
 
@@ -43,9 +46,19 @@ namespace Benchmarker.MVVM.ViewModel.Account
         public LoggedOutViewModel(RelayCommand switchView) {
             userRepository = new UserRepository();
 
-            SwitchView = new RelayCommand(o =>
+            SwitchViewCommand = new RelayCommand(o =>
             {
                 switchView.Execute(this);
+            });
+
+            RegisterCommand = new RelayCommand(o =>
+            {
+                Register();
+            });
+
+            LoginCommand = new RelayCommand(o =>
+            {
+                Login();
             });
         }
 
@@ -96,7 +109,50 @@ namespace Benchmarker.MVVM.ViewModel.Account
 
             Console.WriteLine("Registered");
 
-            SwitchView.Execute(this);
+            SwitchViewCommand.Execute(this);
+        }
+
+        public async void Login()
+        {
+            EmailError = "";
+            PasswordError = "";
+
+            if (string.IsNullOrWhiteSpace(EmailText))
+            {
+                EmailError = "Email can't be empty";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(PasswordText))
+            {
+                PasswordError = "Password can't be empty";
+                return;
+            }
+
+            var user = new User
+            {
+                Email = EmailText,
+                Password = PasswordText,
+                IsPremium = false
+            };
+
+            string email = EmailText;
+            var registeredUser = await userRepository.GetUserByEmail(email);
+            if (registeredUser == null)
+            {
+                EmailError = "Account with this email was not found";
+                return;
+            }
+
+            var loggedInUser = await userRepository.Login(user);
+            if (loggedInUser == null)
+            {
+                PasswordError = "Wrong password";
+                return;
+            }
+
+            Console.WriteLine("Logged in");
+            SwitchViewCommand.Execute(this);
         }
     }
 }
