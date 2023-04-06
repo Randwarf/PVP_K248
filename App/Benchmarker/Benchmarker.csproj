@@ -155,7 +155,9 @@
   <ItemGroup>
     <Compile Include="MVVM\Model\DiskService.cs" />
     <Compile Include="MVVM\Model\DTOs\HistoryBenchmark.cs" />
+    <Compile Include="MVVM\Model\GraphableService.cs" />
     <Compile Include="MVVM\Model\HistoryService.cs" />
+    <Compile Include="MVVM\Model\Interfaces\IGraphable.cs" />
     <Compile Include="MVVM\Model\MemoryService.cs" />
     <Compile Include="MVVM\Model\Deprecated\MemoryServiceOld.cs" />
     <Compile Include="MVVM\Model\ProcessService.cs" />
