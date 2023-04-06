@@ -8,8 +8,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="{Binding LoginMessage}" HorizontalAlignment="Center"/>
-            <Button Content="Logout" Margin="10" Padding="15, 5" FontSize="12" Command="{Binding LogoutCommand}"/>
+            <Label Content="{Binding LoginMessage}" 
+                   HorizontalAlignment="Center"
+                   FontSize="14"/>
+            <Button Content="Logout" Margin="10" Padding="15, 5" FontSize="14" Command="{Binding LogoutCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
