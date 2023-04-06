@@ -15,6 +15,8 @@ let appHeader = `
         <li class="nav-item">
             <a class="nav-link" href="apie.html">Apie</a>
         </li>
-    </ul>
+        <li class="nav-item">
+            <a class="nav-link" href="user.html">Vartotojas</a>
+        </ul>
 `;
 document.getElementById("header").innerHTML = appHeader;
