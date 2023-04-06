@@ -54,7 +54,7 @@ def get_app():
         process = args["process"]
         db_result = database.select_data("benchmarks",
                                   "process, COUNT(process) as count, round(AVG(cpu), 2) as cpu, round(AVG(disk), 2) as disk, round(AVG(ram), 2) as ram, round(AVG(energy), 2) as energy",
-                                  where=f"process='{process}'", 
+                                  where=f"process={process}", 
                                   groupby="process")
 
         if (len(db_result) == 0): # if the array is empty, the process is not in the database
