@@ -27,9 +27,10 @@ namespace Benchmarker.MVVM.ViewModel
         {
             SwitchLoggedInViewCommand = new RelayCommand(o =>
             {
+                LoggedInVM.RefreshData();
                 CurrentView = LoggedInVM;
             });
-
+            
             SwitchLoggedOutViewCommand = new RelayCommand(o =>
             {
                 CurrentView = LoggedOutVM;
