@@ -69,6 +69,7 @@
     <Compile Include="DataSharingPopUp.xaml.cs">
       <DependentUpon>DataSharingPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVVM\Model\AccountManager.cs" />
     <Compile Include="MVVM\Model\Benchmark.cs" />
     <Compile Include="MVVM\Model\BenchmarkCompareService.cs" />
     <Compile Include="MVVM\Model\Database\IUserRepository.cs" />

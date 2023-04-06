@@ -2,7 +2,7 @@
 
 namespace Benchmarker.MVVM.Model
 {
-    internal class User
+    public class User
     {
         [JsonProperty("id")]
         public int Id { get; set; }

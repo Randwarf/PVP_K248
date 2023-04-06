@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBox Text="Logged In"/>
-            <Button Content="Logout" Margin="10" Padding="15, 5" FontSize="12" Command="{Binding SwitchView}"/>
+            <Button Content="Logout" Margin="10" Padding="15, 5" FontSize="12" Command="{Binding LogoutCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

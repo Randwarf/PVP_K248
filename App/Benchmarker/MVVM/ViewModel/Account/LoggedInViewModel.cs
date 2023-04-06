@@ -1,17 +1,28 @@
 ﻿using Benchmarker.Core;
+using Benchmarker.MVVM.Model;
+using System.Diagnostics;
 
 namespace Benchmarker.MVVM.ViewModel.Account
 {
     internal class LoggedInViewModel
     {
-        public RelayCommand SwitchView { get; set; }
+        public RelayCommand SwitchViewCommand { get; set; }
+        public RelayCommand LogoutCommand { get; set; }
 
         public LoggedInViewModel(RelayCommand switchView)
         {
-            SwitchView = new RelayCommand(o =>
+            SwitchViewCommand = switchView;
+
+            LogoutCommand = new RelayCommand(o =>
             {
-                switchView.Execute(this);
+                Logout();
             });
+        }
+
+        public void Logout()
+        {
+            AccountManager.SetUser(null);
+            SwitchViewCommand.Execute(this);
         }
     }
 }

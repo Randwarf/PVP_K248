@@ -1,5 +1,4 @@
-﻿using System;
-using Benchmarker.Core;
+﻿using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
 
@@ -50,15 +49,9 @@ namespace Benchmarker.MVVM.ViewModel.Account
             set { passwordText = value; OnPropertyChanged(); }
         }
 
-
-
         public LoggedOutViewModel(RelayCommand switchView) {
             userRepository = new UserRepository();
-
-            SwitchViewCommand = new RelayCommand(o =>
-            {
-                switchView.Execute(this);
-            });
+            SwitchViewCommand = switchView;
 
             RegisterCommand = new RelayCommand(o =>
             {
@@ -103,6 +96,7 @@ namespace Benchmarker.MVVM.ViewModel.Account
             ResetInputs();
             IsInteractable = true;
 
+            AccountManager.SetUser(user);
             SwitchViewCommand.Execute(this);
         }
 
@@ -144,6 +138,7 @@ namespace Benchmarker.MVVM.ViewModel.Account
             ResetInputs();
             IsInteractable = true;
 
+            AccountManager.SetUser(loggedInUser);
             SwitchViewCommand.Execute(this);
         }
 
