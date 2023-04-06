@@ -20,13 +20,14 @@ if (isset($_POST['email'])){
 
     $data = array(
         "email" =>  $_POST['email'],
-        "password" => $_POST['password']
+        "password" => $_POST['password'],
+        "isPremium" => false
     );
     $data = json_encode($data);
 
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://127.0.0.1:5000/login",
+        CURLOPT_URL => "http://127.0.0.1:5000/create-user",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_POST => true,
@@ -39,17 +40,12 @@ if (isset($_POST['email'])){
 
     $response = curl_exec($curl);
     curl_close($curl);
-
+    echo $response;
     $response = json_decode($response);
-
+    
     if (isset($response->code)){
-        $ERROR = "NETEISINGI DUOMENYS";
+        $ERROR = $response->message;
     }
-    else{
-        $_SESSION['USERINFO'] = $response;
-        header("Location: /index.php");
-    }
-
 }
 
 ?>
@@ -57,7 +53,7 @@ if (isset($_POST['email'])){
 <main>
     <section class="main_info">
         <div class="main_header">
-                <h1 class="main_text">Prisijungimas</h1>
+                <h1 class="main_text">Registracija</h1>
         </div>
     </section>
 
@@ -66,13 +62,12 @@ if (isset($_POST['email'])){
             <form action="#" method="post">
                 <?php echo $ERROR;?>
                 <p>E-paštas</p>
-                <input type="text" name="email" placeholder="E-paštas">
+                <input type="email" name="email" placeholder="E-paštas" va>
 
                 <p>Slaptažodis</p>
 			    <input type="password" name="password" placeholder="Slaptažodis">
                 <br>
-                <button type ="submit">Prisijungti</button>
-		    	<a class ="regis" href = "signup.php"> Registruotis</a>
+                <button type ="submit">Registruotis</button>
             </form>
         </div>
     </section>

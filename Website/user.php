@@ -29,14 +29,9 @@ include("assets/include/header.php");
             <h1 class="main_text" id="username"><?php echo ($_SESSION['USERINFO']->email) ?></h1>
             <br></br>
             <p>
-                <b>Žaliasis programavimas</b> - tai programavimo metodas, kurio tikslas yra sukurti ne tik efektyvias programas, atliekančias savo funkciją, bet ir mažinti savo, kompiuterių ir kitų technologijų poveikį aplinkai.
+                <b>PREMIUM</b> - Vieta susimokėti? Benefits?.
             </p>
-            <p>
-                <b>Šis programavimo metodas tampa vis svarbesnis dėl kelių priežasčių.</b>
-                Pirmiausia, klimato kaita yra didelis ir visuotinis iššūkis visuomenei.
-                Kompiuteriai ir technologijos, kuriuos naudojame kasdien, sudaro didelę dalį mūsų ekologinio pėdsako, todėl mums reikia susitelkti į jų poveikio sumažinimą.
-                Be to, žaliasis programavimas taip pat gali padėti mažinti energijos sąnaudas ir sumažinti išlaidas, taigi tai yra pranašumas tiek ekologiniu, tiek ekonominiu požiūriu.
-            </p>
+
         </div>
     </section>
 
