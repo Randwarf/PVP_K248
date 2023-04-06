@@ -175,6 +175,9 @@ def get_user_byemail():
 @app.route("/get-users", methods=["GET"])
 def get_users():
     db_result = database.select_data("users")
+    
+    for result in db_result:
+        result["password"] = result['password'].decode('utf-8')
 
     return jsonify(db_result)
 
