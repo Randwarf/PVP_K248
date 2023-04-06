@@ -1,27 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Benchmarker.MVVM.Model
 {
     internal class GraphableService : IGraphable
     {
-        protected LinkedList<double> Values;
-        protected int NextCalls = 0;
         public double average { get; private set; }
         
-
+        protected LinkedList<double> Values;
+        protected int NextCalls = 0;
+        
         public GraphableService(int listSize = 100)
         {
             Values = new LinkedList<double>( Enumerable.Repeat(0.0, listSize) );
             average = 0;
         }
 
-        public void calculateNext()
+        public void CalculateNext()
         {
-            double valueToAdd = getRawNext(); 
+            double valueToAdd = GetRawNext(); 
             Values.AddLast(valueToAdd);
             Values.RemoveFirst();
             UpdateAverage(valueToAdd);
@@ -33,18 +31,19 @@ namespace Benchmarker.MVVM.Model
             NextCalls++;
         }
 
-        //Classes that inherit GraphableService class must overide gerRawNext method
-        protected virtual double getRawNext()
+        // Classes that inherit GraphableService class must overide gerRawNext method
+        protected virtual double GetRawNext()
         {
             return 1;
         }
 
-        public string getGraphString(int height, int width)
+        public string GetGraphString(int height, int width)
         {
             double maxValue = Values.Max();
             if (maxValue <= 0) maxValue = 0.0001;
             double heightRatio = (double)height / maxValue;
             double widthRatio = (double)width / Values.Count;
+
             var builder = new StringBuilder();
             for (int i = 0; i < Values.Count(); i++)
             {
@@ -55,15 +54,16 @@ namespace Benchmarker.MVVM.Model
                 string xPosWithDot = xPos.ToString().Replace(",", ".");
                 builder.Append(xPosWithDot + "," + yPosWithDot + " ");
             }
+
             return builder.ToString();
         }
 
-        public double getCurrentValue()
+        public double GetCurrentValue()
         {
             return Values.Last();
         }
 
-        public double getMaxValue()
+        public double GetMaxValue()
         {
             return Values.Max();
         }

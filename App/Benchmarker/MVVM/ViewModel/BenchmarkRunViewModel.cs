@@ -12,6 +12,8 @@ namespace Benchmarker.MVVM.ViewModel
 {
     internal class BenchmarkRunViewModel : ObservableObject
     {
+        private const int minBenchmarkTime = 30;
+
         private const int graphHeight = 130;
         private const int graphWidth = 280;
 
@@ -91,7 +93,7 @@ namespace Benchmarker.MVVM.ViewModel
         {
             get
             {
-                return cpuService.getGraphString(graphHeight, graphWidth);
+                return cpuService.GetGraphString(graphHeight, graphWidth);
             }
             set 
             {
@@ -103,7 +105,7 @@ namespace Benchmarker.MVVM.ViewModel
         {
             get
             {
-                return memoryService.getGraphString(graphHeight, graphWidth);
+                return memoryService.GetGraphString(graphHeight, graphWidth);
             }
             set
             {
@@ -115,7 +117,7 @@ namespace Benchmarker.MVVM.ViewModel
         {
             get
             {
-                return diskService.getGraphString(graphHeight, graphWidth);
+                return diskService.GetGraphString(graphHeight, graphWidth);
             }
             set
             {
@@ -150,23 +152,23 @@ namespace Benchmarker.MVVM.ViewModel
 
             if (elapsed.TotalSeconds > 0)
             {
-                cpuService.calculateNext();
-                memoryService.calculateNext();
-                diskService.calculateNext();
+                cpuService.CalculateNext();
+                memoryService.CalculateNext();
+                diskService.CalculateNext();
                 cpuGraph = "update"; //I hate this part but i am not sure how to do the whole property changed thing otherwise
                 memoryGraph = "update";
                 diskGraph = "update";
                 
                 cpuLabel = string.Format("CPU: {0}%. Max: {1:0.00}%", 
-                    cpuService.getCurrentValue(), 
-                    cpuService.getMaxValue());
+                    cpuService.GetCurrentValue(), 
+                    cpuService.GetMaxValue());
                 memoryLabel = string.Format("RAM: {0}% - {1:0.00}Mb. Max: {2:0.00}%", 
-                    memoryService.getCurrentValue(), 
+                    memoryService.GetCurrentValue(), 
                     memoryService.GetRawValue() / 1024, 
-                    memoryService.getMaxValue());
+                    memoryService.GetMaxValue());
                 diskLabel = string.Format("Disk: {0}Mb/s. Max:{1:0.00}Mb/s", 
-                    diskService.getCurrentValue(), 
-                    diskService.getMaxValue());
+                    diskService.GetCurrentValue(), 
+                    diskService.GetMaxValue());
             }
 
             prevCheck = DateTime.Now;
@@ -175,7 +177,7 @@ namespace Benchmarker.MVVM.ViewModel
 
         public void StopBenchmark()
         {
-            if (_timer == null || !_timer.IsEnabled || ticksChecked <= 0)
+            if (_timer == null || !_timer.IsEnabled || ticksChecked <= minBenchmarkTime)
                 return;
 
             _timer.Stop();

@@ -43,7 +43,7 @@ namespace Benchmarker.MVVM.Model
             monitorType = Type.List;
         }
 
-        protected override double getRawNext()
+        protected override double GetRawNext()
         {
             return GetRawValue();
         }

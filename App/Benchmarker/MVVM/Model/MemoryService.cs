@@ -33,7 +33,7 @@ namespace Benchmarker.MVVM.Model
             memoryInDevice = new ComputerInfo().TotalPhysicalMemory;// / Math.Pow(1024, 3);
         }
 
-        protected override double getRawNext()
+        protected override double GetRawNext()
         {
             return GetPercentage();
         }

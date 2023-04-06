@@ -29,7 +29,7 @@ internal class CPUService : GraphableService
         }
     }
 
-    protected override double getRawNext()
+    protected override double GetRawNext()
     {
         return GetPercentage();
     }
