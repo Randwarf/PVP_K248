@@ -38,14 +38,11 @@ class Database:
             sql += f" WHERE {column} = ?"
             params.append(param)
         if groupby:
-            sql += f" GROUP BY ?"
-            params.append(groupby)
+            sql += f" GROUP BY {groupby}"
         if orderby:
-            sql += f" ORDER BY ?"
-            params.append(orderby)
+            sql += f" ORDER BY {orderby}"
         if limit:
-            sql += f" LIMIT ?"
-            params.append(limit)
+            sql += f" LIMIT {limit}"
         cursor.execute(sql, params)
         rows = cursor.fetchall()
         cursor.close()

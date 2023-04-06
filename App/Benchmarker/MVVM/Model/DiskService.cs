@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Benchmarker.MVVM.Model
 {
-    internal class DiskService
+    internal class DiskService : GraphableService
     {
         private List<PerformanceCounter> performanceCounters;
         private readonly Type monitorType;
@@ -22,7 +22,7 @@ namespace Benchmarker.MVVM.Model
             Single,
             List
         }
-        public DiskService(Process process)
+        public DiskService(Process process) : base(280)
         {
             performanceCounters= new List<PerformanceCounter>();
             var performanceCounter = new PerformanceCounter("Process", "IO Data Bytes/sec", process.ProcessName);
@@ -31,7 +31,7 @@ namespace Benchmarker.MVVM.Model
             monitorType = Type.Single;
         }
 
-        public DiskService(List<Process> processes)
+        public DiskService(List<Process> processes) : base(280)
         {
             performanceCounters= new List<PerformanceCounter>();
             foreach (var process in processes)
@@ -41,6 +41,11 @@ namespace Benchmarker.MVVM.Model
             }
             this.processes = processes;
             monitorType = Type.List;
+        }
+
+        protected override double GetRawNext()
+        {
+            return GetRawValue();
         }
 
         public double GetRawValue()
