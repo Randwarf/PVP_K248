@@ -32,8 +32,8 @@ namespace Benchmarker.MVVM.Model.Database
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, LOGIN_ENDPOINT);
             request.Headers.Add("Accept", "application/json");
-            string benchmarkJson = JsonConvert.SerializeObject(user);
-            request.Content = new StringContent(benchmarkJson, Encoding.UTF8, "application/json");
+            string userJson = JsonConvert.SerializeObject(user);
+            request.Content = new StringContent(userJson, Encoding.UTF8, "application/json");
 
             try
             {
@@ -108,6 +108,7 @@ namespace Benchmarker.MVVM.Model.Database
         {
             var encodedEmail = HttpUtility.UrlEncode(email);
             HttpResponseMessage response = await client.GetAsync($"{GET_BY_EMAIL_ENDPOINT}?email={encodedEmail}");
+
             if (response.IsSuccessStatusCode)
             {
                 var responseJson = await response.Content.ReadAsStringAsync();

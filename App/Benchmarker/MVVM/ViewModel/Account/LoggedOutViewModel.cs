@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.UI.WebControls;
 using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
@@ -14,10 +13,18 @@ namespace Benchmarker.MVVM.ViewModel.Account
 
         private readonly IUserRepository userRepository;
 
+        private bool isInteractable = true;
+
         private string emailError;
         private string passwordError;
         private string emailText;
         private string passwordText;
+
+        public bool IsInteractable
+        {
+            get { return isInteractable; }
+            set { isInteractable = value; OnPropertyChanged(); }
+        }
 
         public string EmailError
         {
@@ -43,6 +50,8 @@ namespace Benchmarker.MVVM.ViewModel.Account
             set { passwordText = value; OnPropertyChanged(); }
         }
 
+
+
         public LoggedOutViewModel(RelayCommand switchView) {
             userRepository = new UserRepository();
 
@@ -64,24 +73,12 @@ namespace Benchmarker.MVVM.ViewModel.Account
 
         public async void Register()
         {
-            EmailError = "";
-            PasswordError = "";
+            IsInteractable = false;
+            ResetErrors();
 
-            if (string.IsNullOrWhiteSpace(EmailText))
+            if (!IsInputValid())
             {
-                EmailError = "Email can't be empty";
-                return;
-            }
-
-            if (!EmailText.Contains("@"))
-            {
-                EmailError = "Incorrect email";
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(PasswordText))
-            {
-                PasswordError = "Password can't be empty";
+                IsInteractable = true;
                 return;
             }
 
@@ -97,35 +94,26 @@ namespace Benchmarker.MVVM.ViewModel.Account
             if (registeredUser != null)
             {
                 EmailError = "User with this email already exists";
+                IsInteractable = true;
                 return;
             }
 
             userRepository.InsertUser(user);
 
-            EmailText = "";
-            PasswordText = "";
-            EmailError = "";
-            PasswordError = "";
-
-            Console.WriteLine("Registered");
+            ResetInputs();
+            IsInteractable = true;
 
             SwitchViewCommand.Execute(this);
         }
 
         public async void Login()
         {
-            EmailError = "";
-            PasswordError = "";
+            IsInteractable = false;
+            ResetErrors();
 
-            if (string.IsNullOrWhiteSpace(EmailText))
+            if (!IsInputValid())
             {
-                EmailError = "Email can't be empty";
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(PasswordText))
-            {
-                PasswordError = "Password can't be empty";
+                IsInteractable = true;
                 return;
             }
 
@@ -141,6 +129,7 @@ namespace Benchmarker.MVVM.ViewModel.Account
             if (registeredUser == null)
             {
                 EmailError = "Account with this email was not found";
+                IsInteractable = true;
                 return;
             }
 
@@ -148,11 +137,49 @@ namespace Benchmarker.MVVM.ViewModel.Account
             if (loggedInUser == null)
             {
                 PasswordError = "Wrong password";
+                IsInteractable = true;
                 return;
             }
 
-            Console.WriteLine("Logged in");
+            ResetInputs();
+            IsInteractable = true;
+
             SwitchViewCommand.Execute(this);
+        }
+
+        private bool IsInputValid()
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrWhiteSpace(EmailText))
+            {
+                EmailError = "Email can't be empty";
+                isValid = false;
+            } else if (!EmailText.Contains("@"))
+            {
+                EmailError = "Incorrect email";
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(PasswordText))
+            {
+                PasswordError = "Password can't be empty";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        private void ResetInputs()
+        {
+            EmailText = "";
+            PasswordText = "";
+        }
+
+        private void ResetErrors()
+        {
+            EmailError = "";
+            PasswordError = "";
         }
     }
 }

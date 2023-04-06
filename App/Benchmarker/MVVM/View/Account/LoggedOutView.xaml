@@ -36,7 +36,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" IsEnabled="{Binding IsInteractable}">
                 <Button Content="Register" Margin="10" Padding="15, 5" FontSize="12" Command="{Binding RegisterCommand}"/>
                 <Button Content="Log In" Margin="10" Padding="15, 5" FontSize="12" Command="{Binding LoginCommand}"/>
             </StackPanel>
