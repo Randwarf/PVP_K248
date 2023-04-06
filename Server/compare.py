@@ -34,11 +34,3 @@ def calc_diff_percentages(process1, process2):
         difference["better_process"] = "Equal"
     difference["avg_diff"] = round(avg_diff, 2)
     return difference
-
-
-
-
-
-
-
-

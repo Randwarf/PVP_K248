@@ -7,7 +7,7 @@ namespace Benchmarker.Database
     internal interface IBenchmarkRepository
     {
         Task<List<Benchmark>> GetAllBenchmarks();
-        Task<Benchmark> GetBenchmarkByID(int id);
+        Task<Benchmark> GetBenchmarkById(int id);
         void InsertBenchmark(Benchmark benchmark);
         void UpdateBenchmark(Benchmark benchmark);
         void DeleteBenchmark(int id);

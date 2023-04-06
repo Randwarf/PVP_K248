@@ -1,6 +1,5 @@
 import sqlite3
 
-
 class Database:
     def __init__(self, path):
         self.connection = sqlite3.connect(path, check_same_thread=False)
@@ -31,15 +30,23 @@ class Database:
     def select_data(self, table_name, columns='*', where=None, groupby=None, orderby=None, limit=None):
         cursor = self.new_cursor()
         sql = f"SELECT {columns} FROM {table_name}"
+        params = []
         if where:
-            sql += f" WHERE {where}"
+            parts = where.split('=')
+            column = parts[0].strip()
+            param = parts[1].strip()
+            sql += f" WHERE {column} = ?"
+            params.append(param)
         if groupby:
-            sql += f" GROUP BY {groupby}"
+            sql += f" GROUP BY ?"
+            params.append(groupby)
         if orderby:
-            sql += f" ORDER BY {orderby}"
+            sql += f" ORDER BY ?"
+            params.append(orderby)
         if limit:
-            sql += f" LIMIT {limit}"
-        cursor.execute(sql)
+            sql += f" LIMIT ?"
+            params.append(limit)
+        cursor.execute(sql, params)
         rows = cursor.fetchall()
         cursor.close()
         return rows

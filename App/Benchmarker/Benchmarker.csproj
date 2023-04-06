@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -68,8 +69,11 @@
     <Compile Include="DataSharingPopUp.xaml.cs">
       <DependentUpon>DataSharingPopUp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVVM\Model\AccountManager.cs" />
     <Compile Include="MVVM\Model\Benchmark.cs" />
     <Compile Include="MVVM\Model\BenchmarkCompareService.cs" />
+    <Compile Include="MVVM\Model\Database\IUserRepository.cs" />
+    <Compile Include="MVVM\Model\Database\UserRepository.cs" />
     <Compile Include="MVVM\Model\Deprecated\CPUServiceOld.cs" />
     <Compile Include="MVVM\Model\Database\BenchmarkRepository.cs" />
     <Compile Include="MVVM\Model\Database\IBenchmarkRepository.cs" />
@@ -95,15 +99,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MVVM\View\BenchmarkRunView.xaml">
+    <Page Include="MVVM\View\Account\AccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MVVM\View\BenchmarkStartView.xaml">
+    <Page Include="MVVM\View\Account\LoggedInView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MVVM\View\BenchmarkView.xaml">
+    <Page Include="MVVM\View\Account\LoggedOutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\Benchmark\BenchmarkRunView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\Benchmark\BenchmarkStartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\Benchmark\BenchmarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,21 +163,34 @@
     <Compile Include="MVVM\Model\ProcessService.cs" />
     <Compile Include="MVVM\Model\CPUService.cs" />
     <Compile Include="MVVM\Model\Settings.cs" />
+    <Compile Include="MVVM\Model\User.cs" />
     <Compile Include="MVVM\Model\UserInfo.cs" />
-    <Compile Include="MVVM\ViewModel\BenchmarkRunViewModel.cs" />
-    <Compile Include="MVVM\ViewModel\BenchmarkViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\Account\AccountViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\Account\LoggedInViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\Account\LoggedOutViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\Benchmark\BenchmarkRunViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\Benchmark\BenchmarkViewModel.cs" />
     <Compile Include="MVVM\ViewModel\CompareViewModel.cs" />
     <Compile Include="MVVM\ViewModel\HistoryViewModel.cs" />
-    <Compile Include="MVVM\ViewModel\BenchmarkStartViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\Benchmark\BenchmarkStartViewModel.cs" />
     <Compile Include="MVVM\ViewModel\MainViewModel.cs" />
     <Compile Include="MVVM\ViewModel\SettingsViewModel.cs" />
-    <Compile Include="MVVM\View\BenchmarkRunView.xaml.cs">
+    <Compile Include="MVVM\View\Account\AccountView.xaml.cs">
+      <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\Account\LoggedInView.xaml.cs">
+      <DependentUpon>LoggedInView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\Account\LoggedOutView.xaml.cs">
+      <DependentUpon>LoggedOutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\Benchmark\BenchmarkRunView.xaml.cs">
       <DependentUpon>BenchmarkRunView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MVVM\View\BenchmarkStartView.xaml.cs">
+    <Compile Include="MVVM\View\Benchmark\BenchmarkStartView.xaml.cs">
       <DependentUpon>BenchmarkStartView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MVVM\View\BenchmarkView.xaml.cs">
+    <Compile Include="MVVM\View\Benchmark\BenchmarkView.xaml.cs">
       <DependentUpon>BenchmarkView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\CompareView.xaml.cs">

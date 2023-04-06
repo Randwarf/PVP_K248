@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Benchmarker"
              xmlns:viewModel="clr-namespace:Benchmarker.MVVM.ViewModel"
+             xmlns:viewModelAccount="clr-namespace:Benchmarker.MVVM.ViewModel.Account"
              xmlns:view="clr-namespace:Benchmarker.MVVM.View"
+             xmlns:viewAccount="clr-namespace:Benchmarker.MVVM.View.Account"
              
              StartupUri="MainWindow.xaml">
     <Application.Resources>
@@ -36,6 +38,18 @@
 
             <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
                 <view:SettingsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:AccountViewModel}">
+                <view:AccountView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModelAccount:LoggedOutViewModel}">
+                <viewAccount:LoggedOutView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModelAccount:LoggedInViewModel}">
+                <viewAccount:LoggedInView/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

@@ -27,18 +27,26 @@ namespace Benchmarker.Database
 
         public async Task<List<Benchmark>> GetAllBenchmarks()
         {
-            HttpResponseMessage response = await client.GetAsync(GET_ENDPOINT);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                List<Benchmark> benchmarks = JsonConvert.DeserializeObject<List<Benchmark>>(responseJson);
-                return benchmarks;
+                HttpResponseMessage response = await client.GetAsync(GET_ENDPOINT);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseJson = await response.Content.ReadAsStringAsync();
+                    List<Benchmark> benchmarks = JsonConvert.DeserializeObject<List<Benchmark>>(responseJson);
+                    return benchmarks;
+                }
+
+                throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}");
+            } catch
+            {
+                Console.WriteLine("[API] API is down");
             }
 
-            throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}");
+            return new List<Benchmark>();
         }
 
-        public async Task<Benchmark> GetBenchmarkByID(int id)
+        public async Task<Benchmark> GetBenchmarkById(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{GET_ENDPOINT}?id={id}");
             if (response.IsSuccessStatusCode)
