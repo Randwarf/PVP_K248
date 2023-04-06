@@ -2,15 +2,16 @@
 using System.Diagnostics;
 using System;
 using System.Linq;
+using Benchmarker.MVVM.Model;
 
-internal class CPUService
+internal class CPUService : GraphableService
 {
     private List<Process> processes;
 
     private List<TimeSpan> previousCPUTimes;
     private DateTime previousCheckTime;
 
-    public CPUService(List<Process> processes)
+    public CPUService(List<Process> processes) : base(280)
     {
         this.processes = processes;
         
@@ -28,7 +29,12 @@ internal class CPUService
         }
     }
 
-    public double GetPercentage()
+    protected override double GetRawNext()
+    {
+        return GetPercentage();
+    }
+
+    private double GetPercentage()
     {
         processes = processes.Where(x => x.HasExited == false).ToList();
 

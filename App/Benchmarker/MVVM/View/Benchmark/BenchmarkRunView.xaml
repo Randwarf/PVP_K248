@@ -50,7 +50,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{Binding currentCPU}"
+                    <TextBlock Text="{Binding cpuLabel}"
                        FontSize="22"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
@@ -59,13 +59,13 @@
                                     Height="150"
                                     Background="#f2f2f2"
                                     CornerRadius="10">
-                        <Polyline Points="{Binding historyCPU}"
+                        <Polyline Points="{Binding cpuGraph}"
                           Stroke="Black"
                           StrokeThickness="2" 
                           Margin="10,10,10,10"/>
                     </Border>
 
-                    <TextBlock Text="{Binding currentMemory}"
+                    <TextBlock Text="{Binding memoryLabel}"
                        FontSize="22"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
@@ -77,7 +77,7 @@
                     Height="150"
                     Background="#f2f2f2"
                     CornerRadius="10">
-                        <Polyline Points="{Binding historyMemory}"
+                        <Polyline Points="{Binding memoryGraph}"
                           Stroke="Black"
                           StrokeThickness="2" 
                           Margin="10,10,10,10"/>
@@ -97,7 +97,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                        <TextBlock Text="{Binding currentDisk}"
+                        <TextBlock Text="{Binding diskLabel}"
                        FontSize="22"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
@@ -106,7 +106,7 @@
                     Background="#f2f2f2"
                     CornerRadius="10"
                             Grid.Row="1">
-                        <Polyline Points="{Binding historyDisk}"
+                        <Polyline Points="{Binding diskGraph}"
                           Stroke="Black"
                           StrokeThickness="2" 
                           Margin="10,10,10,10"/>
