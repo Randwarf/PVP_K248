@@ -20,13 +20,13 @@ include("assets/include/header.php");
 
     <section class="main_info">
         <div class="main_header">
-                <h1 class="main_text">Vartotojas</h1>
+                <h1 class="main_text">Naudotojas</h1>
         </div>
     </section>
 
     <section class="main_header">
         <div class="container">
-            <h1 class="main_text" id="username"></h1>
+            <h1 class="main_text" id="username"><?php echo ($_SESSION['USERINFO']->email) ?></h1>
             <br></br>
             <p>
                 <b>Žaliasis programavimas</b> - tai programavimo metodas, kurio tikslas yra sukurti ne tik efektyvias programas, atliekančias savo funkciją, bet ir mažinti savo, kompiuterių ir kitų technologijų poveikį aplinkai.
@@ -41,30 +41,6 @@ include("assets/include/header.php");
     </section>
 
 </main>
-
-<script>
-    today = new Date();
-    var expire = new Date();
-    expire.setTime(today.getTime() + 1000*60*60*24*3); //3 dienas
-    //user_id="MATVAI:)"
-    document.cookie = "user_id=" + "MATVAI" + "; path=/" + "; expires="+expire.toUTCString();
-    console.log("user_id=" + "MATVAI" + "; path=/" + "; expires="+expire.toUTCString());
-
-
-    user_id="NULL"
-    console.log(document.cookie);
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].trim();
-        console.log(cookie);
-        if (cookie.startsWith("user_id=")) {
-            user_id = cookie.substring("user_id=".length, cookie.length);
-            break;
-        }
-}
-    document.getElementById("username").innerHTML = user_id;
-
-</script>
 
 <header class="page-header header container-fluid">
 </header>
