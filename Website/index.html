@@ -42,7 +42,8 @@
     <section class="main_info">
         <div class="main_header">
                 <h1 class="main_text">Programų ištestavimas</h1>
-                <a class="btn btn-warning" onclick="location.href='assets/app/Benchmarkerv02.zip'" role="button" download>Atsisiųsti nemokamą programą</a>
+                <a id="download-latest-version" class="btn btn-warning" role="button" download>Atsisiųsti nemokamą programą</a>
+                <a id="version-history" class="btn btn-warning" onclick="location.href='version-history.html'" role="button" download>Versijų istorija</a>
         </div>
     </section>
 
@@ -69,7 +70,7 @@
                     <div class="card" style="width: 14rem;">
                         <div class="card-body">
                             <h5 id="unique-users-count" class="card-title"></h5>
-                            <p class="card-text">Unikalūs kompiuteriai</p>
+                            <p class="card-text">Unikalūs naudotojai</p>
                         </div>
                     </div>
                 </div>
@@ -93,22 +94,30 @@
         </div>
     </section>
     <script>
-        var appCountCard = $("#tested-apps-count");
-        var testCountCard = $("#tests-count");
-        var usersCard = $("#unique-users-count");
+        $(document).ready(function() {
+            var appCountCard = $("#tested-apps-count");
+            var testCountCard = $("#tests-count");
+            var usersCard = $("#unique-users-count");
 
-        var endpointUrl = "http://127.0.0.1:5000/get-overall-stats"
-        $.get(endpointUrl, function(response)
-        {
-            response = response[0];
-            appCountCard.append(response.apps_count);
-            testCountCard.append(response.tests_count);
-            usersCard.append(response.users_count)
-        }).fail(function()
-        {
-            appCountCard.append("0");
-            testCountCard.append("0");
-            usersCard.append("0")
+            var endpointUrl = "http://127.0.0.1:5000/get-overall-stats"
+            $.get(endpointUrl, function (response) {
+                response = response[0];
+                appCountCard.append(response.apps_count);
+                testCountCard.append(response.tests_count);
+                usersCard.append(response.users_count)
+            }).fail(function () {
+                appCountCard.append("0");
+                testCountCard.append("0");
+                usersCard.append("0")
+            });
+
+            var endpointUrl = "http://127.0.0.1:5000/get-main-app-history"
+            var queryParams = {latest: ""};
+            var downloadButton = $("#download-latest-version");
+            $.get(endpointUrl, queryParams, function (response) {
+                response = response[0];
+                downloadButton.attr("onclick", "location.href='" + response.dllink + "'");
+            })
         });
     </script>
 </main>
