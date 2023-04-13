@@ -40,6 +40,10 @@ body {
     font-weight: bold;
     font-size: 45px;
 }
+.secondary_text {
+    font-weight: bold;
+    font-size: 19px;
+}
 .info_cards {
     margin: 0 auto;
     width: 60% !important;
