@@ -10,80 +10,114 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
-        BorderBrush="Black"
+        BorderBrush="#a9a9a9"
         BorderThickness="0.5"
         AllowsTransparency="True">
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Border Background="White">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="34" />\\mac\home\desktop\uni\3 kursas\6 semestras\produkto vystymo projektas\pvp_k248\app\benchmarker\mainwindow.xaml
+\\mac\home\desktop\uni\3 kursas\6 semestras\produkto vystymo projektas\pvp_k248\app\benchmarker\mainwindow.xaml.cs
+
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/TitleBarTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <!--Title bar button commands-->
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
+    </Window.CommandBindings>
+
+    <Border x:Name="MainWindowBorder" BorderBrush="#a9a9a9" BorderThickness="0" >
+        <Grid x:Name="parentContainer">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
-                <RowDefinition/>
+                <RowDefinition Height ="Auto"/>
+                <RowDefinition Height ="*"/>
             </Grid.RowDefinitions>
 
+            <!--Window chrome / title bar-->
+            <Grid Grid.Row="0" Height="30" Background="#f2f2f2" x:Name="TitleBar">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Image Source="/icon.png" Width="35" Margin="2" VerticalAlignment="Center" />
+                        <TextBlock Text="Benchmarker" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </StackPanel>
 
-            <Border Grid.Row="0" BorderThickness="0 0 0 0.5" BorderBrush="#a9a9a9" Grid.ColumnSpan="2">
-                <StackPanel Grid.Row="0" Background="#f2f2f2">
-                    <TextBlock Text="Benchmarker"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       FontSize="22"
-                       FontWeight="Bold"
-                       Margin="30,22,0,0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                    <Button Style="{StaticResource MinimizeButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Minimize"
+                            Command="{x:Static SystemCommands.MinimizeWindowCommand}"/>
+                    <Button x:Name="RestoreButton" Visibility="Collapsed" Style="{StaticResource RestoreButtonStyle}" 
+                            Command="{x:Static SystemCommands.RestoreWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Restore"/>
+                    <Button x:Name="MaximizeButton" Visibility="Visible" Style="{StaticResource MaximizeButtonStyle}" 
+                            Command="{x:Static SystemCommands.MaximizeWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Maximize" />
+                    <Button Style="{StaticResource CloseButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Close"
+                            Command="{x:Static SystemCommands.CloseWindowCommand}"/>
                 </StackPanel>
-            </Border>
+            </Grid>
 
-            <Border Grid.Row="1" BorderThickness="0 0 0.5 0" BorderBrush="#a9a9a9">
+            <Border BorderThickness="0 0 0 0.5" BorderBrush="#a9a9a9" Margin="200 0 0 0"></Border>
 
-                <StackPanel Background="#f2f2f2" Grid.ColumnSpan="1">
-                    <RadioButton Content="Start"
+            <!--App content-->
+            <Grid Grid.Row="1" x:Name="AppArea">
+                <Border Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border BorderThickness="0 0 0.5 0" BorderBrush="#a9a9a9" Grid.RowSpan="2">
+
+                            <StackPanel Background="#f2f2f2" Grid.ColumnSpan="1" Margin="0,-1,0,0">
+                                <RadioButton Content="Start"
                              Height="50"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
                              Command="{Binding BenchmarkViewCommand}"/>
-                    <RadioButton Content="History"
+                                <RadioButton Content="History"
                              Height="50"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding HistoryViewCommand}" Checked="RadioButton_Checked"/>
-                    <RadioButton Content="Compare"
+                                <RadioButton Content="Compare"
                              Height="50"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CompareViewCommand}"/>
-                    <RadioButton Content="Settings"
+                                <RadioButton Content="Settings"
                              Height="50"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding SettingsViewCommand}"/>
-                    <RadioButton Content="Account"
+                                <RadioButton Content="Account"
                              Height="50"
                              FontSize="14"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding AccountViewCommand}"/>
-                </StackPanel>
-            </Border>
-            <Button Width="50"
-                    Height="28"
-                    Grid.Column="1"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,0,47"
-                    Command="{Binding ExitCommand}">
-                X</Button>
+                            </StackPanel>
+                        </Border>
 
-            <ContentControl Grid.Row="1"
+                        <ContentControl
                             Grid.Column="1"
-                            Margin="10"
+                            Margin="10,10,10,10"
                             Content="{Binding CurrentView}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
         </Grid>
     </Border>
 </Window>
