@@ -15,32 +15,9 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm">
-    <img src="assets/img/logo.jpg" class="logo" alt="Logo">
-    <a class="navbar-brand" href="index.html" style="font-weight: bold; font-size: 25px">eko-logika</a>
-    <button class="navbar-toggler navbar-light" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="main-navigation">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">Pradžia</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="popular.html">Populiariausi</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="compare.html">Palygink</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="dokumentacija.html">Dokumentacija</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="apie.html">Apie</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<?php 
+include("assets/include/header.php");
+?>
 
 <main>
 
@@ -102,7 +79,7 @@
                         $('#submit-button').on('click', function() {
                             var selectedValue = $('#mySelect').val(); // get the selected value from the dropdown list
                             $('#input-field').val(selectedValue); // set the value of the input field
-                            var url = "app-stats.html?process=" + encodeURIComponent(selectedValue);
+                            var url = "app-stats.php?process=" + encodeURIComponent(selectedValue);
 
                             // Redirect to next page
                             window.location.href = url;
@@ -131,7 +108,7 @@
                 response.forEach(function(row) {
                     var cardDiv = $("<div>").addClass("col-sm-12 col-md-6 col-lg-6 mb-4");
                     var card = $("<div>").addClass("card h-100 popular-card").css("min-width", "0");
-                    var cardBody = $("<div>").addClass("card-body d-flex flex-column justify-content-center").html("<a href='app-stats.html?process=" + row.process + "' class=\"stretched-link\"></a>");
+                    var cardBody = $("<div>").addClass("card-body d-flex flex-column justify-content-center").html("<a href='app-stats.php?process=" + row.process + "' class=\"stretched-link\"></a>");
                     var cardTitle = $("<h5>").addClass("card-title").text(row.process).css("font-size", "24px");
                     var cardText = $("<p>").addClass("card-text").text("atlikti ištestavimai: " + row.count).css("font-size", "10px").css("text-align", "right");
 
