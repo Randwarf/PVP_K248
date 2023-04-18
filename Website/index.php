@@ -19,8 +19,8 @@ include("assets/include/header.php");
     <section class="main_info">
         <div class="main_header">
                 <h1 class="main_text">Programų ištestavimas</h1>
-                <a id="download-latest-version" class="btn btn-warning" role="button" download>Atsisiųsti nemokamą programą</a>
-                <a id="version-history" class="btn btn-warning" onclick="location.href='version-history.html'" role="button" download>Versijų istorija</a>
+                <a id="download-latest-version" class="btn btn-warning" role="button" href="download.php">Atsisiųsti nemokamą programą</a>
+                <a id="version-history" class="btn btn-warning" onclick="location.href='version-history.html'" role="button">Versijų istorija</a>
         </div>
     </section>
 
