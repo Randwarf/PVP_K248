@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Benchmarker.MVVM.Model
 {
-    internal class GraphableService : IGraphable
+    public class GraphableService : IGraphable
     {
         public double average { get; private set; }
         

@@ -185,7 +185,7 @@ namespace Benchmarker.MVVM.ViewModel
             int energy = (int)(((100 - cpuService.average) * 1.5 +
                             (100 - memoryService.average) * 0.75 +
                             (100 - diskService.average) * 0.25) *
-                            12 * new Random().NextDouble() * 0.5 + 0.75);
+                            12);
 
             var benchmark = new Benchmark()
             {
@@ -194,7 +194,8 @@ namespace Benchmarker.MVVM.ViewModel
                 CPU = Math.Round(cpuService.average, 2),
                 RAM = Math.Round(memoryService.average, 2),
                 Energy = energy,
-                Disk = Math.Round(diskService.average, 2)
+                Disk = Math.Round(diskService.average, 2),
+                IP = UserInfo.IPAdress
             };
 
             if (UserInfo.Settings.agreedToDataSharing)
