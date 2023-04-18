@@ -48,12 +48,14 @@ class Database:
         cursor.close()
         return rows
 
-    def update_data(self, table_name, data, where):
-        set_data = ', '.join([f"{key} = ?" for key in data])
-        sql = f"UPDATE {table_name} SET {set_data} WHERE {where}"
-        self.cursor.execute(sql, tuple(data.values()))
+    def update_data(self, table_name, data, condition, condition_values):
+        set_values = ', '.join([f"{key} = ?" for key in data.keys()])
+        sql = f"UPDATE {table_name} SET {set_values} WHERE {condition}"
+        self.cursor.execute(sql, tuple(data.values()) + tuple(condition_values))
         self.connection.commit()
-        print(f"Data updated successfully in {table_name}.")
+        print(f"{self.cursor.rowcount} rows updated successfully in {table_name}.")
+        return self.cursor.rowcount
+
 
     def delete_data(self, table_name, where):
         sql = f"DELETE FROM {table_name} WHERE {where}"

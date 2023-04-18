@@ -1,4 +1,4 @@
-import json
+from datetime import date, datetime, timedelta
 import bcrypt
 from flask import Flask, jsonify, request
 from urllib.parse import unquote
@@ -120,7 +120,7 @@ def get_overall_stats():
 
 @app.route("/create-user", methods=["POST"])
 def create_user():
-    required_user_args = ["email", "password", "isPremium"]
+    required_user_args = ["email", "password"]
 
     content_type = request.headers.get('Content-Type')
     if "application/json" not in content_type:
@@ -227,6 +227,34 @@ def login():
         return jsonify(registered_user), 200
 
     return jsonify({"code": "200", "message": "Wrong password"}), 200
+
+@app.route("/make_premium", methods=["GET"])
+def make_premium():
+    args = request.args
+    
+    if "email" not in args.keys():
+        return jsonify({"code": "422", "message": "Not enough parameters - 'email'"}), 422
+    
+    buyers_email = args['email']
+    default_premium_length = 30
+    response = database.select_data('users', 'premiumEndDate', f'email = {buyers_email}')
+    premium_end_date = response[0]['premiumEndDate']
+    format_string = "%Y-%m-%d"
+
+    date_obj = datetime.strptime(premium_end_date, format_string).date()
+
+    if (date_obj >= date.today()):
+        date_str = (date_obj + timedelta(days=default_premium_length)).strftime(format_string)
+    else:
+        date_str = (date.today() + timedelta(days=default_premium_length)).strftime(format_string)
+
+    data = {
+        'premiumEndDate': date_str
+    }
+
+    database.update_data('users', data, 'email=?', [buyers_email])
+
+    return jsonify({"code": "200", "message": "Premium time added"}), 200
 
 if __name__ == "__main__":
     app.run()
