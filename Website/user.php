@@ -14,7 +14,7 @@
     //include('premium-membership/config.php');
     $productName = "Ekologika - Premium narystė";  
     $productID = "EKO1553"; 
-    $productPrice = 12.99;
+    $productPrice = 4.99;
     $currency = 'eur';
 
     $url = "http://127.0.0.1:5000/get-user-byemail?email=" . urlencode($_SESSION['USERINFO']->email);
