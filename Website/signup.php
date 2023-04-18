@@ -16,38 +16,43 @@ include("assets/include/header.php");
 
 $ERROR = "";
 
-if (isset($_POST['email'])){
+if (isset($_POST['register'])) {
+    if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email']) && !empty($_POST['password'])){
+        $data = array(
+            "email" =>  $_POST['email'],
+            "password" => $_POST['password'],
+            "isPremium" => false
+        );
+        $data = json_encode($data);
 
-    $data = array(
-        "email" =>  $_POST['email'],
-        "password" => $_POST['password'],
-        "isPremium" => false
-    );
-    $data = json_encode($data);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://127.0.0.1:5000/create-user",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Content-Length ".strlen($data)
+            )
+        ));
 
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://127.0.0.1:5000/create-user",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $data,
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            "Content-Length ".strlen($data)
-        )
-    ));
-
-    $response = curl_exec($curl);
-    curl_close($curl);
-    echo $response;
-    $response = json_decode($response);
-    
-    if (isset($response->code)){
-        $ERROR = $response->message;
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $response = json_decode($response);
+        
+        if (isset($response->code)){
+            $ERROR = $response->message;
+        }
+    } else {
+        if (empty($_POST['email'])) {
+            $ERROR = "Email cannot be empty";
+        } else if (empty($_POST['password'])) {
+            $ERROR = "Password cannot be empty";
+        }
     }
 }
-
 ?>
     
 <main>
@@ -67,7 +72,7 @@ if (isset($_POST['email'])){
                 <p>Slaptažodis</p>
 			    <input type="password" name="password" placeholder="Slaptažodis">
                 <br>
-                <button type ="submit">Registruotis</button>
+                <button name="register" type ="submit">Registruotis</button>
             </form>
         </div>
     </section>
