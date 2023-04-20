@@ -18,9 +18,7 @@
     </Window.DataContext>
 
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="34" />\\mac\home\desktop\uni\3 kursas\6 semestras\produkto vystymo projektas\pvp_k248\app\benchmarker\mainwindow.xaml
-\\mac\home\desktop\uni\3 kursas\6 semestras\produkto vystymo projektas\pvp_k248\app\benchmarker\mainwindow.xaml.cs
-
+        <WindowChrome CaptionHeight="34" />
     </WindowChrome.WindowChrome>
 
     <Window.Resources>
