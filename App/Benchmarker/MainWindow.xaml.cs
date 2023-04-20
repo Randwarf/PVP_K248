@@ -73,20 +73,20 @@ namespace Benchmarker
             SystemCommands.CloseWindow(this);
         }
 
-        // State change
+        // State change FOR LATER IMPLEMENTATION
         private void MainWindowStateChangeRaised(object sender, EventArgs e)
         {
             if (WindowState == WindowState.Maximized)
             {
                 MainWindowBorder.BorderThickness = new Thickness(8);
                 RestoreButton.Visibility = Visibility.Visible;
-                MaximizeButton.Visibility = Visibility.Collapsed;
+                //MaximizeButton.Visibility = Visibility.Collapsed;
             }
             else
             {
                 MainWindowBorder.BorderThickness = new Thickness(0);
                 RestoreButton.Visibility = Visibility.Collapsed;
-                MaximizeButton.Visibility = Visibility.Visible;
+                //MaximizeButton.Visibility = Visibility.Visible;
             }
         }
     }
