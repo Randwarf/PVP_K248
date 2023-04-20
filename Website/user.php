@@ -47,8 +47,6 @@
 </head>
 <body>
 
-<script async src="assets/scripts/header.js"></script>
-
 <?php 
     include("assets/include/header.php");
 ?>
