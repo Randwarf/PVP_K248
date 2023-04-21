@@ -85,9 +85,9 @@ def get_main_app_history():
     db_result = [{}]
     args = request.args
     if "latest" in args.keys():
-        db_result = database.select_data("app", orderby="date DESC", limit="1")
+        db_result = database.select_data("apps", orderby="date DESC", limit="1")
     else:
-        db_result = database.select_data("app")
+        db_result = database.select_data("apps")
     db_result = jsonify(db_result)
     db_result.headers.add('Access-Control-Allow-Origin', '*')
     return db_result
