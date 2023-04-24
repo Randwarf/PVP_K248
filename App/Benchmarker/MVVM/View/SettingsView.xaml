@@ -12,10 +12,18 @@
                         VerticalAlignment="Center">
                 <CheckBox VerticalAlignment="Center"
                           IsChecked="{Binding isSharing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock
-                           FontSize="16"
+                <TextBlock FontSize="16"
                            Margin="10">
                     I agree to share my benchmarking results and IP address
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <RadioButton Content="Light theme"
+                             Command="{Binding LightThemeCommand}"/>
+                <TextBlock FontSize="16"
+                           Margin="10">
+                    AAAA
                 </TextBlock>
             </StackPanel>
         </StackPanel>

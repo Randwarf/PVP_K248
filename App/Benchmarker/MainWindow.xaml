@@ -17,7 +17,7 @@
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Border Background="White">
+    <Border Style="{DynamicResource MainView}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -31,7 +31,8 @@
 
 
             <Border Grid.Row="0" BorderThickness="0 0 0 0.5" BorderBrush="#a9a9a9" Grid.ColumnSpan="2">
-                <StackPanel Grid.Row="0" Background="#f2f2f2">
+                <StackPanel Style="{DynamicResource MainViewPanel}"
+                            Grid.Row="0" >
                     <TextBlock Text="Benchmarker"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
@@ -43,7 +44,7 @@
 
             <Border Grid.Row="1" BorderThickness="0 0 0.5 0" BorderBrush="#a9a9a9">
 
-                <StackPanel Background="#f2f2f2" Grid.ColumnSpan="1">
+                <StackPanel Style="{DynamicResource MainViewPanel}" Grid.ColumnSpan="1">
                     <RadioButton Content="Start"
                              Height="50"
                              FontSize="14"

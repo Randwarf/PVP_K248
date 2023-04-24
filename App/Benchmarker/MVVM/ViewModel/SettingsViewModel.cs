@@ -25,6 +25,15 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
-        public SettingsViewModel() { }
+        public RelayCommand LightThemeCommand { get; set; }
+
+        public SettingsViewModel() 
+        {
+            LightThemeCommand = new RelayCommand(o =>
+            {
+                var Application = App.Current as App;
+                Application.ChangeTheme(new Uri("Theme/LightTheme.xaml", UriKind.Relative));
+            });
+        }
     }
 }
