@@ -26,14 +26,27 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
-        private int toggledIndex;
-        public bool[] isToggled
+        private int checkedIndex;
+        public bool[] IsChecked
         {
             get
             {
                 var bools = Enumerable.Repeat(false, 2).ToArray();
-                bools[toggledIndex] = true;
+                if (checkedIndex >= 0)
+                    bools[checkedIndex] = true;
                 return bools;
+            }
+        }
+
+        public bool[] IsEnabled
+        {
+            get
+            {
+                bool premium = false;
+                if (AccountManager.IsUserLoggedIn())
+                    premium = AccountManager.GetUser().IsPremium;
+                
+                return new bool[] { true, premium };
             }
         }
 
@@ -58,6 +71,14 @@ namespace Benchmarker.MVVM.ViewModel
         public SettingsViewModel()
         {
             GenerateCommands();
+            FindSelectedIndex();
+        }
+
+        private void FindSelectedIndex()
+        {
+            var selectedTheme = UserInfo.Settings.currentTheme;
+            checkedIndex = Array.IndexOf(PathNames, selectedTheme);
+
         }
 
         private void GenerateCommands()
@@ -66,9 +87,11 @@ namespace Benchmarker.MVVM.ViewModel
             for (int i = 0; i < PathNames.Length; i++)
             {
                 var theme = PathNames[i];
+                var index = i;
                 ThemeCommands[i] = new RelayCommand(o =>
                 {
                     ApplyTheme(theme);
+                    checkedIndex = index;
                 });
             }
         }

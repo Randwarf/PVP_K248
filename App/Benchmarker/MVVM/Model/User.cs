@@ -13,7 +13,14 @@ namespace Benchmarker.MVVM.Model
         [JsonProperty("password")]
         public string Password { get; set; }
         
-        [JsonProperty("isPremium")]
-        public bool IsPremium { get; set; }
+        public bool IsPremium {
+            get
+            {
+                return premiumEndDate != "1900-01-01";
+            }
+        }
+
+        [JsonProperty("premiumEndDate")]
+        public string premiumEndDate { get; set; }
     }
 }

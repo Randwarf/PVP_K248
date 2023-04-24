@@ -22,10 +22,14 @@
                 <RadioButton Content="{Binding ThemeNames[0]}"
                              Command="{Binding ThemeCommands[0]}"
                              FontSize="16"
+                             IsEnabled="{Binding IsEnabled[0]}"
+                             IsChecked="{Binding IsChecked[0]}"
                              Margin="0,0,10,0"/>
                 <RadioButton Content="{Binding ThemeNames[1]}"
                              Command="{Binding ThemeCommands[1]}"
-                             FontSize="16"/>
+                             FontSize="16"
+                             IsEnabled="{Binding IsEnabled[1]}"
+                             IsChecked="{Binding IsChecked[1]}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
