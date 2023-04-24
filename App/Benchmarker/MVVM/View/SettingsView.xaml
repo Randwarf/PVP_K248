@@ -19,12 +19,13 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         VerticalAlignment="Center">
-                <RadioButton Content="Light theme"
-                             Command="{Binding LightThemeCommand}"/>
-                <TextBlock FontSize="16"
-                           Margin="10">
-                    AAAA
-                </TextBlock>
+                <RadioButton Content="{Binding ThemeNames[0]}"
+                             Command="{Binding ThemeCommands[0]}"
+                             FontSize="16"
+                             Margin="0,0,10,0"/>
+                <RadioButton Content="{Binding ThemeNames[1]}"
+                             Command="{Binding ThemeCommands[1]}"
+                             FontSize="16"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -49,6 +49,14 @@ namespace Benchmarker.MVVM.ViewModel
             CurrentView = BenchmarkVM;
             CreateCommands();
             ValidateDataSharing();
+            LoadTheme();
+        }
+
+        private void LoadTheme()
+        {
+            var Application = App.Current as App;
+            var themePath = UserInfo.Settings.currentTheme;
+            Application.ChangeTheme(new Uri(themePath, UriKind.Relative));
         }
 
         private void ValidateDataSharing()
