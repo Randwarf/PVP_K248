@@ -9,27 +9,60 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
+        BorderBrush="#a9a9a9"
+        BorderThickness="0.5"
         AllowsTransparency="True">
-    <Border Background="White"
-            CornerRadius="10">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="34" />
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/TitleBarTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!--Title bar button commands-->
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <!--<CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />-->
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
+    </Window.CommandBindings>
+
+    <Border Background="White">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
-                <RowDefinition/>
+                <RowDefinition Height ="30.618"/>
+                <RowDefinition Height="569.382"/>
+                <RowDefinition Height ="*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" BorderThickness="0 0 0 0.5" BorderBrush="#a9a9a9" Grid.ColumnSpan="2">
-                <StackPanel Background="#f2f2f2">
-                    <TextBlock Text="Benchmarker"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       FontSize="22"
-                       FontWeight="Bold"
-                       Margin="20,20,0,0"/>
+            <!--Window chrome / title bar-->
+            <Grid Grid.Row="0" Height="30" Background="#f2f2f2" x:Name="TitleBar" Margin="0,0,0,1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Image Source="/icon.png" Width="35" Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="Benchmarker" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </StackPanel>
-            </Border>
 
-            <StackPanel Grid.Row="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                    <Button Style="{StaticResource MinimizeButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Minimize"
+                            Command="{x:Static SystemCommands.MinimizeWindowCommand}"/>
+                    <Button x:Name="RestoreButton" Visibility="Collapsed" Style="{StaticResource RestoreButtonStyle}" 
+                            Command="{x:Static SystemCommands.RestoreWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Restore"/>
+                    <!--<Button x:Name="MaximizeButton" Visibility="Visible" Style="{StaticResource MaximizeButtonStyle}" 
+                            Command="{x:Static SystemCommands.MaximizeWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Maximize" />-->
+                    <Button Style="{StaticResource CloseButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Close"
+                            Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+                </StackPanel>
+            </Grid>
+
+            <Border BorderThickness="0 0 0 0.5" BorderBrush="#a9a9a9" Margin="0,-539,0,569" Grid.RowSpan="2"/>
+
+            <StackPanel Margin="0,30,0,0" Grid.RowSpan="2">
                 <TextBlock Text="Do you agree to share your benchmarking results and IP address for further analysis?"
                            FontSize="24"
                            Margin="20,100,0,0"
