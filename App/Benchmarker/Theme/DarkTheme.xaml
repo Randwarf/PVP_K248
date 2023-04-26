@@ -109,6 +109,11 @@
         <Setter Property="Background" Value="#FF565454"/>
     </Style>
 
+    <Style TargetType="{x:Type Grid}"
+           x:Key="TitleBar">
+        <Setter Property="Background" Value="#FF565454"/>
+    </Style>
+
     <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
            TargetType="{x:Type RadioButton}"
            x:Key="MenuButtonTheme">
@@ -133,7 +138,7 @@
 
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="LightGreen"/>
+                <Setter Property="Background" Value="#FFAFAFAF"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">

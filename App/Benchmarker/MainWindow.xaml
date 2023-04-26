@@ -38,7 +38,7 @@
         <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
     </Window.CommandBindings>
 
-    <Border x:Name="MainWindowBorder" BorderBrush="#a9a9a9" BorderThickness="0" >
+    <Border Style="{DynamicResource MainView}"  x:Name="MainWindowBorder" BorderBrush="#a9a9a9" BorderThickness="0" >
         <Grid x:Name="parentContainer">
 
             <Grid.RowDefinitions>
@@ -47,11 +47,11 @@
             </Grid.RowDefinitions>
 
             <!--Window chrome / title bar-->
-            <Grid Grid.Row="0" Height="30" Background="#f2f2f2" x:Name="TitleBar">
+            <Grid Grid.Row="0" Height="30" Style="{DynamicResource TitleBar}" x:Name="TitleBar">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Image Source="/icon.png" Width="35" Margin="2" VerticalAlignment="Center" />
-                        <TextBlock Text="Benchmarker" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </StackPanel>
+                    <TextBlock Text="Benchmarker" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                     <Button Style="{StaticResource MinimizeButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Minimize"
@@ -69,16 +69,17 @@
 
             <!--App content-->
             <Grid Grid.Row="1" x:Name="AppArea">
-                <Border Background="White">
+                <Border Style="{DynamicResource MainView}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="34*"/>
+                            <ColumnDefinition Width="685*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Border BorderThickness="0 0 0.5 0" BorderBrush="#a9a9a9" Grid.RowSpan="2">
+                        <Border BorderThickness="0 0 0.5 0" BorderBrush="#a9a9a9">
 
-                            <StackPanel Background="#f2f2f2" Grid.ColumnSpan="1" Margin="0,-1,0,0">
+                            <StackPanel Style="{DynamicResource MainViewPanel}" Grid.ColumnSpan="1" Margin="0,-1,0,0">
                                 <RadioButton Content="Benchmark"
                              Height="50"
                              FontSize="14"
@@ -111,7 +112,7 @@
                         <ContentControl
                             Grid.Column="1"
                             Margin="10,10,10,10"
-                            Content="{Binding CurrentView}"/>
+                            Content="{Binding CurrentView}" Grid.ColumnSpan="2"/>
                     </Grid>
                 </Border>
             </Grid>

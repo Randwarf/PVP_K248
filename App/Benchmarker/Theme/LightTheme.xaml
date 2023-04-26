@@ -102,6 +102,11 @@
         <Setter Property="Background" Value="#f2f2f2"/>
     </Style>
 
+    <Style TargetType="{x:Type Grid}"
+           x:Key="TitleBar">
+        <Setter Property="Background" Value="#f2f2f2"/>
+    </Style>
+
     <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
            TargetType="{x:Type RadioButton}"
            x:Key="MenuButtonTheme">
