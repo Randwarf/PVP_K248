@@ -18,7 +18,7 @@
                   BorderThickness="0"
                   HeadersVisibility="Column">
             <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="155" Header="Compare report" Binding="{Binding Attribute}">
+                <DataGridTextColumn MinWidth="155" Header="Benchmark comparison report" Binding="{Binding Attribute}">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="IsHitTestVisible" Value="False"/>

@@ -18,14 +18,14 @@ namespace Benchmarker.MVVM.Model
 
             var row0 = new ComparisonRow()
             {
-                Attribute = "Date",
+                Attribute = "Date taken",
                 Process1 = benchmark1.Date.ToString(),
                 Process2 = benchmark2.Date.ToString()
             };
 
-            var row1 = CompareValues("CPU", benchmark1.CPU, benchmark2.CPU);
-            var row2 = CompareValues("RAM", benchmark1.RAM, benchmark2.RAM);
-            var row3 = CompareValues("Disk", benchmark1.Disk, benchmark2.Disk);
+            var row1 = CompareValues("CPU, %", benchmark1.CPU, benchmark2.CPU);
+            var row2 = CompareValues("RAM, %", benchmark1.RAM, benchmark2.RAM);
+            var row3 = CompareValues("Disk, %", benchmark1.Disk, benchmark2.Disk);
             var row4 = CompareValues("Energy", benchmark1.Energy, benchmark2.Energy);
 
             var rows = new List<ComparisonRow>() { row, row0, row1, row2, row3, row4 };

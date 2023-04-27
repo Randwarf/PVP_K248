@@ -5,7 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Benchmarker"
         mc:Ignorable="d"
-        Title="HistoryBenchmarkSelection" Height="250" Width="740">
+        Title="HistoryBenchmarkSelection" Height="250" Width="740" MinWidth="740" MinHeight="250" MaxHeight="250" MaxWidth="740"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        BorderBrush="#a9a9a9"
+        BorderThickness="0.5"
+        AllowsTransparency="True">
     <Window.Resources>
         <Style TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Background" Value="#f2f2f2" />
@@ -18,27 +23,72 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                         <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}">
                             <Grid>
                                 <TextBlock Text="{TemplateBinding Content}"
-                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                       TextTrimming="CharacterEllipsis"
-                                       TextWrapping="NoWrap"
-                                       Margin="2,0,2,0"
-                                       FontSize="14"
-                                       Foreground="{TemplateBinding Foreground}" />
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap"
+                                   Margin="2,0,2,0"
+                                   FontSize="14"
+                                   Foreground="{TemplateBinding Foreground}" />
                             </Grid>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <ResourceDictionary x:Key="TitleBarDictionary">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/TitleBarTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-        <DataGrid x:Name="BenchmarkList"
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="34" />
+    </WindowChrome.WindowChrome>
+
+    <!--Title bar button commands-->
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <!--<CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />-->
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
+    </Window.CommandBindings>
+
+    <Border x:Name="MainWindowBorder" BorderBrush="#a9a9a9" BorderThickness="0" >
+        <Grid x:Name="parentContainer">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="Auto"/>
+                <RowDefinition Height ="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Window chrome / title bar-->
+            <Grid Grid.Row="0" Height="30" Background="#f2f2f2" x:Name="TitleBar" Margin="0.5,0,0.5,-0.5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Image Source="/icon.png" Width="35" Margin="02" VerticalAlignment="Center" />
+                    <TextBlock Text="Benchmark comparison selection" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                    <Button Style="{StaticResource MinimizeButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Minimize"
+                            Command="{x:Static SystemCommands.MinimizeWindowCommand}"/>
+                    <Button x:Name="RestoreButton" Visibility="Collapsed" Style="{StaticResource RestoreButtonStyle}" 
+                            Command="{x:Static SystemCommands.RestoreWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Restore"/>
+                    <!--<Button x:Name="MaximizeButton" Visibility="Visible" Style="{StaticResource MaximizeButtonStyle}" 
+                            Command="{x:Static SystemCommands.MaximizeWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Maximize" />-->
+                    <Button Style="{StaticResource CloseButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Close"
+                            Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" x:Name="AppArea">
+                <DataGrid x:Name="BenchmarkList"
               CanUserAddRows="False"
               IsReadOnly="True"
               AutoGenerateColumns="False"
@@ -47,42 +97,44 @@
               CanUserSortColumns="False"
               HeadersVisibility="Column"
               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="155" Header="App" Binding="{Binding Process}" />
-                <DataGridTextColumn MinWidth="165" Header="Date" Binding="{Binding Date}" />
-                <DataGridTextColumn MinWidth="85" Header="CPU, %" Binding="{Binding CPU}" />
-                <DataGridTextColumn MinWidth="85" Header="RAM, %" Binding="{Binding RAM}" />
-                <DataGridTextColumn MinWidth="85" Header="Disk, %" Binding="{Binding Disk}" />
-                <DataGridTextColumn MinWidth="85" Header="Energy" Binding="{Binding Energy}" />
-                <DataGridTemplateColumn Width="*">
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Visibility" Value="Collapsed"/>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn MinWidth="155" Header="App" Binding="{Binding Process}" />
+                        <DataGridTextColumn MinWidth="165" Header="Date" Binding="{Binding Date}" />
+                        <DataGridTextColumn MinWidth="85" Header="CPU, %" Binding="{Binding CPU}" />
+                        <DataGridTextColumn MinWidth="85" Header="RAM, %" Binding="{Binding RAM}" />
+                        <DataGridTextColumn MinWidth="85" Header="Disk, %" Binding="{Binding Disk}" />
+                        <DataGridTextColumn MinWidth="85" Header="Energy" Binding="{Binding Energy}" />
+                        <DataGridTemplateColumn Width="*">
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="LightGreen" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Trigger>
+
+                            </Style.Triggers>
                         </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-            <DataGrid.Resources>
-                <Style TargetType="DataGridRow">
-                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="BorderBrush" Value="Transparent" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="LightGreen" />
-                            <Setter Property="FontSize" Value="12" />
-                            <Setter Property="FontWeight" Value="Bold" />
-                        </Trigger>
+                    </DataGrid.Resources>
+                </DataGrid>
 
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.Resources>
-        </DataGrid>
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,164,10,10" Width="92">
-            <Button x:Name="OkButton" Content="Compare" Click="OkButton_Click" Margin="5" IsEnabled="False" Width="82"/>
-        </StackPanel>
-    </Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,164,10,10" Width="92">
+                    <Button x:Name="OkButton" Content="Compare" Click="OkButton_Click" Margin="5" IsEnabled="False" Width="82"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>
