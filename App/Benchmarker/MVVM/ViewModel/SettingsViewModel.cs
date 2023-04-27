@@ -36,6 +36,10 @@ namespace Benchmarker.MVVM.ViewModel
                     bools[checkedIndex] = true;
                 return bools;
             }
+            set
+            {
+                OnPropertyChanged();
+            }
         }
 
         public bool[] IsEnabled
@@ -92,6 +96,7 @@ namespace Benchmarker.MVVM.ViewModel
                 {
                     ApplyTheme(theme);
                     checkedIndex = index;
+                    OnPropertyChanged();
                 });
             }
         }
