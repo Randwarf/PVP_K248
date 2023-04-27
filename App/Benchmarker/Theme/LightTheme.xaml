@@ -90,6 +90,7 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="VerticalGridLinesBrush"  Value="Transparent"/>
         <Setter Property="HorizontalGridLinesBrush" Value="#a9a9a9"/>
+        <Setter Property="Background" Value="#f2f2f2"/>
     </Style>
 
     <Style TargetType="{x:Type Border}"
@@ -105,6 +106,26 @@
     <Style TargetType="{x:Type Grid}"
            x:Key="TitleBar">
         <Setter Property="Background" Value="#f2f2f2"/>
+    </Style>
+
+    <Style x:Key="CaptionButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="LayoutRoot" Background="Transparent" Width="44" Height="30">
+                        <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10" 
+                                   Foreground="#000000" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="LayoutRoot" Property="Background" Value="#E5E5E5"/>
+                            <Setter TargetName="txt" Property="Foreground" Value="#000000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
@@ -126,6 +147,7 @@
             </Setter>
 
             <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#000000"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style.Setters>
 

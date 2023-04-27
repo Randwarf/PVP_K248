@@ -93,6 +93,7 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="VerticalGridLinesBrush"  Value="Transparent"/>
         <Setter Property="HorizontalGridLinesBrush" Value="#a9a9a9"/>
+        <Setter Property="Background" Value="#1F1F1F"/>
     </Style>
 
     <Style TargetType="{x:Type Border}"
@@ -108,6 +109,30 @@
     <Style TargetType="{x:Type Grid}"
            x:Key="TitleBar">
         <Setter Property="Background" Value="#1F1F1F"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="#E2E2E2"/>
+    </Style>
+
+    <Style x:Key="CaptionButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="LayoutRoot" Background="Transparent" Width="44" Height="30">
+                        <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10" 
+                                   Foreground="#E2E2E2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="LayoutRoot" Property="Background" Value="#E5E5E5"/>
+                            <Setter TargetName="txt" Property="Foreground" Value="#E2E2E2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style BasedOn="{StaticResource {x:Type ToggleButton}}"

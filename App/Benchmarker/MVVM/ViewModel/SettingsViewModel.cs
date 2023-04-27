@@ -97,6 +97,7 @@ namespace Benchmarker.MVVM.ViewModel
                     ApplyTheme(theme);
                     checkedIndex = index;
                     OnPropertyChanged();
+                    IsChecked = null;
                 });
             }
         }

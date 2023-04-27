@@ -83,28 +83,28 @@
                                 <RadioButton Content="Benchmark"
                              Height="50"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"
+                             Style="{DynamicResource MenuButtonTheme}"
                              IsChecked="True"
                              Command="{Binding BenchmarkViewCommand}"/>
                                 <RadioButton Content="History"
                              Height="50"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"
+                             Style="{DynamicResource MenuButtonTheme}"
                              Command="{Binding HistoryViewCommand}" Checked="RadioButton_Checked"/>
                                 <RadioButton Content="Compare"
                              Height="50"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"
+                             Style="{DynamicResource MenuButtonTheme}"
                              Command="{Binding CompareViewCommand}"/>
                                 <RadioButton Content="Settings"
                              Height="50"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"
+                             Style="{DynamicResource MenuButtonTheme}"
                              Command="{Binding SettingsViewCommand}"/>
                                 <RadioButton Content="Account"
                              Height="50"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"
+                             Style="{DynamicResource MenuButtonTheme}"
                              Command="{Binding AccountViewCommand}"/>
                             </StackPanel>
                         </Border>
