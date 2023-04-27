@@ -86,26 +86,13 @@ namespace Benchmarker.MVVM.ViewModel
                 HistoryBenchmark benchmark1 = null;
                 HistoryBenchmark benchmark2 = null;
 
-                HistoryBenchmarkSelection historyWindow1 = new HistoryBenchmarkSelection();
-                bool? success1 = historyWindow1.ShowDialog();
-                historyWindow1.Close();
-                if (success1 == false)
-                {
-                    return;
-                }
-                benchmark1 = historyWindow1.ChosenBenchmark;
+                var historyControl = new HistoryBenchmarkSelection();
+                bool? success = historyControl.ShowDialog();
 
-                HistoryBenchmarkSelection historyWindow2 = new HistoryBenchmarkSelection();
-                bool? success2 = historyWindow2.ShowDialog();
-                historyWindow2.Close();
-                if (success2 == false)
+                if (success == true && historyControl.ChosenBenchmarks != null && historyControl.ChosenBenchmarks.Count == 2)
                 {
-                    return;
-                }
-                benchmark2 = historyWindow2.ChosenBenchmark;
-
-                if (success1 == true && success2 == true)
-                {
+                    benchmark1 = historyControl.ChosenBenchmarks[0];
+                    benchmark2 = historyControl.ChosenBenchmarks[1];
                     var comparisonRows = BenchmarkCompareService.CompareBenchmarks(benchmark1, benchmark2);
                     CompareVM.BenchmarkComparisonRows = comparisonRows;
                     CurrentView = CompareVM;

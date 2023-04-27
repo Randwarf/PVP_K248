@@ -11,9 +11,16 @@ namespace Benchmarker.MVVM.Model
         {
             var row = new ComparisonRow()
             {
-                Attribute = "Name",
+                Attribute = "App",
                 Process1 = benchmark1.Process,
                 Process2 = benchmark2.Process
+            };
+
+            var row0 = new ComparisonRow()
+            {
+                Attribute = "Date",
+                Process1 = benchmark1.Date.ToString(),
+                Process2 = benchmark2.Date.ToString()
             };
 
             var row1 = CompareValues("CPU", benchmark1.CPU, benchmark2.CPU);
@@ -21,7 +28,7 @@ namespace Benchmarker.MVVM.Model
             var row3 = CompareValues("Disk", benchmark1.Disk, benchmark2.Disk);
             var row4 = CompareValues("Energy", benchmark1.Energy, benchmark2.Energy);
 
-            var rows = new List<ComparisonRow>() { row, row1, row2, row3, row4 };
+            var rows = new List<ComparisonRow>() { row, row0, row1, row2, row3, row4 };
 
             return rows;
         }
@@ -45,10 +52,14 @@ namespace Benchmarker.MVVM.Model
 
             double minMetric = Math.Min(value1, value2);
             double maxMetric = Math.Max(value1, value2);
-            double percentage = (minMetric != 0) ? Math.Abs(maxMetric - minMetric) / minMetric * 100 : 100;
+            int modifyIndex = value1 > value2 ? 1 : 0;
 
-            int modifyIndex = value1 > value2 ? 0 : 1;
-            comparison[modifyIndex] += $" (+{Math.Round((percentage > 0 ? 1 : -1) * percentage, 2)}%)";
+            if (attributeName != "Energy") {
+                double percentage = (minMetric != 0) ? Math.Abs(maxMetric - minMetric) / minMetric * 100 : 100;
+                comparison[modifyIndex] += $" (+{Math.Round((percentage > 0 ? 1 : -1) * percentage, 0)}%)";
+            } else {
+                comparison[modifyIndex] += $" (+{maxMetric - minMetric})";
+            }
 
             var row = new ComparisonRow()
             {
