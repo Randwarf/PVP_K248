@@ -13,7 +13,6 @@
                   IsReadOnly="True"
                   ItemsSource="{Binding Benchmarks}"
                   AutoGenerateColumns="False"
-                  Background="White"
                   BorderThickness="0"
                   HeadersVisibility="Column" Grid.ColumnSpan="2">
             <DataGrid.Columns>

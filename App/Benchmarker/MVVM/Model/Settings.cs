@@ -6,5 +6,8 @@ namespace Benchmarker.MVVM.Model
     {
         [JsonProperty("agreedToDataSharing")]
         public bool agreedToDataSharing = false;
+
+        [JsonProperty("currentTheme")]
+        public string currentTheme = "Theme/LightTheme.xaml";
     }
 }

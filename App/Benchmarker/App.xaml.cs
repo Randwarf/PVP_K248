@@ -13,5 +13,11 @@ namespace Benchmarker
     /// </summary>
     public partial class App : Application
     {
+        public void ChangeTheme(Uri uri)
+        {
+            Application.Current.Resources.MergedDictionaries[0].Source = uri;
+        }
     }
+
+
 }

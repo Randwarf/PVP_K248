@@ -6,13 +6,12 @@
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="LayoutRoot" Background="Transparent" Width="44" Height="30">
                         <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10" 
-                                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
                                    RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="LayoutRoot" Property="Background" Value="#E5E5E5"/>
-                            <Setter TargetName="txt" Property="Foreground" Value="#000000"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
