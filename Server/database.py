@@ -1,6 +1,4 @@
 import sqlite3
-import jwt
-import datetime
 
 class Database:
     def __init__(self, path):
@@ -58,24 +56,13 @@ class Database:
         print(f"{self.cursor.rowcount} rows updated successfully in {table_name}.")
         return self.cursor.rowcount
 
+
     def delete_data(self, table_name, where):
         sql = f"DELETE FROM {table_name} WHERE {where}"
         self.cursor.execute(sql)
         self.connection.commit()
         print(f"Data deleted successfully from {table_name}.")
 
-    def create_token(self, userID, secretKey):
-        expirationTime = datetime.datetime.utcnow() + datetime.timedelta(days=3)
-        payload = {
-            'userID': userID,
-            'validBefore':expirationTime.timestamp()
-        }
-        token = jwt.encode(payload, secretKey, algorithm='HS256')
-
-        payload["token"] = token
-        self.insert_data("AuthTokens", payload)
-        return token
-    
     def close_connection(self):
         self.cursor.close()
         self.connection.close()

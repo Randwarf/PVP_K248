@@ -1,6 +1,5 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
-using Benchmarker.MVVM.Model.Database;
 using Benchmarker.MVVM.Model.DTOs;
 using Benchmarker.MVVM.View;
 using System;
@@ -47,24 +46,11 @@ namespace Benchmarker.MVVM.ViewModel
         public MainViewModel()
         {
             UserInfo.UpdateAsyncPublicIPAddress();
-            var loggingIn = TryLoggingIn();
-            CreateModels(loggingIn);
+            CreateModels();
             CurrentView = BenchmarkVM;
             CreateCommands();
             ValidateDataSharing();
             LoadTheme();
-        }
-
-        private async Task<bool> TryLoggingIn()
-        {
-            Debug.WriteLine("Logging in");
-            string token = UserInfo.Settings.userToken;
-            if (string.IsNullOrEmpty(token)) return false;
-            UserRepository userRepository = new UserRepository();
-            User user = await userRepository.GetUserByToken(token);
-            if (user == null) return false;
-            AccountManager.SetUser(user);
-            return true;
         }
 
         private void LoadTheme()
@@ -83,13 +69,13 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
-        private void CreateModels(Task<bool> loggingInTask)
+        private void CreateModels()
         {
             BenchmarkVM = new BenchmarkViewModel();
             HistoryVM = new HistoryViewModel();
             CompareVM = new CompareViewModel();
             SettingsVM = new SettingsViewModel();
-            AccountVM = new AccountViewModel(loggingInTask);
+            AccountVM = new AccountViewModel();
         }
 
         private void CreateCommands()

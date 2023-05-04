@@ -1,6 +1,5 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
-using Benchmarker.MVVM.Model.Database;
 using System.Diagnostics;
 using System.Windows.Controls;
 
@@ -10,8 +9,6 @@ namespace Benchmarker.MVVM.ViewModel.Account
     {
         public RelayCommand SwitchViewCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
-
-        private readonly IUserRepository userRepository;
 
         private string loginMessage;
 
@@ -24,7 +21,6 @@ namespace Benchmarker.MVVM.ViewModel.Account
         public LoggedInViewModel(RelayCommand switchView)
         {
             SwitchViewCommand = switchView;
-            userRepository = new UserRepository();
 
             LogoutCommand = new RelayCommand(o =>
             {
@@ -50,10 +46,6 @@ namespace Benchmarker.MVVM.ViewModel.Account
         public void Logout()
         {
             AccountManager.SetUser(null);
-            userRepository.Logout(UserInfo.Settings.userToken);
-            var settings = UserInfo.Settings;
-            settings.userToken = null;
-            UserInfo.Settings = settings;  
             SwitchViewCommand.Execute(this);
         }
     }

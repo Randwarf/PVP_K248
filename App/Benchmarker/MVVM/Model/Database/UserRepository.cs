@@ -7,7 +7,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Benchmarker.MVVM.Model.Database
 {
@@ -19,8 +18,6 @@ namespace Benchmarker.MVVM.Model.Database
         private const string GET_BY_ID_ENDPOINT = "get-user-byid";
         private const string GET_BY_EMAIL_ENDPOINT = "get-user-byemail";
         private const string LOGIN_ENDPOINT = "login";
-        private const string LOGOUT_ENDPOINT = "logout";
-        private const string TOKEN_ENDPOINT = "get_user_by_token";
 
         private readonly HttpClient client;
 
@@ -31,7 +28,7 @@ namespace Benchmarker.MVVM.Model.Database
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<string> Login(User user)
+        public async Task<User> Login(User user)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, LOGIN_ENDPOINT);
             request.Headers.Add("Accept", "application/json");
@@ -50,15 +47,13 @@ namespace Benchmarker.MVVM.Model.Database
                 var responseJson = await response.Content.ReadAsStringAsync();
 
                 dynamic dynamicResponse = JsonConvert.DeserializeObject<dynamic>(responseJson);
-                if (dynamicResponse is string) 
-                {
-                    return dynamicResponse.ToString();
-                }
-
-                if (dynamicResponse.ContainsKey("message") && dynamicResponse["message"] == "Wrong password")
+                if (dynamicResponse["message"] == "Wrong password")
                 {
                     return null;
                 }
+
+                User userResponse = JsonConvert.DeserializeObject<User>(responseJson);
+                return userResponse;
             }
             catch
             {
@@ -66,28 +61,6 @@ namespace Benchmarker.MVVM.Model.Database
             }
 
             return null;
-        }
-
-        public async void Logout(string token)
-        {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, LOGOUT_ENDPOINT);
-            request.Headers.Add("Accept", "application/json");
-            string tokenJson = JsonConvert.SerializeObject(new { token = token });
-            request.Content = new StringContent(tokenJson, Encoding.UTF8, "application/json");
-
-            try
-            {
-                HttpResponseMessage response = await client.SendAsync(request);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new HttpRequestException($"Error code: {response.StatusCode}. Message: {response.ReasonPhrase}.");
-                }
-            }
-            catch
-            {
-                Debug.WriteLine("[API] Error with API");
-            }
         }
 
         public async Task<List<User>> GetAllUsers()
@@ -172,31 +145,6 @@ namespace Benchmarker.MVVM.Model.Database
                 Debug.WriteLine("[API] Error with API");
             }
         }
-
-        public async Task<User> GetUserByToken(string token)
-        {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, TOKEN_ENDPOINT);
-            request.Headers.Add("Accept", "application/json");
-            string tokenJSON = JsonConvert.SerializeObject(new {token = token});
-            request.Content = new StringContent(tokenJSON, Encoding.UTF8, "application/json");
-            Debug.WriteLine("Prieš isiunčiant");
-            HttpResponseMessage response = await client.SendAsync(request);
-            Debug.WriteLine("išsiuntus");
-            if (response.IsSuccessStatusCode)
-            {
-                var responseJson = await response.Content.ReadAsStringAsync();
-                dynamic dynamicResponse = JsonConvert.DeserializeObject<dynamic>(responseJson);
-                if (dynamicResponse["message"] == "Resource with specified id was not found")
-                {
-                    return null;
-                }
-
-                User user = JsonConvert.DeserializeObject<User>(responseJson);
-                return user;
-            }
-
-            return null;
-        }  
 
         public void UpdateUser(User user)
         {

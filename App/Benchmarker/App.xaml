@@ -50,10 +50,6 @@
             <DataTemplate DataType="{x:Type viewModelAccount:LoggedInViewModel}">
                 <viewAccount:LoggedInView/>
             </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewModelAccount:LoadingUserViewModel}">
-                <viewAccount:LoadingUserView/>
-            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

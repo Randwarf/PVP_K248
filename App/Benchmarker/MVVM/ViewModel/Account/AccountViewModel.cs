@@ -1,7 +1,5 @@
 ﻿using Benchmarker.Core;
-using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.ViewModel.Account;
-using System.Threading.Tasks;
 
 namespace Benchmarker.MVVM.ViewModel
 {
@@ -12,7 +10,6 @@ namespace Benchmarker.MVVM.ViewModel
 
         public LoggedInViewModel LoggedInVM { get; set; }
         public LoggedOutViewModel LoggedOutVM { get; set; }
-        public LoadingUserViewModel LoadingVM { get; set; }
 
         private object currentView;
 
@@ -26,7 +23,7 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
-        public AccountViewModel(Task<bool> loggingInTask)
+        public AccountViewModel()
         {
             SwitchLoggedInViewCommand = new RelayCommand(o =>
             {
@@ -41,22 +38,8 @@ namespace Benchmarker.MVVM.ViewModel
 
             LoggedInVM = new LoggedInViewModel(SwitchLoggedOutViewCommand);
             LoggedOutVM = new LoggedOutViewModel(SwitchLoggedInViewCommand);
-            LoadingVM = new LoadingUserViewModel();
-            CurrentView = LoadingVM;
-            waitForLogin(loggingInTask);
-        }
 
-        private async void waitForLogin(Task<bool> loggingIn)
-        {
-            var loggedIn = await loggingIn;
-            if (loggedIn)
-            {
-                SwitchLoggedInViewCommand.Execute(this);
-            }
-            else
-            {
-                SwitchLoggedOutViewCommand.Execute(this);
-            }
+            CurrentView = LoggedOutVM;
         }
     }
 }

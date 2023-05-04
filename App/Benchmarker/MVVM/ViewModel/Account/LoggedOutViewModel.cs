@@ -127,8 +127,8 @@ namespace Benchmarker.MVVM.ViewModel.Account
                 return;
             }
 
-            var token = await userRepository.Login(user);
-            if (token == null)
+            var loggedInUser = await userRepository.Login(user);
+            if (loggedInUser == null)
             {
                 PasswordError = "Wrong password";
                 IsInteractable = true;
@@ -137,11 +137,6 @@ namespace Benchmarker.MVVM.ViewModel.Account
 
             ResetInputs();
             IsInteractable = true;
-
-            var loggedInUser = await userRepository.GetUserByToken(token);
-            Settings settings = UserInfo.Settings;
-            settings.userToken = token;
-            UserInfo.Settings= settings;
 
             AccountManager.SetUser(loggedInUser);
             SwitchViewCommand.Execute(this);
