@@ -31,7 +31,16 @@ namespace Benchmarker.MVVM.ViewModel.Account
         public void RefreshData()
         {
             User loggedInUser = AccountManager.GetUser();
-            LoginMessage = $"Logged in as {loggedInUser.Email}";
+            var tempMessage = $"Logged in as {loggedInUser.Email}, ";
+            if (loggedInUser.IsPremium)
+            {
+                tempMessage += "premium user";
+            }
+            else
+            {
+                tempMessage += "regular user";
+            }
+            LoginMessage = tempMessage;
         }
 
         public void Logout()

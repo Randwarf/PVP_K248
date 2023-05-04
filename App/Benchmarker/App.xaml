@@ -11,9 +11,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
-                <ResourceDictionary Source="Theme/BenchmarkButtonTheme.xaml"/>
-                <ResourceDictionary Source="Theme/DataGridTheme.xaml"/>
+                <ResourceDictionary Source="Theme/DarkTheme.xaml"/>
                 <ResourceDictionary Source="Theme/TitleBarTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 

@@ -19,7 +19,6 @@
                     Height="126"
                     Width="670"
                     Margin="0 325 0 0"
-                    Background="LightGreen"
                     Command="{Binding SwitchView}" Content="Start a new benchmark"/>
         </StackPanel>
     </Grid>

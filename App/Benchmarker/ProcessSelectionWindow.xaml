@@ -32,7 +32,7 @@
         <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
     </Window.CommandBindings>
 
-    <Border x:Name="MainWindowBorder" BorderBrush="#a9a9a9" BorderThickness="0" >
+    <Border Style="{DynamicResource MainView}" x:Name="MainWindowBorder" BorderBrush="#a9a9a9" BorderThickness="0" >
         <Grid x:Name="parentContainer">
 
             <Grid.RowDefinitions>
@@ -41,9 +41,9 @@
             </Grid.RowDefinitions>
 
             <!--Window chrome / title bar-->
-            <Grid Grid.Row="0" Height="30" Background="#f2f2f2" x:Name="TitleBar" Margin="0.5,0,0.5,-0.5">
+            <Grid Grid.Row="0" Height="30" x:Name="TitleBar">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Image Source="/icon.png" Width="35" Margin="02" VerticalAlignment="Center" />
+                    <Image Source="/icon.png" Width="35" Margin="2" VerticalAlignment="Center" />
                     <TextBlock Text="App selection" FontFamily="Arial" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </StackPanel>
 
@@ -69,7 +69,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid>
-                        <StackPanel Grid.Row="0" Grid.RowSpan="1" Orientation="Vertical" Margin="-9,-10,-9,0" Background="#f2f2f2">
+                        <StackPanel Grid.Row="0" Grid.RowSpan="1" Orientation="Vertical" Margin="-9,-10,-9,0" >
                             <TextBlock TextWrapping="Wrap" Text="Currently running apps" Margin="20,5,10,-10" FontSize="13" MaxWidth="360" />
                             <TextBlock TextWrapping="Wrap" Text="Please select an app from the list below" Margin="20,10,10,5" FontSize="11" MaxWidth="360" />
                         </StackPanel>

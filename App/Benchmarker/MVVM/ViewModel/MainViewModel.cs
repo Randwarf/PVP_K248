@@ -20,6 +20,7 @@ namespace Benchmarker.MVVM.ViewModel
         public RelayCommand SettingsViewCommand { get; set; }
         public RelayCommand AccountViewCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
+        public RelayCommand UpdateSettings { get; set; }
 
         public BenchmarkViewModel BenchmarkVM { get; set; }
         public HistoryViewModel HistoryVM { get; set; }
@@ -49,6 +50,14 @@ namespace Benchmarker.MVVM.ViewModel
             CurrentView = BenchmarkVM;
             CreateCommands();
             ValidateDataSharing();
+            LoadTheme();
+        }
+
+        private void LoadTheme()
+        {
+            var Application = App.Current as App;
+            var themePath = UserInfo.Settings.currentTheme;
+            Application.ChangeTheme(new Uri(themePath, UriKind.Relative));
         }
 
         private void ValidateDataSharing()
@@ -102,6 +111,11 @@ namespace Benchmarker.MVVM.ViewModel
             SettingsViewCommand = new RelayCommand(o =>
             {
                 CurrentView = SettingsVM;
+            });
+
+            UpdateSettings = new RelayCommand(o =>
+            {
+                return;
             });
 
             AccountViewCommand = new RelayCommand(o =>

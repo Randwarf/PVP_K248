@@ -79,7 +79,7 @@ namespace Benchmarker.MVVM.ViewModel.Account
             {
                 Email = EmailText,
                 Password = PasswordText,
-                IsPremium = false
+                premiumEndDate = "1900-01-01"
             };
 
             string email = EmailText;
@@ -115,7 +115,7 @@ namespace Benchmarker.MVVM.ViewModel.Account
             {
                 Email = EmailText,
                 Password = PasswordText,
-                IsPremium = false
+                premiumEndDate = "1900-01-01"
             };
 
             string email = EmailText;
