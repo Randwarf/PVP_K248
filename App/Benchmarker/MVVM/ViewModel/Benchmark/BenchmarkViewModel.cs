@@ -34,20 +34,14 @@ namespace Benchmarker.MVVM.ViewModel
         {
             SwitchRunViewCommand = new RelayCommand(o =>
             {
-                ProcessSelectionWindow processWindow = new ProcessSelectionWindow();
-                bool? success = processWindow.ShowDialog();
-                if (success == true)
-                {
-                    KeyValuePair<Process, List<Process>> process = processWindow.ChosenProcess;
-                    processWindow.Close();
-                    CurrentView = RunVM;
-                    RunVM.Process = process;
-                }
-            });
+                RunVM.Process = StartVM.SelectedProcess;
+				CurrentView = RunVM;
+			});
 
             SwitchStartViewCommand = new RelayCommand(o =>
             {
-                CurrentView = StartVM;
+                StartVM.ResetScreen();
+				CurrentView = StartVM;
             });
 
             RunVM = new BenchmarkRunViewModel(SwitchStartViewCommand);

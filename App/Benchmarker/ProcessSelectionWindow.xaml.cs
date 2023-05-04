@@ -6,21 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Benchmarker.DTOs;
-using Benchmarker.MVVM.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Benchmarker
 {
@@ -33,12 +19,14 @@ namespace Benchmarker
         
         private Dictionary<Process, List<Process>> topLevelProcesses;
 
-        public ProcessSelectionWindow()
+        public ProcessSelectionWindow(Dictionary<Process, List<Process>> topLevelProcesses)
         {
             InitializeComponent();
 
+            this.topLevelProcesses = topLevelProcesses;
+
             List<ProcessInfo> processes = new List<ProcessInfo>();
-            topLevelProcesses = ProcessService.GetTopLevelProcesses();
+            //topLevelProcesses = ProcessService.GetTopLevelProcesses();
 
             topLevelProcesses.Keys
                 .ToList()

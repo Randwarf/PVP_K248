@@ -12,6 +12,13 @@ namespace Benchmarker.MVVM.Model
 
     public static class ProcessService
     {
+		public delegate void ProgressUpdate(int value);
+        public static event ProgressUpdate OnProgressSetMax;
+		public static event ProgressUpdate OnProgressValueUpdate;
+
+		public delegate void ProgressStatusUpdate(string value);
+        public static event ProgressStatusUpdate OnProgressStatusUpdate;
+
         // TODO: Parallel?
         public static Dictionary<Process, List<Process>> GetTopLevelProcesses()
         {
@@ -20,8 +27,15 @@ namespace Benchmarker.MVVM.Model
             List<Process> topLevelUserProcesses = new List<Process>();
             Dictionary<Process, Process> userProcesses = new Dictionary<Process, Process>();
 
-            foreach (Process process in Process.GetProcesses())
+            var processList = Process.GetProcesses();
+            OnProgressSetMax?.Invoke(processList.Length);
+
+            int processIndex = 0;
+			foreach (Process process in processList)
             {
+                OnProgressValueUpdate?.Invoke(processIndex++);
+                OnProgressStatusUpdate?.Invoke(process.ProcessName);
+             
                 try
                 {
                     // If process has ended
