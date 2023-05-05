@@ -8,18 +8,28 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel Name="ProcessSelection"
-                    Orientation="Horizontal" 
+                    Orientation="Vertical" 
                     HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Visibility="Visible">
             <!--<TextBlock Text="Start a new benchmark: "
                    FontSize="28"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>-->
+            <TextBlock Text="{Binding ProgressStatus}" FontSize="14" Visibility="{Binding ShowProgressBind}"/>
+            <ProgressBar 
+                Width="300"
+                Height="25"
+                Minimum="0"
+                Maximum="{Binding ProgressMaxValue}"
+                Value="{Binding ProgressValue}"
+                Visibility="{Binding ShowProgressBind}"/>
             <Button x:Name="StartBenchmark"
-                    Height="126"
-                    Width="670"
-                    Margin="0 325 0 0"
-                    Command="{Binding SwitchView}" Content="Start a new benchmark"/>
+                    Height="50"
+                    Width="300"
+                    Margin="0 25 0 0"
+                    Background="LightGreen"
+                    Command="{Binding SelectProcessCommand}" Content="Start a new benchmark"/>
         </StackPanel>
     </Grid>
 </UserControl>
