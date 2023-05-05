@@ -4,7 +4,11 @@ from flask import Flask, jsonify, request
 from urllib.parse import unquote
 from database import Database
 from compare import calc_diff_percentages
+import json
+import datetime
 app = Flask(__name__)
+app.config.from_file("config.json", load=json.load)
+
 
 database = Database("../Database/temp_db.db")
 required_benchmark_args = ["date", "process", "cpu", "disk", "ram", "energy", "ip"]
@@ -223,10 +227,49 @@ def login():
     login_successful = bcrypt.checkpw(password_bytes, registered_password)
 
     if login_successful:
-        registered_user['password'] = registered_password.decode('utf-8')
-        return jsonify(registered_user), 200
+        #registered_user['password'] = registered_password.decode('utf-8')
+        Token = database.create_token(registered_user['id'], app.config['SECRET_KEY'])
+        return jsonify(Token), 200
 
     return jsonify({"code": "200", "message": "Wrong password"}), 200
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    content_type = request.headers.get('Content-Type')
+    if "application/json" not in content_type:
+        return jsonify({"code": "415", "message": "Unsupported media type"}), 415
+
+    args_json = request.json
+    token = args_json['token']
+    database.delete_data("AuthTokens", f"token={token}")
+    return jsonify({"code": "200", "message": "Logged out"}), 200
+
+@app.route("/get_user_by_token", methods=["POST"])
+def get_user_by_token():
+    content_type = request.headers.get('Content-Type')
+    if "application/json" not in content_type:
+        return jsonify({"code": "415", "message": "Unsupported media type"}), 415
+
+    args_json = request.json
+    token = args_json['token']
+    tokenData = database.select_data("AuthTokens",where=f"token={token}")
+    if len(tokenData) == 0:
+        return jsonify({"code": "404", "message": "Token not found"}), 404
+    
+    expiration_time_str = tokenData[0]['validBefore']
+    expiration_time = datetime.datetime.fromtimestamp(expiration_time_str)
+    if expiration_time < datetime.datetime.now():
+        return jsonify({"code": "403", "message": "Token expired"}), 403
+
+    userID = tokenData[0]['userID']
+    user = database.select_data("Users", where=f"id={userID}")
+    
+    if len(user) == 0:
+        return jsonify({"code": "404", "message": "User not found"}), 404
+
+    user = user[0]
+    user['password'] = user['password'].decode('utf-8')
+    return jsonify(user), 200
 
 @app.route("/make_premium", methods=["GET"])
 def make_premium():
