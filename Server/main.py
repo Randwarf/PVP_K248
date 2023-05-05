@@ -256,5 +256,15 @@ def make_premium():
 
     return jsonify({"code": "200", "message": "Premium time added"}), 200
 
+@app.route('/api_status', methods=['GET'])
+def check_api_status():
+    # Check the status of your API here
+    api_up = True  # Set this variable based on the API status
+
+    if api_up:
+        return 200
+    else:
+        return 503
+
 if __name__ == "__main__":
     app.run()

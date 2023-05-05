@@ -64,6 +64,9 @@
                         FontSize="14" 
                         Command="{Binding LoginCommand}"/>
             </StackPanel>
+            <TextBlock Margin="5,0" 
+                       Text="{Binding InformationText}"
+                       FontSize="14"/>
         </StackPanel>
     </Grid>
 </UserControl>

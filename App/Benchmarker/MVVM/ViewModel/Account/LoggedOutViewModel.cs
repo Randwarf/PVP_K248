@@ -1,6 +1,7 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
+using System.Diagnostics;
 
 namespace Benchmarker.MVVM.ViewModel.Account
 {
@@ -18,8 +19,10 @@ namespace Benchmarker.MVVM.ViewModel.Account
         private string passwordError;
         private string emailText;
         private string passwordText;
+		
+        private string informationText;
 
-        public bool IsInteractable
+		public bool IsInteractable
         {
             get { return isInteractable; }
             set { isInteractable = value; OnPropertyChanged(); }
@@ -49,7 +52,13 @@ namespace Benchmarker.MVVM.ViewModel.Account
             set { passwordText = value; OnPropertyChanged(); }
         }
 
-        public LoggedOutViewModel(RelayCommand switchView) {
+		public string InformationText
+		{
+			get { return informationText; }
+			set { informationText = value; OnPropertyChanged(); }
+		}
+
+		public LoggedOutViewModel(RelayCommand switchView) {
             userRepository = new UserRepository();
             SwitchViewCommand = switchView;
 
@@ -62,6 +71,8 @@ namespace Benchmarker.MVVM.ViewModel.Account
             {
                 Login();
             });
+
+            Debug.WriteLine(APIStatus.IsAPIWorking());
         }
 
         public async void Register()
