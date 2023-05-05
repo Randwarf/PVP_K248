@@ -2,6 +2,8 @@
 using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace Benchmarker.MVVM.ViewModel.Account
 {
@@ -71,14 +73,18 @@ namespace Benchmarker.MVVM.ViewModel.Account
             {
                 Login();
             });
-
-            Debug.WriteLine(APIStatus.IsAPIWorking());
         }
 
         public async void Register()
         {
             IsInteractable = false;
             ResetErrors();
+
+            if (!await IsAPIWorking())
+            {
+                IsInteractable = true;
+                return;
+            }
 
             if (!IsInputValid())
             {
@@ -116,7 +122,13 @@ namespace Benchmarker.MVVM.ViewModel.Account
             IsInteractable = false;
             ResetErrors();
 
-            if (!IsInputValid())
+			if (!await IsAPIWorking())
+			{
+				IsInteractable = true;
+				return;
+			}
+
+			if (!IsInputValid())
             {
                 IsInteractable = true;
                 return;
@@ -176,6 +188,19 @@ namespace Benchmarker.MVVM.ViewModel.Account
             return isValid;
         }
 
+        private async Task<bool> IsAPIWorking()
+        {
+			bool apiWorking = await APIStatus.IsAPIWorking();
+			
+            if (!apiWorking)
+			{
+				isInteractable = true;
+				InformationText = "Our servers are currently down. Try again later.";
+			}
+            
+            return apiWorking;
+		}
+
         private void ResetInputs()
         {
             EmailText = "";
@@ -186,6 +211,7 @@ namespace Benchmarker.MVVM.ViewModel.Account
         {
             EmailError = "";
             PasswordError = "";
+            InformationText = "";
         }
     }
 }

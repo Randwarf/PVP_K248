@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Benchmarker.MVVM.Model.Database
@@ -18,15 +15,16 @@ namespace Benchmarker.MVVM.Model.Database
 				try
 				{
 					HttpResponseMessage response = await client.GetAsync(apiUrl);
-					response.EnsureSuccessStatusCode();
+					if (response.IsSuccessStatusCode)
+					{
+						return true;
+					}
 
-					string result = await response.Content.ReadAsStringAsync();
-					Console.WriteLine(result);
-					return true;
+					return false;
 				}
 				catch (HttpRequestException)
 				{
-					Console.WriteLine("Failed to connect to the API.");
+					Console.WriteLine("[API] Failed to connect to the API.");
 					return false;
 				}
 			}
