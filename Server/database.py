@@ -1,5 +1,5 @@
 import sqlite3
-import jwt
+import jwt #pip install PYjwt
 import datetime
 
 class Database:

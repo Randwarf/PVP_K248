@@ -283,8 +283,7 @@ def make_premium():
     response = database.select_data('users', 'premiumEndDate', f'email = {buyers_email}')
     premium_end_date = response[0]['premiumEndDate']
     format_string = "%Y-%m-%d"
-
-    date_obj = datetime.strptime(premium_end_date, format_string).date()
+    date_obj = datetime.datetime.strptime(premium_end_date, format_string).date()
 
     if (date_obj >= date.today()):
         date_str = (date_obj + timedelta(days=default_premium_length)).strftime(format_string)
