@@ -108,3 +108,11 @@ td.compare-process-names {
     border: none;
     text-decoration: none;
 }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.loginsignup {
+    margin-bottom: 5px;
+}

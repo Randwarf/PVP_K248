@@ -59,6 +59,7 @@ if (isset($_POST['register'])) {
     <section class="main_info">
         <div class="main_header">
                 <h1 class="main_text">Registracija</h1>
+                <h4>Susikūrk savo paskyrą, kuri suteiks tau papildomo funkcionalumo!</h4>
         </div>
     </section>
 
@@ -66,13 +67,18 @@ if (isset($_POST['register'])) {
         <div class="login-form">
             <form action="#" method="post">
                 <?php echo $ERROR;?>
-                <p>E-paštas</p>
-                <input type="email" name="email" placeholder="E-paštas" va>
-
-                <p>Slaptažodis</p>
-			    <input type="password" name="password" placeholder="Slaptažodis">
                 <br>
-                <button name="register" type ="submit">Registruotis</button>
+                <div class="form-group">
+                    <p class="loginsignup">E-paštas</p>
+                    <input type="email" name="email" placeholder="E-paštas" va>
+                </div>
+
+                <div class="form-group">
+                    <p class="loginsignup">Slaptažodis</p>
+			        <input type="password" name="password" placeholder="Slaptažodis">
+                </div>
+                <br>
+                <button class="btn btn-warning" name="register" type ="submit">Registruotis</button>
             </form>
         </div>
     </section>

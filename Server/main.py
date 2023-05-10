@@ -4,6 +4,12 @@ from flask import Flask, jsonify, request
 from urllib.parse import unquote
 from database import Database
 from compare import calc_diff_percentages
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+import secrets
+import datetime
 app = Flask(__name__)
 
 database = Database("../Database/temp_db.db")
@@ -144,8 +150,117 @@ def create_user():
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(password_bytes, salt)
     user_object['password'] = hashed_password
-    
+
+    confirmation_token = secrets.token_urlsafe(32)
+    current_time = datetime.datetime.now()
+    expiration_time = current_time + datetime.timedelta(minutes=15)
+    confirmation_token_object = {}
+    confirmation_token_object['email'] = user_object['email']
+    confirmation_token_object['token'] = confirmation_token
+    confirmation_token_object['password'] = hashed_password
+    confirmation_token_object['expiration_time'] = expiration_time
+
+    existing_token = database.select_data("confirmationtokens", where=f"email = {args_json['email']}")
+    if len(existing_token) != 0:
+        database.update_data("confirmationtokens", confirmation_token_object, "email = ?", [confirmation_token_object['email']])
+    else:
+        database.insert_data("confirmationtokens", confirmation_token_object)
+
+    confirmation_link = f"http://localhost:9000/signup-process.php?token={confirmation_token}"
+
+    sender_email = 'pvpk248@gmail.com'
+    sender_password = 'owkdkofqtqbfksvh'
+    receiver_email = user_object['email']
+    subject = 'eko-logika.lt svetainės prisiregistravimo patvirtinimas'
+    message = f"""\
+    <html>
+      <body>
+        <p>Jūsų elektroniniu paštu buvo bandoma registruotis eko-logika.lt puslapyje.</p>
+        <br>
+        <p>Norėdami patvirtinti savo paskyrą, prašome paspausti šią nuorodą: <a href="{confirmation_link}">Patvirtinti paskyrą</a></p>
+        <p>Nuoroda galioja 15 minučių.</p>
+        <br>
+        <p>Jeigu registraciją inicijavote ne Jūs, šį laišką galite ignoruoti.</p>
+        <p>eko-logika komanda</p>
+        <img src="cid:image1" width="40" height="40">
+      </body>
+    </html>
+    """
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(message, 'html'))
+    image_path = 'assets/images/logo.jpg'  # Replace with the actual path to your image file
+    with open(image_path, 'rb') as image_file:
+        image_attachment = MIMEImage(image_file.read())
+        image_attachment.add_header('Content-ID', '<image1>')
+        image_attachment.add_header('Content-Disposition', 'inline', filename='image.jpg')
+    msg.attach(image_attachment)
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+
+    return jsonify({"code": "200", "message": "Patvirtinimo laiškas išsiųstas į nurodytą e-paštą."}), 200
+
+
+@app.route("/create-user-confirmed", methods=["POST"])
+def create_user_confirmed():
+    content_type = request.headers.get('Content-Type')
+    if "application/json" not in content_type:
+        return jsonify({"code": "415", "message": "Unsupported media type"}), 415
+
+    args_json = request.json
+    user_object = {}
+
+    existing_token = database.select_data("confirmationtokens", where=f"token = {args_json['token']}")
+    if len(existing_token) == 0:
+        return jsonify({"code": "401", "message": "Token does not exist"}), 200
+
+    token = existing_token[0]
+    current_time = datetime.datetime.now()
+    expiration_time = datetime.datetime.strptime(token['expiration_time'], "%Y-%m-%d %H:%M:%S.%f")
+    if current_time > expiration_time:
+        database.delete_data("confirmationtokens", f"token = '{token['token']}'")
+        return jsonify({"code": "402", "message": "Token has expired"}), 402
+
+    user_object['email'] = token['email']
+    user_object['password'] = token['password']
+
+    database.delete_data("confirmationtokens", f"token = '{token['token']}'")
     database.insert_data("users", user_object)
+
+    sender_email = 'pvpk248@gmail.com'
+    sender_password = 'owkdkofqtqbfksvh'
+    receiver_email = user_object['email']
+    subject = 'eko-logika.lt svetainės sėkminga registracija'
+    message = f"""\
+    <html>
+      <body>
+        <p>Ačiū, jog prisijungėte prie mūsų svetainės ir domitės mūsų produktu!</p>
+        <p>Jūsų paskyra buvo sėkmingai sukurta.</p>
+        <p>Nuoširdžiai linkime, jog mūsų produktas padėtų Jums tausoti aplinką ir mažinti išnaudojamų resursų kiekį!</p>
+        <p>eko-logika komanda</p>
+        <img src="cid:image1" width="40" height="40">
+      </body>
+    </html>
+    """
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(message, 'html'))
+    image_path = 'assets/images/logo.jpg'  # Replace with the actual path to your image file
+    with open(image_path, 'rb') as image_file:
+        image_attachment = MIMEImage(image_file.read())
+        image_attachment.add_header('Content-ID', '<image1>')
+        image_attachment.add_header('Content-Disposition', 'inline', filename='image.jpg')
+    msg.attach(image_attachment)
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
 
     return jsonify({"code": "200", "message": "User created sucessfully"}), 200
 

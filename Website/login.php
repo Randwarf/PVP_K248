@@ -58,6 +58,7 @@ if (isset($_POST['email'])){
     <section class="main_info">
         <div class="main_header">
                 <h1 class="main_text">Prisijungimas</h1>
+                <h4>Prisijunk prie savo paskyros ir mėgaukis viskuo, ką turime pasiūlyti!</h4>
         </div>
     </section>
 
@@ -65,14 +66,22 @@ if (isset($_POST['email'])){
         <div class="login-form">
             <form action="#" method="post">
                 <?php echo $ERROR;?>
-                <p>E-paštas</p>
-                <input type="text" name="email" placeholder="E-paštas">
+                <div class="form-group">
+                    <p class="loginsignup">E-paštas</p>
+                    <input type="text" name="email" placeholder="E-paštas">
+                </div>
 
-                <p>Slaptažodis</p>
-			    <input type="password" name="password" placeholder="Slaptažodis">
+                <div class="form-group">
+                    <p class="loginsignup">Slaptažodis</p>
+                    <input type="password" name="password" placeholder="Slaptažodis">
+                </div>
+                <button class="btn btn-warning" type ="submit">Prisijungti</button>
                 <br>
-                <button type ="submit">Prisijungti</button>
-		    	<a class ="regis" href = "signup.php"> Registruotis</a>
+                <br>
+                <div class="form-group" style="display: flex">
+                    <p style="padding-right: 10px; font-weight: bold">Dar neturi paskyros?</p>
+		    	    <a class="btn btn-warning" class ="regis" href = "signup.php">Registracija</a>
+                </div>
             </form>
         </div>
     </section>
