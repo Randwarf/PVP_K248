@@ -10,6 +10,7 @@ namespace Benchmarker.MVVM.ViewModel
     internal class HistoryViewModel : ObservableObject
     {
         private List<HistoryBenchmark> benchmarks;
+        private BenchmarkViewModel benchmarkViewModel;
 
         public List<HistoryBenchmark> Benchmarks
         {
@@ -24,8 +25,9 @@ namespace Benchmarker.MVVM.ViewModel
             }
         }
 
-        public HistoryViewModel()
+        public HistoryViewModel(BenchmarkViewModel benchmarkViewModel)
         {
+            this.benchmarkViewModel = benchmarkViewModel;
             UpdateTable();
             HistoryService.OnBenchmarksChanged += UpdateTable;
         }
@@ -34,6 +36,7 @@ namespace Benchmarker.MVVM.ViewModel
         {
             Benchmarks = null;
             Benchmarks = HistoryService.GetBenchmarks();
+            benchmarkViewModel.StartVM.ResetScreen();
         }
     }
 }
