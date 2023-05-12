@@ -9,5 +9,8 @@ namespace Benchmarker.MVVM.Model
 
         [JsonProperty("currentTheme")]
         public string currentTheme = "Theme/LightTheme.xaml";
+
+        [JsonProperty("userToken")]
+        public string userToken = null;
     }
 }

@@ -29,7 +29,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
             </li>
             <?php
             
-            if (isset($_SESSION["USERINFO"])){
+            if (isset($_SESSION["token"])){
                 echo    '<li class="nav-item">
                             <a class="nav-link" href="user.php">Naudotojas</a>
                         </li>

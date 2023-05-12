@@ -1,6 +1,9 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
 using Benchmarker.MVVM.Model.Database;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace Benchmarker.MVVM.ViewModel.Account
 {
@@ -18,8 +21,10 @@ namespace Benchmarker.MVVM.ViewModel.Account
         private string passwordError;
         private string emailText;
         private string passwordText;
+		
+        private string informationText;
 
-        public bool IsInteractable
+		public bool IsInteractable
         {
             get { return isInteractable; }
             set { isInteractable = value; OnPropertyChanged(); }
@@ -49,7 +54,13 @@ namespace Benchmarker.MVVM.ViewModel.Account
             set { passwordText = value; OnPropertyChanged(); }
         }
 
-        public LoggedOutViewModel(RelayCommand switchView) {
+		public string InformationText
+		{
+			get { return informationText; }
+			set { informationText = value; OnPropertyChanged(); }
+		}
+
+		public LoggedOutViewModel(RelayCommand switchView) {
             userRepository = new UserRepository();
             SwitchViewCommand = switchView;
 
@@ -68,6 +79,12 @@ namespace Benchmarker.MVVM.ViewModel.Account
         {
             IsInteractable = false;
             ResetErrors();
+
+            if (!await IsAPIWorking())
+            {
+                IsInteractable = true;
+                return;
+            }
 
             if (!IsInputValid())
             {
@@ -105,7 +122,13 @@ namespace Benchmarker.MVVM.ViewModel.Account
             IsInteractable = false;
             ResetErrors();
 
-            if (!IsInputValid())
+			if (!await IsAPIWorking())
+			{
+				IsInteractable = true;
+				return;
+			}
+
+			if (!IsInputValid())
             {
                 IsInteractable = true;
                 return;
@@ -127,8 +150,8 @@ namespace Benchmarker.MVVM.ViewModel.Account
                 return;
             }
 
-            var loggedInUser = await userRepository.Login(user);
-            if (loggedInUser == null)
+            var token = await userRepository.Login(user);
+            if (token == null)
             {
                 PasswordError = "Wrong password";
                 IsInteractable = true;
@@ -137,6 +160,11 @@ namespace Benchmarker.MVVM.ViewModel.Account
 
             ResetInputs();
             IsInteractable = true;
+
+            var loggedInUser = await userRepository.GetUserByToken(token);
+            Settings settings = UserInfo.Settings;
+            settings.userToken = token;
+            UserInfo.Settings= settings;
 
             AccountManager.SetUser(loggedInUser);
             SwitchViewCommand.Execute(this);
@@ -165,6 +193,19 @@ namespace Benchmarker.MVVM.ViewModel.Account
             return isValid;
         }
 
+        private async Task<bool> IsAPIWorking()
+        {
+			bool apiWorking = await APIStatus.IsAPIWorking();
+			
+            if (!apiWorking)
+			{
+				isInteractable = true;
+				InformationText = "Our servers are currently down. Try again later.";
+			}
+            
+            return apiWorking;
+		}
+
         private void ResetInputs()
         {
             EmailText = "";
@@ -175,6 +216,7 @@ namespace Benchmarker.MVVM.ViewModel.Account
         {
             EmailError = "";
             PasswordError = "";
+            InformationText = "";
         }
     }
 }

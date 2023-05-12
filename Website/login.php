@@ -46,7 +46,7 @@ if (isset($_POST['email'])){
         $ERROR = "NETEISINGI DUOMENYS";
     }
     else{
-        $_SESSION['USERINFO'] = $response;
+        $_SESSION['token'] = $response;
         header("Location: /index.php");
     }
 

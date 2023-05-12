@@ -1,9 +1,12 @@
 ﻿using Benchmarker.Core;
 using Benchmarker.MVVM.Model;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Windows.Media;
 
 namespace Benchmarker.MVVM.ViewModel
 {
@@ -18,6 +21,9 @@ namespace Benchmarker.MVVM.ViewModel
 		public int ProgressMaxValue { get; set; }
 		public int ProgressValue { get; set; }
 		public string ProgressStatus { get; set; }
+		public float ScoreScale { get; set; }
+		public string Score { get; set; }
+		public string ScoreColour { get; set; }
 
 		public string ShowProgressBind
 		{
@@ -37,9 +43,26 @@ namespace Benchmarker.MVVM.ViewModel
 			{
 				SelectProcess();
 			});
+
+			LoadScoreStats();
 		}
 
-		public void SelectProcess()
+        private void LoadScoreStats()
+        {
+			var maxValue = 3000;
+            var Benchmarks = HistoryService.GetBenchmarks();
+			var avg = Benchmarks.Average(x => x.Energy);
+			Score = string.Format("{0}/{1}", (int)avg, maxValue);
+			ScoreScale = (float)avg * 100 / maxValue;
+
+			var g = ScoreScale / 100;
+			var r = (1 - ScoreScale / 100);
+			var b = 0;
+			ScoreColour = String.Format("#{0:X2}{1:X2}{2:X2}", (int)(r * 255), (int)(g * 255), (int)(b * 255));
+			OnPropertyChanged();
+        }
+
+        public void SelectProcess()
 		{
 			SetProgressVisibility(true);
 
@@ -62,6 +85,7 @@ namespace Benchmarker.MVVM.ViewModel
 
 		public void ResetScreen()
 		{
+			LoadScoreStats();
 			SetProgressVisibility(false);
 			UpdateProgressBar(0);
 			ProgressStatus = "";

@@ -7,11 +7,42 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical"
+                    VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="14">
+                Your average green score:
+            </TextBlock>
+            <Grid Height="25">
+                <ProgressBar Minimum="0"
+                     Value="{Binding ScoreScale}"
+                     Foreground="{Binding ScoreColour}"
+                     Background="Transparent"
+                     Width="300"
+                     Height="25"
+                     BorderThickness="0">
+                    <ProgressBar.Clip>
+                        <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,300,25"/>
+                    </ProgressBar.Clip>
+                </ProgressBar>
+                <TextBlock HorizontalAlignment="Center"
+                       Text="{Binding Score}"
+                       FontSize="14"
+                       VerticalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+        
         <StackPanel Name="ProcessSelection"
                     Orientation="Vertical" 
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Visibility="Visible">
+                    Visibility="Visible"
+                    Grid.Row="2">
             <!--<TextBlock Text="Start a new benchmark: "
                    FontSize="28"
                    HorizontalAlignment="Center"

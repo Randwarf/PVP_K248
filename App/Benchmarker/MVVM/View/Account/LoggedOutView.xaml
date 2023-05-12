@@ -13,12 +13,13 @@
                      Width="220">
             <TextBlock Margin="5,0" 
                        Text="Email"
+                       TextWrapping="Wrap"
                        FontSize="14"/>
             <TextBox Name="EmailText" 
                      Margin="5" 
                      Text="{Binding EmailText}"
                      FontSize="14"/>
-            
+
             <TextBlock Name="EmailError" Foreground="Red" Margin="5,0,5,10" TextWrapping="Wrap" Text="{Binding EmailError}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
@@ -33,6 +34,7 @@
             </TextBlock>
             <TextBlock Margin="5,0" 
                        Text="Password"
+                       TextWrapping="Wrap"
                        FontSize="14"/>
             <PasswordBox Name="PasswordText" 
                          Margin="5" 
@@ -64,6 +66,10 @@
                         FontSize="14" 
                         Command="{Binding LoginCommand}"/>
             </StackPanel>
+            <TextBlock Margin="5,0" 
+                       Text="{Binding InformationText}"
+                       TextWrapping="Wrap"
+                       FontSize="14"/>
         </StackPanel>
     </Grid>
 </UserControl>

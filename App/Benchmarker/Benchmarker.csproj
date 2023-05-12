@@ -75,6 +75,7 @@
     <Compile Include="MVVM\Model\AccountManager.cs" />
     <Compile Include="MVVM\Model\Benchmark.cs" />
     <Compile Include="MVVM\Model\BenchmarkCompareService.cs" />
+    <Compile Include="MVVM\Model\Database\APIStatus.cs" />
     <Compile Include="MVVM\Model\Database\IUserRepository.cs" />
     <Compile Include="MVVM\Model\Database\UserRepository.cs" />
     <Compile Include="MVVM\Model\Deprecated\CPUServiceOld.cs" />
@@ -103,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MVVM\View\Account\AccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\View\Account\LoadingUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,6 +186,7 @@
     <Compile Include="MVVM\Model\User.cs" />
     <Compile Include="MVVM\Model\UserInfo.cs" />
     <Compile Include="MVVM\ViewModel\Account\AccountViewModel.cs" />
+    <Compile Include="MVVM\ViewModel\Account\LoadingUserViewModel.cs" />
     <Compile Include="MVVM\ViewModel\Account\LoggedInViewModel.cs" />
     <Compile Include="MVVM\ViewModel\Account\LoggedOutViewModel.cs" />
     <Compile Include="MVVM\ViewModel\Benchmark\BenchmarkRunViewModel.cs" />
@@ -192,6 +198,9 @@
     <Compile Include="MVVM\ViewModel\SettingsViewModel.cs" />
     <Compile Include="MVVM\View\Account\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\View\Account\LoadingUserView.xaml.cs">
+      <DependentUpon>LoadingUserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\View\Account\LoggedInView.xaml.cs">
       <DependentUpon>LoggedInView.xaml</DependentUpon>
