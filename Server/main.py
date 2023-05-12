@@ -241,7 +241,7 @@ def logout():
 
     args_json = request.json
     token = args_json['token']
-    database.delete_data("AuthTokens", f"token={token}")
+    database.delete_data("AuthTokens", f"token='{token}'")
     return jsonify({"code": "200", "message": "Logged out"}), 200
 
 @app.route("/get_user_by_token", methods=["POST"])
@@ -262,7 +262,7 @@ def get_user_by_token():
         return jsonify({"code": "403", "message": "Token expired"}), 403
 
     userID = tokenData[0]['userID']
-    user = database.select_data("Users", where=f"id={userID}")
+    user = database.select_data("Users", where=f"id='{userID}'")
     
     if len(user) == 0:
         return jsonify({"code": "404", "message": "User not found"}), 404
