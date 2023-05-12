@@ -56,7 +56,7 @@ if(!empty($_GET['session_id'])){
                     $customer_email = !empty($customer_details->email)?$customer_details->email:''; 
                 } 
 
-                $url = "http://127.0.0.1:5000/make_premium?email=" . urlencode($_SESSION['USERINFO']->email);
+                $url = "http://127.0.0.1:5000/make_premium?email=" . urlencode($_SESSION['USERINFO']['email']);
                 $options = array(
                     'http' => array(
                         'method' => 'GET',
@@ -116,7 +116,7 @@ if(!empty($_GET['session_id'])){
         <div class="card-body">
             <p><b>Name:</b> <?php echo $customer_name; ?></p>
             <p><b>Email:</b> <?php echo $customer_email; ?></p>
-            <p><b>Purchased For:</b> <?php echo $_SESSION['USERINFO']->email; ?></p>
+            <p><b>Purchased For:</b> <?php echo $_SESSION['USERINFO']['email']; ?></p>
         </div>
     </div>
     <div class="card">

@@ -3,7 +3,7 @@
         session_start();
     }
 
-    if (!isset($_SESSION['USERINFO'])) {
+    if (!isset($_SESSION['token'])) {
         header("Location: index.php");
     }
 
@@ -17,18 +17,26 @@
     $productPrice = 4.99;
     $currency = 'eur';
 
-    $url = "http://127.0.0.1:5000/get-user-byemail?email=" . urlencode($_SESSION['USERINFO']->email);
+    $url = 'http://127.0.0.1:5000/get_user_by_token';
+    $data = array('token' => $_SESSION['token']);
+    
+    // Encode the data as JSON
+    $json = json_encode($data);
+    
+    // use key 'http' even if you send the request to https://...
     $options = array(
         'http' => array(
-            'method' => 'GET',
-            'ignore_errors' => true
+            'method'  => 'POST',
+            'header'  => 'Content-type: application/json',
+            'content' => $json
         )
     );
-    $context = stream_context_create($options);
+    $context  = stream_context_create($options);
     $response = file_get_contents($url, false, $context);
+    
     $response_json = json_decode($response, true);
+    $_SESSION['USERINFO'] = $response_json;
     $premiumEndDate = $response_json['premiumEndDate'];
-
     $date = new DateTime($premiumEndDate);
     $today = new DateTime();
     $isPremium = $date > $today;
@@ -60,7 +68,7 @@
 
     <section class="main_header">
         <div class="container">
-            <h1 class="main_text" id="username"><?php echo ($_SESSION['USERINFO']->email) ?></h1>
+            <h1 class="main_text" id="username"><?php echo ($_SESSION['USERINFO']['email']) ?></h1>
             <br></br>
             <p>
                 <?php
