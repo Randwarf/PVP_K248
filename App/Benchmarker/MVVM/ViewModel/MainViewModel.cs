@@ -86,7 +86,7 @@ namespace Benchmarker.MVVM.ViewModel
         private void CreateModels(Task<bool> loggingInTask)
         {
             BenchmarkVM = new BenchmarkViewModel();
-            HistoryVM = new HistoryViewModel();
+            HistoryVM = new HistoryViewModel(BenchmarkVM);
             CompareVM = new CompareViewModel();
             SettingsVM = new SettingsViewModel();
             AccountVM = new AccountViewModel(loggingInTask);

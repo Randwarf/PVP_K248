@@ -254,6 +254,7 @@ def get_user_by_token():
     token = args_json['token']
     tokenData = database.select_data("AuthTokens",where=f"token={token}")
     if len(tokenData) == 0:
+        print("no token")
         return jsonify({"code": "404", "message": "Token not found"}), 404
     
     expiration_time_str = tokenData[0]['validBefore']
@@ -262,9 +263,10 @@ def get_user_by_token():
         return jsonify({"code": "403", "message": "Token expired"}), 403
 
     userID = tokenData[0]['userID']
-    user = database.select_data("Users", where=f"id='{userID}'")
+    user = database.select_data("Users", where=f"id={userID}")
     
     if len(user) == 0:
+        print("no user")
         return jsonify({"code": "404", "message": "User not found"}), 404
 
     user = user[0]
