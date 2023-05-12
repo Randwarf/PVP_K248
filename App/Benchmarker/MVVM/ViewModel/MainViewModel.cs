@@ -59,7 +59,12 @@ namespace Benchmarker.MVVM.ViewModel
         {
             Debug.WriteLine("Logging in");
             string token = UserInfo.Settings.userToken;
+
             if (string.IsNullOrEmpty(token)) return false;
+
+            var apiStatus = await APIStatus.IsAPIWorking();
+            if (apiStatus == false) return false;
+
             UserRepository userRepository = new UserRepository();
             User user = await userRepository.GetUserByToken(token);
             if (user == null) return false;
