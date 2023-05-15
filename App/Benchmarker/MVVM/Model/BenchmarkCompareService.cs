@@ -11,7 +11,7 @@ namespace Benchmarker.MVVM.Model
         {
             var row = new ComparisonRow()
             {
-                Attribute = "App",
+                Attribute = "",
                 Process1 = benchmark1.Process,
                 Process2 = benchmark2.Process
             };
@@ -36,8 +36,8 @@ namespace Benchmarker.MVVM.Model
         private static ComparisonRow CompareValues(string attributeName, double value1, double value2)
         {
             List<string> comparison = new List<string>() {
-                value1.ToString(),
-                value2.ToString()
+                "",
+                ""
             };
 
             if (value1 == value2)
@@ -45,8 +45,8 @@ namespace Benchmarker.MVVM.Model
                 return new ComparisonRow()
                 {
                     Attribute = attributeName,
-                    Process1 = comparison[0],
-                    Process2 = comparison[1]
+                    Process1 = value1.ToString(),
+                    Process2 = value2.ToString()
                 };
             }
 
@@ -54,18 +54,23 @@ namespace Benchmarker.MVVM.Model
             double maxMetric = Math.Max(value1, value2);
             int modifyIndex = value1 > value2 ? 1 : 0;
 
-            if (attributeName != "Energy") {
+            if (attributeName != "Energy")
+            {
                 double percentage = (minMetric != 0) ? Math.Abs(maxMetric - minMetric) / minMetric * 100 : 100;
-                comparison[modifyIndex] += $" (+{Math.Round((percentage > 0 ? 1 : -1) * percentage, 0)}%)";
-            } else {
-                comparison[modifyIndex] += $" (+{maxMetric - minMetric})";
+                comparison[modifyIndex] += $" +{Math.Round((percentage > 0 ? 1 : -1) * percentage, 0)}%";
+            }
+            else
+            {
+                comparison[modifyIndex] += $" +{maxMetric - minMetric}";
             }
 
             var row = new ComparisonRow()
             {
                 Attribute = attributeName,
-                Process1 = comparison[0],
-                Process2 = comparison[1]
+                Process1 = value1.ToString(),
+                Eval1 = comparison[0],
+                Process2 = value2.ToString(),
+                Eval2 = comparison[1]
             };
 
             return row;

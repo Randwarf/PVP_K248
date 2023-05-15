@@ -48,5 +48,7 @@ namespace Benchmarker.MVVM.ViewModel
         public string Attribute { get; set; }
         public string Process1 { get; set; }
         public string Process2 { get; set; }
+        public string Eval1 { get; set; }
+        public string Eval2 { get; set; }
     }
 }

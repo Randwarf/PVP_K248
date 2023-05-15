@@ -18,7 +18,7 @@
                   BorderThickness="0"
                   HeadersVisibility="Column">
             <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="155" Header="Benchmark comparison report" Binding="{Binding Attribute}">
+                <DataGridTextColumn MinWidth="200" Header="Benchmark comparison report" Binding="{Binding Attribute}">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="IsHitTestVisible" Value="False"/>
@@ -26,6 +26,7 @@
                             <Setter Property="BorderBrush" Value="#a9a9a9" />
                             <Setter Property="BorderThickness" Value="0 0 0 0.5" />
                             <Setter Property="Padding" Value="5,5,10,5" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -49,8 +50,13 @@
                             </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Padding" Value="5,7,5,7"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn MinWidth="165" Header="" Binding="{Binding Process1}">
+                <DataGridTextColumn MinWidth="135" Header="" Binding="{Binding Process1}">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="Background" Value="Transparent"/>
@@ -59,8 +65,13 @@
                             <Setter Property="Padding" Value="0"/>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Padding" Value="5,7,5,7"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn MinWidth="165" Header="" Binding="{Binding Process2}">
+                <DataGridTextColumn MinWidth="95" Header="" Binding="{Binding Eval1}">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="Background" Value="Transparent"/>
@@ -69,6 +80,45 @@
                             <Setter Property="Padding" Value="0"/>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="Green"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Padding" Value="5,7,5,7"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn MinWidth="145" Header="" Binding="{Binding Process2}">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                            <Setter Property="Padding" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Padding" Value="5,7,5,7"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn MinWidth="95" Header="" Binding="{Binding Eval2}">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                            <Setter Property="Padding" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="Green"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Padding" Value="5,7,5,7"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderStyle>
