@@ -17,40 +17,44 @@
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
 
-      // Set a callback to run when the Google Visualization API is loaded.
-      //google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Name', 'Number'],
-            ['Name 1', 1990],
-            ['Name 2', 1890],
-            ['Name 3', 2330],
-            ['Name 3', 2330],
-            ['Name 3', 2200],
-            ['Name 3', 2130],
-        ]);
+        var endpointUrl = "http://127.0.0.1:5000/get-energies";
+        var queryParams = { process: url_param_process };
+        $.get(endpointUrl, queryParams, function(response) {
+            var array = [];
+            array.push(['Name', 'Number']);
+            response.forEach(element => {
+                if(element.energy >= 0){
+                    array.push(['Energy', element.energy]);
+                }
+            });
 
-        var options = {
-            legend: { position: 'none' },
-            colors: ['#4285F4'],
+            
+            var data = google.visualization.arrayToDataTable(
+                array
+            );
 
-            chartArea: { width: 405 },
-            hAxis: {
-                ticks: [0, 500, 1000, 1500, 2000, 2500, 3000]
-            },
-            bar: { gap: 0 },
+            var options = {
+                legend: { position: 'none' },
+                colors: ['#4285F4'],
 
-            histogram: {
-                bucketSize: 100,
-                maxNumBuckets: 300,
-                minValue: 0,
-                maxValue: 3000
-            }
-        };
+                chartArea: { width: 405 },
+                hAxis: {
+                    ticks: [0, 500, 1000, 1500, 2000, 2500, 3000]
+                },
+                bar: { gap: 0 },
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
-        chart.draw(data, options);
+                histogram: {
+                    bucketSize: 100,
+                    maxNumBuckets: 300,
+                    minValue: 0,
+                    maxValue: 3000
+                }
+            };
+
+            var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        });
       }
     </script>
 

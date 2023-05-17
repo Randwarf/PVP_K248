@@ -56,6 +56,19 @@ def get_benchmark():
 
     return jsonify(db_result)
 
+@app.route("/get-energies", methods=["GET"])
+def get_energies():
+    args = request.args
+    process = args['process']
+    db_result = database.select_data("benchmarks", columns="energy", where=f"process={process}")
+    
+    if (len(db_result) == 0): # if the array is empty, the process is not in the database
+        return jsonify({"code": "404", "message": "Process not found"}), 404
+    
+    db_result = jsonify(db_result)
+    db_result.headers.add('Access-Control-Allow-Origin', '*')
+    return db_result
+
 @app.route("/get-app", methods=["GET"])
 def get_app():
     args = request.args
