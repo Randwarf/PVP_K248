@@ -11,6 +11,48 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      //google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Name', 'Number'],
+            ['Name 1', 1990],
+            ['Name 2', 1890],
+            ['Name 3', 2330],
+            ['Name 3', 2330],
+            ['Name 3', 2200],
+            ['Name 3', 2130],
+        ]);
+
+        var options = {
+            legend: { position: 'none' },
+            colors: ['#4285F4'],
+
+            chartArea: { width: 405 },
+            hAxis: {
+                ticks: [0, 500, 1000, 1500, 2000, 2500, 3000]
+            },
+            bar: { gap: 0 },
+
+            histogram: {
+                bucketSize: 100,
+                maxNumBuckets: 300,
+                minValue: 0,
+                maxValue: 3000
+            }
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
 
 </head>
 <body>
@@ -29,6 +71,7 @@ include("assets/include/header.php");
         <table id="stat-table" class="table">
             <tbody>
 <!--            Stats of the app go here                 -->
+                
             </tbody>
         </table>
         <br>
@@ -65,24 +108,28 @@ include("assets/include/header.php");
                 table.append(tr);
 
                 var tr2 = $("<tr class=\"stat-info\">");
-                tr2.append($("<td>").text("Procesoriaus (CPU) užimtumas"));
-                tr2.append($("<td>").text(response[0].cpu + "%"));
+                tr2.append($("<td width=400px>").text("Procesoriaus (CPU) užimtumas"));
+                tr2.append($("<td style='text-align: center'>").text(response[0].cpu + "%"));
                 table.append(tr2);
 
                 var tr3 = $("<tr class=\"stat-info\">");
                 tr3.append($("<td>").text("Atminties (RAM) užimtumas"));
-                tr3.append($("<td>").text(response[0].ram + "%"));
+                tr3.append($("<td style='text-align: center'>").text(response[0].ram + "%"));
                 table.append(tr3);
 
                 var tr4 = $("<tr class=\"stat-info\">");
                 tr4.append($("<td>").text("Disko užimtumas"));
-                tr4.append($("<td>").text(response[0].disk + "%"));
+                tr4.append($("<td style='text-align: center'>").text(response[0].disk + "%"));
                 table.append(tr4);
 
                 var tr5 = $("<tr class=\"stat-info\">");
                 tr5.append($("<td>").text("Energijos išnaudojimas"));
-                tr5.append($("<td>").text(response[0].energy));
+                tr5.append($("<td style='text-align: center'>").text(response[0].energy).append($("<div>").attr("id", "chart_div")));
                 table.append(tr5);
+
+                google.charts.setOnLoadCallback(drawChart);
+                
+
             }).fail(function() {
                 // If the request fails, print an error message
                 var process_div = $("#process");
