@@ -5,12 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace Benchmarker.MVVM.ViewModel
 {
-	class BenchmarkStartViewModel : ObservableObject
+    class BenchmarkStartViewModel : ObservableObject
 	{
 		public RelayCommand SwitchViewCommand { get; set; }
 		public RelayCommand SelectProcessCommand { get; set; }
@@ -24,8 +31,9 @@ namespace Benchmarker.MVVM.ViewModel
 		public float ScoreScale { get; set; }
 		public string Score { get; set; }
 		public string ScoreColour { get; set; }
+		public Thickness MarkerMargin { get; set; }
 
-		public string ShowProgressBind
+        public string ShowProgressBind
 		{
 			get { return showProgress ? "Visible" : "Hidden"; }
 		}
@@ -49,18 +57,18 @@ namespace Benchmarker.MVVM.ViewModel
 
         private void LoadScoreStats()
         {
-			var maxValue = 3000;
+            var maxValue = 3000;
             var Benchmarks = HistoryService.GetBenchmarks();
-			var avg = Benchmarks.Average(x => x.Energy);
-			Score = string.Format("{0}/{1}", (int)avg, maxValue);
-			ScoreScale = (float)avg * 100 / maxValue;
+            var avg = Benchmarks.Average(x => x.Energy);
+            Score = string.Format("{0}/{1}", (int)avg, maxValue);
+            ScoreScale = 100;
 
-			var g = ScoreScale / 100;
-			var r = (1 - ScoreScale / 100);
-			var b = 0;
-			ScoreColour = String.Format("#{0:X2}{1:X2}{2:X2}", (int)(r * 255), (int)(g * 255), (int)(b * 255));
-			OnPropertyChanged();
+            var markerPosition = (float)avg / maxValue * 300;
+            MarkerMargin = new Thickness(markerPosition, -5, 0, 0);
+
+            OnPropertyChanged();
         }
+
 
         public void SelectProcess()
 		{
@@ -83,7 +91,7 @@ namespace Benchmarker.MVVM.ViewModel
 			processBackgroundWorker.RunWorkerCompleted += OnWorkerComplete;
 		}
 
-		public void ResetScreen()
+        public void ResetScreen()
 		{
 			LoadScoreStats();
 			SetProgressVisibility(false);
