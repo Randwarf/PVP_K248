@@ -15,6 +15,11 @@
                   AutoGenerateColumns="False"
                   BorderThickness="0"
                   HeadersVisibility="Column" Grid.ColumnSpan="2">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding RowColor}" />
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="155" Header="App" Binding="{Binding Process}" />
                 <DataGridTextColumn MinWidth="165" Header="Date" Binding="{Binding Date}" />
