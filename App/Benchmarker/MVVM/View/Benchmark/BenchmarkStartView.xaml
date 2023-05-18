@@ -12,11 +12,21 @@
             <RowDefinition Height="250"/>
         </Grid.RowDefinitions>
 
+        <Image Margin="-193,102,-29,5" Source="/art3.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Panel.ZIndex="0">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-192.607"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
         <StackPanel Orientation="Vertical"
                     VerticalAlignment="Top" Margin="387,170,23,0" Height="70" Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 15">
                 <TextBlock FontWeight="Bold"  Text="Green-o-meter "/>
-                <Image Source="/explain.png" Width="12" Height="12" Stretch="Uniform">
+                <Image Source="/explain.png" Width="12" Height="12" Stretch="Uniform" Panel.ZIndex="1">
                     <Image.ToolTip>
                         <ToolTip>
                             <TextBlock Text="Explanation of the average green score"/>
@@ -63,7 +73,7 @@
                 <Polygon Points="0,0 10,5 0,10"
                  Fill="Black"
                  Canvas.Left="{Binding MarkerMargin.Left}"
-                 Canvas.Top="29" RenderTransformOrigin="0,0.43" >
+                 Canvas.Top="29" RenderTransformOrigin="0,0.46" >
                     <Polygon.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -92,7 +102,7 @@
                     Orientation="Vertical" 
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Visibility="Visible" Margin="10,10,0,0" Grid.Row="1">
+                    Visibility="Visible" Margin="175,127,0,0" Grid.RowSpan="2">
             <!--<TextBlock Text="Start a new benchmark: "
                    FontSize="28"
                    HorizontalAlignment="Center"
@@ -110,17 +120,8 @@
                     Width="300"
                     Margin="0 25 0 0"
                     Background="LightGreen"
-                    Command="{Binding SelectProcessCommand}" Content="Start a new benchmark"/>
+                    Command="{Binding SelectProcessCommand}" Content="Start a new benchmark"
+                    Panel.ZIndex="1"/>
         </StackPanel>
-        <Image Margin="-193,102,-29,5" Source="/art3.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-192.607"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
     </Grid>
 </UserControl>
