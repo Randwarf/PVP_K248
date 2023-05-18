@@ -75,6 +75,7 @@
     <Compile Include="MVVM\Model\AccountManager.cs" />
     <Compile Include="MVVM\Model\Benchmark.cs" />
     <Compile Include="MVVM\Model\BenchmarkCompareService.cs" />
+    <Compile Include="MVVM\Model\Extensions\ColorExtensions.cs" />
     <Compile Include="MVVM\Model\Database\APIStatus.cs" />
     <Compile Include="MVVM\Model\Database\IUserRepository.cs" />
     <Compile Include="MVVM\Model\Database\UserRepository.cs" />

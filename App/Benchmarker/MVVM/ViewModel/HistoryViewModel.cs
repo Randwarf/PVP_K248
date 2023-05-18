@@ -39,23 +39,23 @@ namespace Benchmarker.MVVM.ViewModel
             Benchmarks = null;
             var historyBenchmarks = HistoryService.GetBenchmarks();
             var coloredBenchmarks = SetRowColorBasedOnEnergy(historyBenchmarks);
-            coloredBenchmarks.Sort((x, y) => y.Energy.CompareTo(x.Energy));
+            coloredBenchmarks.Sort((x, y) => x.Energy.CompareTo(y.Energy));
             Benchmarks = coloredBenchmarks;
             benchmarkViewModel.StartVM.ResetScreen();
         }
 
-		private List<HistoryBenchmark> SetRowColorBasedOnEnergy(List<HistoryBenchmark> benchmarks)
+		public List<HistoryBenchmark> SetRowColorBasedOnEnergy(List<HistoryBenchmark> benchmarks)
 		{
-            double maxEnergy = benchmarks.Select(x => x.Energy).Max();
+            var energyValues = benchmarks.Select(x => x.Energy);
+            double minEnergy = energyValues.Min();
+            double maxEnergy = energyValues.Max();
 
 			foreach (HistoryBenchmark benchmark in benchmarks)
 			{
-				double normalizedEnergy = benchmark.Energy / maxEnergy;
-				byte red = (byte)(255 * (1 - normalizedEnergy));
-				byte green = (byte)(255 * normalizedEnergy);
-				byte blue = 0;
-
-				Color color = Color.FromRgb(red, green, blue);
+				double normalizedEnergy = (benchmark.Energy - minEnergy) / (maxEnergy - minEnergy);
+                Color green = Color.FromRgb(144, 238, 144);
+                Color red = Color.FromRgb(252, 108, 133);
+				Color color = ColorExtensions.LerpColor(green, red, normalizedEnergy);
 				SolidColorBrush rowColor = new SolidColorBrush(color);
 				benchmark.RowColor = rowColor;
 			}
