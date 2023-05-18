@@ -121,7 +121,7 @@
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="LightGreen" />
+                                    <Setter Property="Background" Value="#7bc143" />
                                     <Setter Property="FontSize" Value="12" />
                                     <Setter Property="FontWeight" Value="Bold" />
                                 </Trigger>

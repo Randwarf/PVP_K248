@@ -56,7 +56,7 @@
                 <Setter Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightGreen" />
+                <Setter Property="Background" Value="#7bc143" />
                 <Setter Property="Foreground" Value="Black" />
                 <Setter Property="FontSize" Value="12" />
                 <Setter Property="FontWeight" Value="Bold" />
@@ -76,7 +76,7 @@
                 <Setter Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightGreen" />
+                <Setter Property="Background" Value="#7bc143" />
                 <Setter Property="Foreground" Value="Black" />
             </Trigger>
         </Style.Triggers>
@@ -153,11 +153,11 @@
 
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="LightGreen"/>
+                <Setter Property="Background" Value="#7bc143"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightGreen"/>
+                <Setter Property="Background" Value="#7bc143"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
         </Style.Triggers>

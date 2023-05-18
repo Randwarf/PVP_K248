@@ -12,6 +12,10 @@
             <RowDefinition Height="250"/>
         </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Horizontal" Margin="10,-45,366,154">
+            <Image Margin="0,11,5,0" Source="/icon.png" Stretch="Uniform" Height="78" Width="75"/>
+            <TextBlock FontSize="44" FontWeight="Bold"  Text="enchmarker" VerticalAlignment="Center"/>
+        </StackPanel>
         <Image Margin="-193,102,-29,5" Source="/art3.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Panel.ZIndex="0">
             <Image.RenderTransform>
                 <TransformGroup>
@@ -24,7 +28,7 @@
         </Image>
         <StackPanel Orientation="Vertical"
                     VerticalAlignment="Top" Margin="387,170,23,0" Height="70" Grid.Row="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="30 0 0 15">
                 <TextBlock FontWeight="Bold"  Text="Green-o-meter "/>
                 <Image Source="/explain.png" Width="12" Height="12" Stretch="Uniform" Panel.ZIndex="1">
                     <Image.ToolTip>
@@ -102,7 +106,7 @@
                     Orientation="Vertical" 
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Visibility="Visible" Margin="175,127,0,0" Grid.RowSpan="2">
+                    Visibility="Visible" Margin="10,0,0,0" Grid.Row="1">
             <!--<TextBlock Text="Start a new benchmark: "
                    FontSize="28"
                    HorizontalAlignment="Center"
@@ -115,13 +119,18 @@
                 Maximum="{Binding ProgressMaxValue}"
                 Value="{Binding ProgressValue}"
                 Visibility="{Binding ShowProgressBind}"/>
-            <Button x:Name="StartBenchmark"
-                    Height="50"
-                    Width="300"
-                    Margin="0 25 0 0"
-                    Background="LightGreen"
-                    Command="{Binding SelectProcessCommand}" Content="Start a new benchmark"
-                    Panel.ZIndex="1"/>
+            <Border CornerRadius="10" Background="#7bc143" Margin="0 25 0 0">
+                <Button x:Name="StartBenchmark"
+            Height="50"
+            Width="280"
+            Command="{Binding SelectProcessCommand}"
+            Content="Start a new benchmark"
+            Background="#7bc143"
+            Panel.ZIndex="1"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"/>
+            </Border>
         </StackPanel>
+
     </Grid>
 </UserControl>
