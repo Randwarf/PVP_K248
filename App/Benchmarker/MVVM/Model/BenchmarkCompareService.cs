@@ -64,16 +64,31 @@ namespace Benchmarker.MVVM.Model
                 comparison[modifyIndex] += $" +{maxMetric - minMetric}";
             }
 
-            var row = new ComparisonRow()
+            ComparisonRow row;
+            if (attributeName != "Energy")
             {
-                Attribute = attributeName,
-                Process1 = value1.ToString(),
-                Eval1 = comparison[0],
-                Process2 = value2.ToString(),
-                Eval2 = comparison[1]
-            };
-
+                row = new ComparisonRow()
+                {
+                    Attribute = attributeName,
+                    Process1 = value1.ToString(),
+                    Eval1 = comparison[0],
+                    Process2 = value2.ToString(),
+                    Eval2 = comparison[1]
+                };
+            }
+            else
+            {
+                row = new ComparisonRow()
+                {
+                    Attribute = attributeName,
+                    Process1 = value1.ToString(),
+                    Eval1 = comparison[1],
+                    Process2 = value2.ToString(),
+                    Eval2 = comparison[0]
+                };
+            }
             return row;
+
         }
     }
 }
