@@ -89,7 +89,7 @@
 
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="VerticalGridLinesBrush"  Value="Transparent"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="#a9a9a9"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
         <Setter Property="Background" Value="#f2f2f2"/>
     </Style>
 

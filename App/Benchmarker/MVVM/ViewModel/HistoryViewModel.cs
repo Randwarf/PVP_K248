@@ -52,13 +52,13 @@ namespace Benchmarker.MVVM.ViewModel
 
 			foreach (HistoryBenchmark benchmark in benchmarks)
 			{
-				double normalizedEnergy = (benchmark.Energy - minEnergy) / (maxEnergy - minEnergy);
+                double normalizedEnergy = (benchmark.Energy - minEnergy) / (maxEnergy - minEnergy);
                 Color green = Color.FromRgb(144, 238, 144);
                 Color red = Color.FromRgb(252, 108, 133);
-				Color color = ColorExtensions.LerpColor(green, red, normalizedEnergy);
-				SolidColorBrush rowColor = new SolidColorBrush(color);
-				benchmark.RowColor = rowColor;
-			}
+                Color color = ColorExtensions.LerpColor(red, green, normalizedEnergy); // Inverted color range
+                SolidColorBrush rowColor = new SolidColorBrush(color);
+                benchmark.RowColor = rowColor;
+            }
 
             return benchmarks;
 		}
