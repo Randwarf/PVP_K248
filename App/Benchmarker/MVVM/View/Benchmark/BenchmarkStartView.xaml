@@ -32,7 +32,7 @@
                 <TextBlock FontWeight="Bold"  Text="Green-o-meter "/>
                 <Image Source="/explain.png" Width="12" Height="12" Stretch="Uniform" Panel.ZIndex="1">
                     <Image.ToolTip>
-                        <ToolTip>
+                        <ToolTip Style="{StaticResource CustomToolTipStyle}">
                             <TextBlock Text="Explanation of the average green score"/>
                         </ToolTip>
                     </Image.ToolTip>
@@ -56,13 +56,11 @@
                         </LinearGradientBrush>
                     </ProgressBar.Foreground>
                 </ProgressBar>
-                <Rectangle Width="1"
+                <Rectangle Style="{StaticResource CustomRectangleStyle}" Width="1"
                    Height="35"
-                   Fill="Black"
                    Canvas.Left="{Binding MarkerMargin.Left}"
                    Canvas.Top="{Binding MarkerMargin.Top}" />
-                <Polygon Points="0,0 10,5 0,10"
-                 Fill="Black"
+                <Polygon Points="0,0 10,5 0,10" Style="{StaticResource CustomPolygonStyle}"
                  Canvas.Left="{Binding MarkerMargin.Left}"
                  Canvas.Top="-14" RenderTransformOrigin="0,0.55" >
                     <Polygon.RenderTransform>
@@ -74,8 +72,7 @@
                         </TransformGroup>
                     </Polygon.RenderTransform>
                 </Polygon>
-                <Polygon Points="0,0 10,5 0,10"
-                 Fill="Black"
+                <Polygon Points="0,0 10,5 0,10" Style="{StaticResource CustomPolygonStyle}"
                  Canvas.Left="{Binding MarkerMargin.Left}"
                  Canvas.Top="29" RenderTransformOrigin="0,0.46" >
                     <Polygon.RenderTransform>
@@ -92,14 +89,9 @@
                    FontSize="14"
                    Canvas.Top="3"
                    Canvas.Left="120"
-                   TextAlignment="Center"/>
+                   TextAlignment="Center"
+                   Foreground="Black"/>
             </Canvas>
-
-
-
-
-
-
         </StackPanel>
 
         <StackPanel Name="ProcessSelection"
@@ -112,24 +104,25 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>-->
             <TextBlock Text="{Binding ProgressStatus}" FontSize="14" Visibility="{Binding ShowProgressBind}"/>
-            <ProgressBar 
+            <ProgressBar
+                Margin="0 0 0 25"
                 Width="300"
                 Height="25"
                 Minimum="0"
                 Maximum="{Binding ProgressMaxValue}"
                 Value="{Binding ProgressValue}"
                 Visibility="{Binding ShowProgressBind}"/>
-            <Border CornerRadius="10" Background="#7bc143" Margin="0 25 0 0">
-                <Button x:Name="StartBenchmark"
-            Height="50"
-            Width="280"
-            Command="{Binding SelectProcessCommand}"
-            Content="Start a new benchmark"
-            Background="#7bc143"
-            Panel.ZIndex="1"
-            HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"/>
-            </Border>
+            <Button x:Name="StartBenchmark"
+        Height="55"
+        Width="280"
+        Command="{Binding SelectProcessCommand}"
+        Content="Start a new benchmark"
+        Background="#7bc143"
+        Panel.ZIndex="1"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center"
+        Click="StartBenchmark_Click" />
+
         </StackPanel>
 
     </Grid>

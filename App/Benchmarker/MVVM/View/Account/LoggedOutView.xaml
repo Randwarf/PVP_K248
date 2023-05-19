@@ -59,12 +59,12 @@
                         Margin="20,10" 
                         Padding="15, 5" 
                         FontSize="14" 
-                        Command="{Binding RegisterCommand}"/>
+                        Command="{Binding RegisterCommand}" Width="85" Height="35"/>
                 <Button Content="Log In" 
                         Margin="20,10"
                         Padding="15, 5" 
                         FontSize="14" 
-                        Command="{Binding LoginCommand}"/>
+                        Command="{Binding LoginCommand}" Width="85" Height="35"/>
             </StackPanel>
             <TextBlock Margin="5,0" 
                        Text="{Binding InformationText}"
