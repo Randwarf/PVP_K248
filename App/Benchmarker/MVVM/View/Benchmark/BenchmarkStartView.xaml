@@ -98,7 +98,7 @@
                     Orientation="Vertical" 
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Visibility="Visible" Margin="10,0,0,0" Grid.Row="1">
+                    Visibility="Visible" Margin="10,186,0,0" Width="390" Height="138" Grid.RowSpan="2">
             <!--<TextBlock Text="Start a new benchmark: "
                    FontSize="28"
                    HorizontalAlignment="Center"
@@ -120,8 +120,7 @@
         Background="#7bc143"
         Panel.ZIndex="1"
         HorizontalContentAlignment="Center"
-        VerticalContentAlignment="Center"
-        Click="StartBenchmark_Click" />
+        VerticalContentAlignment="Center"/>
 
         </StackPanel>
 

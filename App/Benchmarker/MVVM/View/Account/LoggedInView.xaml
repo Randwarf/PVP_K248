@@ -11,7 +11,7 @@
             <Label Content="{Binding LoginMessage}" 
                    HorizontalAlignment="Center"
                    FontSize="14"/>
-            <Button Content="Logout" Margin="10" Padding="15, 5" FontSize="14" Command="{Binding LogoutCommand}"/>
+            <Button Content="Logout" Margin="10" Padding="15, 5" FontSize="14" Command="{Binding LogoutCommand}" Height="28"/>
         </StackPanel>
     </Grid>
 </UserControl>
