@@ -25,6 +25,29 @@ body {
     width: 50px;
     height: 50px;
 }
+.about_icons {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.about_icons {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.about_intro {
+    width: 55%;
+    height: 55%;
+    display: block;
+    margin: auto;
+}
+
 .main_info {
     background-color: lightgreen;
     padding-top: 20px;
@@ -36,6 +59,7 @@ body {
     margin-top: 25px;
     margin-bottom: 5px;
 }
+
 .main_text {
     font-weight: bold;
     font-size: 45px;
@@ -46,13 +70,19 @@ body {
 }
 .info_cards {
     margin: 0 auto;
-    width: 60% !important;
+    width: 55% !important;
     margin-top: 40px;
+}
+
+.custom-card {
+    width: 14rem;
+    height: 11rem;
 }
 
 .popular-card:hover {
     background-color: lightgreen;
 }
+
 .stat-info:hover {
     background-color: lightgreen;
 }
@@ -116,3 +146,4 @@ td.compare-process-names {
 .loginsignup {
     margin-bottom: 5px;
 }
+

@@ -20,7 +20,7 @@ include("assets/include/header.php");
         <div class="main_header">
                 <h1 class="main_text">Programų ištestavimas</h1>
                 <a id="download-latest-version" class="btn btn-warning" role="button" href="download.php">Atsisiųsti nemokamą programą</a>
-                <a id="version-history" class="btn btn-warning" onclick="location.href='version-history.html'" role="button">Versijų istorija</a>
+                <a id="version-history" class="btn btn-warning" onclick="location.href='version-history.php'" role="button">Versijų istorija</a>
         </div>
     </section>
 
@@ -30,7 +30,7 @@ include("assets/include/header.php");
                 <div class="col-lg-4 mb-4">
                     <div class="card" style="width: 14rem;">
                         <div class="card-body">
-                            <h5 id="tested-apps-count" class="card-title"></h5>
+                            <h5 id="tested-apps-count" class="card-title"><img src="assets/img/programs.png" class="about_icons"></h5>
                             <p class="card-text">Ištestuotų programų</p>
                         </div>
                     </div>
@@ -38,7 +38,7 @@ include("assets/include/header.php");
                 <div class="col-lg-4 mb-4">
                     <div class="card" style="width: 14rem;">
                         <div class="card-body">
-                            <h5 id="tests-count" class="card-title"></h5>
+                            <h5 id="tests-count" class="card-title"><img src="assets/img/tests.png" class="about_icons"></h5>
                             <p class="card-text">Atlikti testavimai</p>
                         </div>
                     </div>
@@ -46,7 +46,7 @@ include("assets/include/header.php");
                 <div class="col-lg-4 mb-4">
                     <div class="card" style="width: 14rem;">
                         <div class="card-body">
-                            <h5 id="unique-users-count" class="card-title"></h5>
+                            <h5 id="unique-users-count" class="card-title"><img src="assets/img/users.png" class="about_icons"></h5>
                             <p class="card-text">Unikalūs naudotojai</p>
                         </div>
                     </div>

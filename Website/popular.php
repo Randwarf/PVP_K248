@@ -109,10 +109,14 @@ include("assets/include/header.php");
                     var cardDiv = $("<div>").addClass("col-sm-12 col-md-6 col-lg-6 mb-4");
                     var card = $("<div>").addClass("card h-100 popular-card").css("min-width", "0");
                     var cardBody = $("<div>").addClass("card-body d-flex flex-column justify-content-center").html("<a href='app-stats.php?process=" + row.process + "' class=\"stretched-link\"></a>");
-                    var cardTitle = $("<h5>").addClass("card-title").text(row.process).css("font-size", "24px");
+                    var cardImage = $("<img>").attr("src", "assets/img/programs.png").addClass("about_icons");
+                    var cardTitle = $("<h5>").addClass("card-title d-inline").text(row.process).css("font-size", "24px");
                     var cardText = $("<p>").addClass("card-text").text("atlikti ištestavimai: " + row.count).css("font-size", "10px").css("text-align", "right");
 
-                    cardBody.append(cardTitle, cardText);
+                    var cardHeader = $("<div>").addClass("d-flex align-items-center");
+                    cardHeader.append(cardImage, cardTitle);
+
+                    cardBody.append(cardHeader, cardText);
                     card.append(cardBody);
                     cardDiv.append(card);
                     container.append(cardDiv);

@@ -80,7 +80,7 @@ include("assets/include/header.php");
                 table.append(tr4);
 
                 var tr5 = $("<tr class=\"stat-info\">");
-                tr5.append($("<td>").text("Energijos išnaudojimas"));
+                tr5.append($("<td>").text("Energijos įvertis"));
                 tr5.append($("<td>").text(response[0].energy));
                 table.append(tr5);
             }).fail(function() {

@@ -5,7 +5,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 ?>
 
 <nav class="navbar navbar-expand-sm">
-    <img src="assets/img/logo.jpg" class="logo" alt="Logo">
+    <img src="assets/img/logo.png" class="logo" alt="Logo">
     <a class="navbar-brand" href="index.php" style="font-weight: bold; font-size: 25px">eko-logika</a>
     <button class="navbar-toggler navbar-light" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation">
         <span class="navbar-toggler-icon"></span>
