@@ -1,6 +1,46 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="{x:Type ToolTip}" x:Key="CustomToolTipStyle">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="Black" />
+    </Style>
+
+    <Style TargetType="{x:Type Rectangle}" x:Key="CustomRectangleStyle">
+        <Setter Property="Fill" Value="White" />
+    </Style>
+    
+    <Style TargetType="{x:Type Polygon}" x:Key="CustomPolygonStyle">
+        <Setter Property="Fill" Value="White" />
+    </Style>
+
     <Style TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border" CornerRadius="10" Background="#363636" Margin="0 0 0 0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Foreground" Value="#E2E2E2"/>
+                                </Style>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#717171"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="#f0f0f0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--<Style TargetType="{x:Type Button}">
 
         <Setter Property="Background" Value="#363636"/>
         <Setter Property="Foreground" Value="#E2E2E2"/>
@@ -20,7 +60,7 @@
             </Trigger>
         </Style.Triggers>
 
-    </Style>
+    </Style>-->
 
 
     <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -123,7 +163,7 @@
 
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="VerticalGridLinesBrush"  Value="Transparent"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="#a9a9a9"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
         <Setter Property="Background" Value="#1F1F1F"/>
     </Style>
 

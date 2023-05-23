@@ -75,6 +75,7 @@
     <Compile Include="MVVM\Model\AccountManager.cs" />
     <Compile Include="MVVM\Model\Benchmark.cs" />
     <Compile Include="MVVM\Model\BenchmarkCompareService.cs" />
+    <Compile Include="MVVM\Model\Extensions\ColorExtensions.cs" />
     <Compile Include="MVVM\Model\Database\APIStatus.cs" />
     <Compile Include="MVVM\Model\Database\IUserRepository.cs" />
     <Compile Include="MVVM\Model\Database\UserRepository.cs" />
@@ -265,6 +266,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="explain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="art3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
