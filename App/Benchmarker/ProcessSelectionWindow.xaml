@@ -106,7 +106,7 @@
                                  Value="True">
                                         <Setter TargetName="processStackPanel"
                                     Property="Background"
-                                    Value="LightGreen"/>
+                                    Value="#7bc143"/>
                                     </Trigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

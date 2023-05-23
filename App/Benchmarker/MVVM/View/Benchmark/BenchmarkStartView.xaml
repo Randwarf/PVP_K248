@@ -9,46 +9,103 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="250"/>
         </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Horizontal" Margin="10,-45,366,154">
+            <Image Margin="0,11,5,0" Source="/icon.png" Stretch="Uniform" Height="78" Width="75"/>
+            <TextBlock FontSize="44" FontWeight="Bold"  Text="enchmarker" VerticalAlignment="Center"/>
+        </StackPanel>
+        <Image Margin="-193,102,-29,5" Source="/art3.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Panel.ZIndex="0">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-192.607"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
         <StackPanel Orientation="Vertical"
-                    VerticalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center"
-                       FontSize="14">
-                Your average green score:
-            </TextBlock>
-            <Grid Height="25">
+                    VerticalAlignment="Top" Margin="387,170,23,0" Height="70" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="30 0 0 15">
+                <TextBlock FontWeight="Bold"  Text="Green-o-meter "/>
+                <Image Source="/explain.png" Width="12" Height="12" Stretch="Uniform" Panel.ZIndex="1">
+                    <Image.ToolTip>
+                        <ToolTip Style="{StaticResource CustomToolTipStyle}">
+                            <TextBlock Text="Explanation of the average green score"/>
+                        </ToolTip>
+                    </Image.ToolTip>
+                </Image>
+            </StackPanel>
+            <Canvas Height="25" Width="300">
                 <ProgressBar Minimum="0"
                      Value="{Binding ScoreScale}"
-                     Foreground="{Binding ScoreColour}"
                      Background="Transparent"
                      Width="300"
                      Height="25"
                      BorderThickness="0">
                     <ProgressBar.Clip>
-                        <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,300,25"/>
+                        <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,300,25" />
                     </ProgressBar.Clip>
+                    <ProgressBar.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="Red" Offset="0" />
+                            <GradientStop Color="Yellow" Offset="0.5" />
+                            <GradientStop Color="Green" Offset="1" />
+                        </LinearGradientBrush>
+                    </ProgressBar.Foreground>
                 </ProgressBar>
+                <Rectangle Style="{StaticResource CustomRectangleStyle}" Width="1"
+                   Height="35"
+                   Canvas.Left="{Binding MarkerMargin.Left}"
+                   Canvas.Top="{Binding MarkerMargin.Top}" />
+                <Polygon Points="0,0 10,5 0,10" Style="{StaticResource CustomPolygonStyle}"
+                 Canvas.Left="{Binding MarkerMargin.Left}"
+                 Canvas.Top="-14" RenderTransformOrigin="0,0.55" >
+                    <Polygon.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-270"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Polygon.RenderTransform>
+                </Polygon>
+                <Polygon Points="0,0 10,5 0,10" Style="{StaticResource CustomPolygonStyle}"
+                 Canvas.Left="{Binding MarkerMargin.Left}"
+                 Canvas.Top="29" RenderTransformOrigin="0,0.46" >
+                    <Polygon.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-90"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Polygon.RenderTransform>
+                </Polygon>
                 <TextBlock HorizontalAlignment="Center"
-                       Text="{Binding Score}"
-                       FontSize="14"
-                       VerticalAlignment="Center"/>
-            </Grid>
+                   Text="{Binding Score}"
+                   FontSize="14"
+                   Canvas.Top="3"
+                   Canvas.Left="120"
+                   TextAlignment="Center"
+                   Foreground="Black"/>
+            </Canvas>
         </StackPanel>
-        
+
         <StackPanel Name="ProcessSelection"
                     Orientation="Vertical" 
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Visibility="Visible"
-                    Grid.Row="2">
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Visibility="Visible" Margin="10,186,0,0" Width="390" Height="138" Grid.RowSpan="2">
             <!--<TextBlock Text="Start a new benchmark: "
                    FontSize="28"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>-->
             <TextBlock Text="{Binding ProgressStatus}" FontSize="14" Visibility="{Binding ShowProgressBind}"/>
-            <ProgressBar 
+            <ProgressBar
+                Margin="0 0 0 25"
                 Width="300"
                 Height="25"
                 Minimum="0"
@@ -56,11 +113,16 @@
                 Value="{Binding ProgressValue}"
                 Visibility="{Binding ShowProgressBind}"/>
             <Button x:Name="StartBenchmark"
-                    Height="50"
-                    Width="300"
-                    Margin="0 25 0 0"
-                    Background="LightGreen"
-                    Command="{Binding SelectProcessCommand}" Content="Start a new benchmark"/>
+        Height="55"
+        Width="280"
+        Command="{Binding SelectProcessCommand}"
+        Content="Start a new benchmark"
+        Background="#7bc143"
+        Panel.ZIndex="1"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center"/>
+
         </StackPanel>
+
     </Grid>
 </UserControl>
