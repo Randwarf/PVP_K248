@@ -13,10 +13,17 @@ def calc_diff_percentages(process1, process2):
             else:
                 bigger_metric = max(percentage1, percentage2)
                 smaller_metric = min(percentage1, percentage2)
-                if smaller_metric != 0:
-                    diff_percent = ((abs(bigger_metric - smaller_metric)) / smaller_metric) * 100
+                if key != "energy":
+                    if smaller_metric != 0:
+                        diff_percent = ((abs(bigger_metric - smaller_metric)) / smaller_metric) * 100
+                    else:
+                        diff_percent = (abs(bigger_metric - smaller_metric)) * 100
                 else:
-                    diff_percent = (abs(bigger_metric - smaller_metric)) * 100
+                    if smaller_metric != 0:
+                        diff_percent = (abs(bigger_metric - smaller_metric))
+                    else:
+                        diff_percent = (abs(bigger_metric - smaller_metric))
+
             difference[key] = round(abs(diff_percent))
             total_diff += abs(diff_percent)
 
