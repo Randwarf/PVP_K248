@@ -45,8 +45,7 @@
                 bar: { gap: 0 },
 
                 histogram: {
-                    bucketSize: 100,
-                    maxNumBuckets: 300,
+                    bucketSize: 50,
                     minValue: 0,
                     maxValue: 3000
                 }
