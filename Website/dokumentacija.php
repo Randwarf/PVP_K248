@@ -48,21 +48,27 @@ include("assets/include/header.php");
             <br></br>
             <p>
                 
-                Atvėrę programą, pagrindiniame lange matome mygtuką Start. Paspaudžiame ir išsirenkame (*.exe) tipo failą, kurį norime ištestuoti.  
+                Atvėrę programą, pagrindiniame lange matome mygtuką "Start a new benchmark". Paspaudus, bus surasti visi veikiantys procesai.
             </p>
-            <img src="assets/img/testavimopradz.png" alt="Pagrindinis langas" style="width:640px;height:320px;">
+            <img src="assets/img/Main.png" alt="Pagrindinis langas" width=75%>
             <br></br>
             <p>
                 
-                Dabar galime matyti, kiek testuojama programa sunaudoja kompiuterio parametrų. Norint sustabdyti programą paspaudžiame mygtuką Stop.   
+                Atsivėrusiame naujame lange išsirenkame norimą testuoti procesą.
             </p>
-            <img src="assets/img/stabdymas.png" alt="Mygtukas Stop" style="width:640px;height:320px;">
+            <img src="assets/img/Process.png" alt="Procesų langas" width=75%>
             <br></br>
             <p>
                 
-                Išjungiame programą naudodami užduočių juostą.   
+                Šis procesas dabar yra testuojamas, o jo informacija saugoma. Proceso testavimas sustabdomas rankiniu būdu, tačiau verta pastebėti, kad jei testuosime trumpiau, nei 30 sekundžių, testavimas nebus užskaitytas.
             </p>
-            <img src="assets/img/isjungimas.png" alt="Uždaryti programą" style="width:320px;height:160px;">
+            <img src="assets/img/run.png" alt="testavimo langas" width=75%>
+            <br></br>
+            <p>
+                
+                Sustabdžius proceso testavimą, jo suvestinę galime matyti "History" lange.
+            </p>
+            <img src="assets/img/history.png" alt="history langas" width=75%>
         </section>
 </main>
 
