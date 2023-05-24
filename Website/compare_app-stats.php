@@ -150,14 +150,14 @@ include("assets/include/header.php");
                     table1.append(tr4);
 
                     var tr4 = $("<tr class=\"stat-info\">");
-                    tr4.append($("<td>").text("Energijos išnaudojimas"));
+                    tr4.append($("<td>").text("Energijos įvertis"));
                     if (data1[0].energy > data2[0].energy) {
-                        tr4.append($("<td>").text(data1[0].energy));
-                        tr4.append($("<td>").html(data2[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
+                        tr4.append($("<td>").html(data1[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "</span>"));
+                        tr4.append($("<td>").text(data2[0].energy));
                     }
                     else if (data1[0].energy < data2[0].energy) {
-                        tr4.append($("<td>").html(data1[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "%" + "</span>"));
-                        tr4.append($("<td>").text(data2[0].energy));
+                        tr4.append($("<td>").text(data1[0].energy));
+                        tr4.append($("<td>").html(data2[0].energy + " " + "<img src='assets/img/up_arrow.png' width='12' height='12' />" + "<span class='calc-diff-percentage'>" + Math.abs(data3['energy']) + "</span>"));
                     } else {
                         tr4.append($("<td>").text(data1[0].energy));
                         tr4.append($("<td>").text(data2[0].energy));
